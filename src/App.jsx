@@ -56,7 +56,7 @@ const GROUP_COLLECTIONS_META_DETAILS = [
   },
   {
     label: 'Duration',
-    value: 'Pre-launch',
+    value: '8-12 Weeks',
   },
   {
     label: 'Project type',
@@ -259,19 +259,16 @@ const MERGE_OUTCOME = {
     'Merge is still in development, so impact is tracked through a beta scorecard, not live growth metrics.',
   items: [
     {
-      icon: 'instrumented',
       title: 'End-to-end flow instrumented',
       description:
         'Beta metric: merge-request completion from intent to submission, including step-level drop-off.',
     },
     {
-      icon: 'feedback',
       title: 'Feedback confidence measured',
       description:
         'Beta metric: contributor confidence after tasks involving permissions, authorship, and credit.',
     },
     {
-      icon: 'handoff',
       title: 'Handoff readiness tracked',
       description: 'Beta metric: median turnaround from request submission to final decision.',
     },
@@ -483,6 +480,7 @@ const GROUP_COLLECTIONS_THANK_YOU = {
 const PROJECT_CARDS = [
   {
     id: 'case-1',
+    slug: 'group-collection',
     headline: 'Adding a community layer to a video-first professional network',
     description: (
       <>
@@ -510,6 +508,7 @@ const PROJECT_CARDS = [
   },
   {
     id: 'case-2',
+    slug: 'merge',
     headline: 'Designing a collaboration-first social platform for creatives',
     description: (
       <>
@@ -543,7 +542,7 @@ const PROJECT_CARDS = [
     edgeCases: null,
     expectedImpact: null,
     reflection: null,
-    thankYou: null,
+    thankYou: GROUP_COLLECTIONS_THANK_YOU,
   },
 ]
 
@@ -571,9 +570,97 @@ const CONTACT_LINKS = {
   phone: 'tel:+10000000000',
   linkedin: 'https://www.linkedin.com/in/your-handle',
 }
+const PROJECT_ROUTE_PREFIX = '/projects'
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max)
+}
+
+function normalizePathname(pathnameValue) {
+  const pathname = String(pathnameValue ?? '').trim()
+
+  if (!pathname || pathname === '/') {
+    return '/'
+  }
+
+  return `/${pathname.replace(/^\/+|\/+$/g, '')}`
+}
+
+function getLocationRouteMode(protocolValue) {
+  return protocolValue === 'file:' ? 'hash' : 'path'
+}
+
+function parseHashRoute(hashValue) {
+  const normalizedHash = String(hashValue ?? '').replace('#', '').trim()
+  const projectMatch = normalizedHash.match(/^project-(\d+)$/)
+  const sectionMatch = normalizedHash.match(/^section-(\d+)$/)
+
+  if (projectMatch) {
+    const projectNumber = Number.parseInt(projectMatch[1], 10) - 1
+    if (Number.isInteger(projectNumber) && projectNumber >= 0 && projectNumber < PROJECT_CARDS.length) {
+      return {
+        openProjectIndex: projectNumber,
+        sectionIndex: Math.max(0, Math.min(SECTION_COUNT - 1, projectNumber + 1)),
+      }
+    }
+  }
+
+  if (sectionMatch) {
+    const sectionNumber = Number.parseInt(sectionMatch[1], 10)
+    if (Number.isInteger(sectionNumber)) {
+      return {
+        openProjectIndex: null,
+        sectionIndex: Math.max(0, Math.min(SECTION_COUNT - 1, sectionNumber)),
+      }
+    }
+  }
+
+  return null
+}
+
+function parsePathRoute(pathnameValue) {
+  const normalizedPathname = normalizePathname(pathnameValue)
+  const slugMatch = normalizedPathname.match(/^\/projects\/([^/]+)$/)
+
+  if (!slugMatch) {
+    return null
+  }
+
+  const slug = decodeURIComponent(slugMatch[1])
+  const projectIndex = PROJECT_CARDS.findIndex((card) => card.slug === slug)
+
+  if (projectIndex === -1) {
+    return null
+  }
+
+  return {
+    openProjectIndex: projectIndex,
+    sectionIndex: Math.max(0, Math.min(SECTION_COUNT - 1, projectIndex + 1)),
+  }
+}
+
+function parseLocationRoute(pathnameValue, hashValue, protocolValue) {
+  if (getLocationRouteMode(protocolValue) === 'hash') {
+    return parseHashRoute(hashValue)
+  }
+
+  return parsePathRoute(pathnameValue) ?? parseHashRoute(hashValue)
+}
+
+function buildLocationUrl(openProjectIndex, sectionIndex, protocolValue) {
+  if (getLocationRouteMode(protocolValue) === 'hash') {
+    return openProjectIndex !== null ? `#project-${openProjectIndex + 1}` : `#section-${sectionIndex}`
+  }
+
+  if (openProjectIndex !== null) {
+    const projectSlug = PROJECT_CARDS[openProjectIndex]?.slug
+    if (projectSlug) {
+      return `${PROJECT_ROUTE_PREFIX}/${projectSlug}`
+    }
+  }
+
+  const clampedSectionIndex = Math.max(0, Math.min(SECTION_COUNT - 1, sectionIndex))
+  return clampedSectionIndex > 0 ? `/#section-${clampedSectionIndex}` : '/'
 }
 
 function getContactContainerRect(node) {
@@ -621,85 +708,6 @@ function getContactContainerRect(node) {
   }
 }
 
-function MergeOutcomeIcon({ kind }) {
-  if (kind === 'instrumented') {
-    return (
-      <svg viewBox="0 0 40 40" className="merge-outcome-icon-svg" aria-hidden="true">
-        <rect x="9" y="8" width="22" height="24" rx="3.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
-        <path
-          d="M14 18L18 22L26 14"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14 27H26"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-        />
-      </svg>
-    )
-  }
-
-  if (kind === 'feedback') {
-    return (
-      <svg viewBox="0 0 40 40" className="merge-outcome-icon-svg" aria-hidden="true">
-        <circle cx="16" cy="14" r="4.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
-        <circle cx="26" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2.2" />
-        <path
-          d="M10.5 28C11.6 23.8 15 21 19 21C23.5 21 27.2 24.3 27.9 28"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M23.5 25.5C24.3 23.5 26 22.2 28.1 22.2C30.5 22.2 32.5 23.9 33 26.2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    )
-  }
-
-  return (
-    <svg viewBox="0 0 40 40" className="merge-outcome-icon-svg" aria-hidden="true">
-      <path
-        d="M20 30V10"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12.5 17.5L20 10L27.5 17.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M11 31H29"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
 function App() {
   const parseInitialViewState = useCallback(() => {
     const fallbackState = {
@@ -744,20 +752,22 @@ function App() {
       caseScrollTop = 0
     }
 
-    const hashValue = window.location.hash.replace('#', '').trim()
-    const projectMatch = hashValue.match(/^project-(\d+)$/)
-    const sectionMatch = hashValue.match(/^section-(\d+)$/)
+    const pathRoute = parsePathRoute(window.location.pathname)
+    const locationRoute = parseLocationRoute(window.location.pathname, window.location.hash, window.location.protocol)
+    const hasUnknownPathRoute =
+      getLocationRouteMode(window.location.protocol) === 'path' &&
+      normalizePathname(window.location.pathname) !== '/' &&
+      pathRoute === null
 
-    if (projectMatch) {
-      const projectNumber = Number.parseInt(projectMatch[1], 10) - 1
-      if (Number.isInteger(projectNumber) && projectNumber >= 0 && projectNumber < PROJECT_CARDS.length) {
-        openProjectIndex = projectNumber
-      }
-    } else if (sectionMatch) {
-      const sectionNumber = Number.parseInt(sectionMatch[1], 10)
-      if (Number.isInteger(sectionNumber)) {
-        sectionIndex = Math.max(0, Math.min(SECTION_COUNT - 1, sectionNumber))
-      }
+    if (locationRoute?.openProjectIndex !== null && locationRoute?.openProjectIndex !== undefined) {
+      openProjectIndex = locationRoute.openProjectIndex
+      sectionIndex = locationRoute.sectionIndex
+    } else if (locationRoute) {
+      sectionIndex = locationRoute.sectionIndex
+      openProjectIndex = null
+      caseScrollTop = 0
+    } else if (hasUnknownPathRoute) {
+      sectionIndex = fallbackState.sectionIndex
       openProjectIndex = null
       caseScrollTop = 0
     }
@@ -808,6 +818,7 @@ function App() {
   const touchStartYRef = useRef(null)
   const touchGestureConsumedRef = useRef(false)
   const lastInputAtRef = useRef(0)
+  const casePreviewVideoRefs = useRef([])
   const caseMediaRefs = useRef([])
   const fixedSkillsOverlayRef = useRef(null)
   const [contactContainerRect, setContactContainerRect] = useState(null)
@@ -820,6 +831,7 @@ function App() {
   const cursorTargetPositionRef = useRef({ x: 0, y: 0 })
   const cursorCurrentPositionRef = useRef({ x: 0, y: 0 })
   const cursorHasPositionRef = useRef(false)
+  const lastAppliedLocationRef = useRef(null)
   const isProjectOpen = openProjectIndex !== null
   const isProjectContentVisible = isProjectOpen
   const hydratedCaseScrollTopRef = useRef(initialViewState.caseScrollTop)
@@ -848,19 +860,24 @@ function App() {
     [openProjectIndex]
   )
 
-  const syncLocationHash = useCallback(() => {
+  const syncLocationRoute = useCallback((nextOpenProjectIndex, nextSectionIndex, method = 'replace') => {
     if (typeof window === 'undefined') {
       return
     }
 
-    const nextHash = openProjectIndex !== null ? `project-${openProjectIndex + 1}` : `section-${activeSectionRef.current}`
-    const currentHash = window.location.hash.replace('#', '')
-    if (currentHash === nextHash) {
+    const nextUrl = buildLocationUrl(nextOpenProjectIndex, nextSectionIndex, window.location.protocol)
+    const currentUrl =
+      getLocationRouteMode(window.location.protocol) === 'hash'
+        ? window.location.hash
+        : `${normalizePathname(window.location.pathname)}${window.location.hash}`
+
+    if (currentUrl === nextUrl) {
       return
     }
 
-    window.history.replaceState(null, '', `#${nextHash}`)
-  }, [openProjectIndex])
+    const historyMethod = method === 'push' ? 'pushState' : 'replaceState'
+    window.history[historyMethod](null, '', nextUrl)
+  }, [])
 
   const handleOpenCaseProject = useCallback(
     (index) => {
@@ -903,8 +920,9 @@ function App() {
         sectionIndex: activeSectionRef.current,
         caseScrollTop: 0,
       })
+      syncLocationRoute(index, activeSectionRef.current, 'push')
     },
-    [openProjectIndex, persistViewState]
+    [openProjectIndex, persistViewState, syncLocationRoute]
   )
 
   const measureContactContainerRect = useCallback(() => {
@@ -950,7 +968,7 @@ function App() {
         sectionIndex: clampedIndex,
         caseScrollTop: 0,
       })
-      syncLocationHash()
+      syncLocationRoute(null, clampedIndex, 'push')
 
       if (!trackRef.current) {
         return
@@ -978,7 +996,7 @@ function App() {
         },
       })
     },
-    [isProjectOpen, persistViewState, syncLocationHash]
+    [isProjectOpen, persistViewState, syncLocationRoute]
   )
 
   const scheduleWheelGestureReset = useCallback(() => {
@@ -1159,9 +1177,7 @@ function App() {
         caseScrollTop: 0,
       })
 
-      if (typeof window !== 'undefined') {
-        window.history.replaceState(null, '', '#section-0')
-      }
+      syncLocationRoute(null, 0, 'push')
 
       return
     }
@@ -1174,15 +1190,13 @@ function App() {
         caseScrollTop: 0,
       })
 
-      if (typeof window !== 'undefined' && window.location.hash.replace('#', '') !== 'section-0') {
-        window.history.replaceState(null, '', '#section-0')
-      }
+      syncLocationRoute(null, 0, 'replace')
 
       return
     }
 
     goToSection(0)
-  }, [closeContactModal, goToSection, openProjectIndex, persistViewState])
+  }, [closeContactModal, goToSection, openProjectIndex, persistViewState, syncLocationRoute])
 
   useEffect(() => {
     if (!isIntroVisible) {
@@ -1239,6 +1253,7 @@ function App() {
         sectionIndex: introExitSectionIndex,
         caseScrollTop: 0,
       })
+      syncLocationRoute(null, introExitSectionIndex, 'replace')
     }, hideSplashMs)
     timeouts.push(hideTimeout)
 
@@ -1247,7 +1262,7 @@ function App() {
         window.clearTimeout(timeoutId)
       })
     }
-  }, [isIntroVisible, persistViewState])
+  }, [isIntroVisible, persistViewState, syncLocationRoute])
 
   useEffect(() => {
     const trackNode = trackRef.current
@@ -1277,8 +1292,159 @@ function App() {
   }, [initialViewState.openProjectIndex, initialViewState.sectionIndex, initialViewState.showIntro])
 
   useEffect(() => {
-    syncLocationHash()
-  }, [syncLocationHash])
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
+    const previewVideos = casePreviewVideoRefs.current.filter(Boolean)
+    if (previewVideos.length === 0) {
+      return undefined
+    }
+
+    const pauseVideo = (videoNode) => {
+      videoNode.pause()
+    }
+
+    const playVideo = (videoNode) => {
+      const playPromise = videoNode.play()
+      if (typeof playPromise?.catch === 'function') {
+        playPromise.catch(() => {})
+      }
+    }
+
+    if (isProjectOpen) {
+      previewVideos.forEach(pauseVideo)
+      return undefined
+    }
+
+    const observer = new window.IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const videoNode = entry.target
+          if (!(videoNode instanceof HTMLVideoElement)) {
+            return
+          }
+
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            playVideo(videoNode)
+            return
+          }
+
+          pauseVideo(videoNode)
+        })
+      },
+      {
+        threshold: [0, 0.6, 1],
+      }
+    )
+
+    previewVideos.forEach((videoNode) => {
+      pauseVideo(videoNode)
+      observer.observe(videoNode)
+    })
+
+    return () => {
+      observer.disconnect()
+      previewVideos.forEach(pauseVideo)
+    }
+  }, [isProjectOpen])
+
+  useEffect(() => {
+    syncLocationRoute(initialViewState.openProjectIndex, initialViewState.sectionIndex, 'replace')
+  }, [initialViewState.openProjectIndex, initialViewState.sectionIndex, syncLocationRoute])
+
+  useEffect(() => {
+    const applyLocationRoute = () => {
+      const nextLocationKey =
+        getLocationRouteMode(window.location.protocol) === 'hash'
+          ? window.location.hash
+          : `${normalizePathname(window.location.pathname)}${window.location.hash}`
+
+      if (lastAppliedLocationRef.current === nextLocationKey) {
+        return
+      }
+
+      lastAppliedLocationRef.current = nextLocationKey
+
+      const nextRoute = parseLocationRoute(window.location.pathname, window.location.hash, window.location.protocol) ?? {
+        openProjectIndex: null,
+        sectionIndex: 0,
+      }
+
+      if (trackTweenRef.current) {
+        trackTweenRef.current.kill()
+        trackTweenRef.current = null
+      }
+
+      if (wheelResetTimeoutRef.current) {
+        window.clearTimeout(wheelResetTimeoutRef.current)
+      }
+      if (wheelGestureIdleTimeoutRef.current) {
+        window.clearTimeout(wheelGestureIdleTimeoutRef.current)
+      }
+
+      isTransitioningRef.current = false
+      wheelGestureConsumedRef.current = false
+      touchGestureConsumedRef.current = false
+      accumulatedWheelDeltaRef.current = 0
+      touchStartYRef.current = null
+      setOutgoingHomePreviewIndex(null)
+      closeContactModal()
+      setSystemScopeZoomOpen(false)
+      setIntroVisible(false)
+      setHeroReady(true)
+
+      activeSectionRef.current = nextRoute.sectionIndex
+
+      if (mainRef.current) {
+        mainRef.current.scrollTop = 0
+      }
+
+      if (nextRoute.openProjectIndex !== null) {
+        setOpenProjectIndex(nextRoute.openProjectIndex)
+        setCaseDescriptionVisible(false)
+        setCaseStripeMode('hidden')
+
+        if (trackRef.current) {
+          gsap.set(trackRef.current, { yPercent: 0 })
+        }
+
+        persistViewState({
+          showIntro: false,
+          openProjectIndex: nextRoute.openProjectIndex,
+          sectionIndex: nextRoute.sectionIndex,
+          caseScrollTop: 0,
+        })
+
+        return
+      }
+
+      setOpenProjectIndex(null)
+      setCaseStripeMode(nextRoute.sectionIndex > 0 ? 'fixed' : 'hidden')
+      setCaseDescriptionVisible(nextRoute.sectionIndex > 0)
+
+      if (trackRef.current) {
+        gsap.set(trackRef.current, { yPercent: -nextRoute.sectionIndex * 100 })
+      }
+
+      if (nextRoute.sectionIndex === 0) {
+        setHeroAnimationSeed((seed) => seed + 1)
+      }
+
+      persistViewState({
+        showIntro: false,
+        openProjectIndex: null,
+        sectionIndex: nextRoute.sectionIndex,
+        caseScrollTop: 0,
+      })
+    }
+
+    window.addEventListener('popstate', applyLocationRoute)
+
+    return () => {
+      window.removeEventListener('popstate', applyLocationRoute)
+    }
+  }, [closeContactModal, persistViewState])
 
   useEffect(() => {
     if (!isProjectOpen) {
@@ -1538,58 +1704,68 @@ function App() {
                     aria-label="Project section"
                   >
                     {shouldRenderHomePreview ? (
-                      <div
-                        className={`case-home-preview ${isPreviewChromeVisible ? 'is-chrome-visible' : ''} ${
-                          isOutgoingHomePreview ? 'is-outgoing-case' : ''
-                        }`.trim()}
-                        data-node-id="1012:2829"
-                      >
-                        <div className="case-home-preview-card-container" data-node-id="1027:1581">
-                          <div className="case-home-preview-inner-card" data-node-id="1012:2839">
-                            <div className="case-home-preview-image-container" data-node-id="1012:2823">
-                              {card.previewVideoUrl ? (
-                                <video
-                                  src={card.previewVideoUrl}
-                                  className="case-home-preview-image"
-                                  autoPlay
-                                  loop
-                                  muted
-                                  playsInline
-                                  preload="metadata"
-                                  poster={card.previewImageUrl}
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <img
-                                  src={card.previewImageUrl}
-                                  alt=""
-                                  className="case-home-preview-image"
-                                  loading="lazy"
-                                  aria-hidden="true"
-                                />
-                              )}
+                      <>
+                        <div
+                          className={`case-home-preview ${isPreviewChromeVisible ? 'is-chrome-visible' : ''} ${
+                            isOutgoingHomePreview ? 'is-outgoing-case' : ''
+                          }`.trim()}
+                          data-node-id="1012:2829"
+                        >
+                          <div className="case-home-preview-card-container" data-node-id="1027:1581">
+                            <div className="case-home-preview-inner-card" data-node-id="1012:2839">
+                              <div className="case-home-preview-image-container" data-node-id="1012:2823">
+                                {card.previewVideoUrl ? (
+                                  <video
+                                    src={card.previewVideoUrl}
+                                    ref={(node) => {
+                                      casePreviewVideoRefs.current[index] = node
+                                    }}
+                                    className="case-home-preview-image"
+                                    loop
+                                    muted
+                                    playsInline
+                                    preload="metadata"
+                                    poster={card.previewImageUrl}
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <img
+                                    src={card.previewImageUrl}
+                                    alt=""
+                                    className="case-home-preview-image"
+                                    loading="lazy"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="case-home-preview-description-container" data-node-id="1012:2826">
+                              <p className="case-home-preview-title" data-node-id="1012:2827">
+                                {card.description}
+                              </p>
                             </div>
                           </div>
 
-                          <div className="case-home-preview-description-container" data-node-id="1012:2826">
-                            <p className="case-home-preview-title" data-node-id="1012:2827">
-                              {card.description}
-                            </p>
-                          </div>
+                          <button
+                            type="button"
+                            className={`case-home-preview-arrow-button ${
+                              isPreviewChromeVisible ? 'is-chrome-visible' : ''
+                            }`.trim()}
+                            aria-label="Open project details"
+                            onClick={() => handleOpenCaseProject(index)}
+                            data-node-id="1012:2840"
+                          >
+                            <img src={card.previewArrowUrl} alt="" className="case-home-preview-arrow-icon" />
+                          </button>
                         </div>
 
-                        <button
-                          type="button"
-                          className={`case-home-preview-arrow-button ${
-                            isPreviewChromeVisible ? 'is-chrome-visible' : ''
-                          }`.trim()}
-                          aria-label="Open project details"
-                          onClick={() => handleOpenCaseProject(index)}
-                          data-node-id="1012:2840"
-                        >
-                          <img src={card.previewArrowUrl} alt="" className="case-home-preview-arrow-icon" />
-                        </button>
-                      </div>
+                        {index === PROJECT_CARDS.length - 1 ? (
+                          <div className="case-home-footer">
+                            <Footer />
+                          </div>
+                        ) : null}
+                      </>
                     ) : null}
 
                     {shouldRenderProjectHero ? (
@@ -2008,11 +2184,8 @@ function App() {
 
                         <div className="merge-outcome-panel">
                           <div className="merge-outcome-grid">
-                            {card.mergeOutcome.items.map((item, index) => (
-                              <article key={`${item.icon}-${index}`} className="merge-outcome-item">
-                                <div className="merge-outcome-icon">
-                                  <MergeOutcomeIcon kind={item.icon} />
-                                </div>
+                            {card.mergeOutcome.items.map((item) => (
+                              <article key={item.title} className="merge-outcome-item">
                                 <h3 className="merge-outcome-item-title">{item.title}</h3>
                                 <p className="merge-outcome-item-description">{item.description}</p>
                               </article>
@@ -2383,6 +2556,8 @@ function App() {
                       </div>
                     </section>
                   ) : null}
+
+                  {isOpenProjectPanel ? <Footer /> : null}
                 </section>
               )
             })}
@@ -2421,7 +2596,6 @@ function App() {
           </div>
         ) : null}
       </main>
-      <Footer />
       <section
         id="contact-page-modal"
         className={`contact-page-modal ${isContactModalOpen ? 'is-open' : ''}`.trim()}
