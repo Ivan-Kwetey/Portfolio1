@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react'
 
-function Navbar({ isContactModalOpen = false, onContactClick }) {
+function Navbar({ isContactModalOpen = false, onContactClick, onHomeClick }) {
   const relocateRef = useRef(null)
 
   useLayoutEffect(() => {
@@ -43,9 +43,13 @@ function Navbar({ isContactModalOpen = false, onContactClick }) {
   return (
     <header className="global-navbar-wrapper" aria-label="Global navigation">
       <nav className="global-navbar">
-        <span className="nav-item nav-item-primary" data-cursor-hover>
+        <button
+          type="button"
+          className="nav-item nav-item-primary nav-home-trigger"
+          onClick={onHomeClick}
+        >
           IVAN K
-        </span>
+        </button>
         <span className="nav-item nav-item-secondary nav-item-product">PRODUCT DESIGNER</span>
         <span ref={relocateRef} className="nav-item nav-item-secondary nav-item-relocate">
           WILLING TO RELOCATE

@@ -3,8 +3,43 @@ import { gsap } from 'gsap'
 import Navbar from './components/Navbar'
 import ContentArea from './components/ContentArea'
 import IntroSplash from './components/IntroSplash'
+import Footer from './components/Footer'
 import groupCollectionAvatars from './assets/group-collection/UserAvatars.png'
+import groupCollectionPhoneBezel from './assets/phone bezle.png'
+import groupCollectionIpadBezel from './assets/ipad bezle.png'
+import groupCollectionDesignIntentVideo from './assets/group-collection/design-intent.mp4'
+import groupCollectionCuratedRecGroupsVideo from './assets/group-collection/curated-rec-groups.mp4'
+import groupCollectionCentralizedRequestsVideo from './assets/group-collection/centralized-requests.mp4'
+import groupCollectionBoundariesVideo from './assets/group-collection/boundaries.mp4'
+import groupCollectionGroupPageVideo from './assets/group-collection/group-page.mp4'
+import groupCollectionJoinRequestVideo from './assets/group-collection/join-request.mp4'
+import groupCollectionCreateGroupVideo from './assets/group-collection/create-group.mp4'
+import groupCollectionEditGroupVideo from './assets/group-collection/edit-group.mp4'
+import groupCollectionViewGroupVideo from './assets/group-collection/viewgroup.mp4'
+import groupCollectionDemoVideo from './assets/group-collection/group-demo.mp4'
+import groupCollectionDemoPoster from './assets/group-collection/group-demo-poster.jpg'
+import homecardVideo from './assets/group-collection/homecard.mp4'
 import groupCollectionSystemScopeImage from './assets/group-collection/System scope image.png'
+import communityLayerCardImage from './assets/case-covers/community-layer-card.png'
+import mergeCardPoster from './assets/case-covers/merge homepage cover.png'
+import mergeHomecardVideo from './assets/merge/homevideomerge-card.mp4'
+import mergeHeroVideo from './assets/merge/mergehero.mp4'
+import mergeSolutionVideo from './assets/merge/solution.mp4'
+import mergeHifi1Video from './assets/merge/hifi1.mp4'
+import mergeHifi2Video from './assets/merge/hifi2.mp4'
+import mergeHifi3Video from './assets/merge/hifi3.mp4'
+import mergeResearchCard from './assets/merge/Research.png'
+import mergeSendingImage from './assets/merge/sending.png'
+import mergeReviewingImage from './assets/merge/reviewing.png'
+import mergeLofi1Image from './assets/merge/lofi1.png'
+import mergeLofi2Image from './assets/merge/lofi2.png'
+import mergeLofi3Image from './assets/merge/lofi3.png'
+import mergeInstagramIcon from './assets/merge/instagram.svg'
+import mergeTiktokIcon from './assets/merge/tiktok.svg'
+import mergeSnapchatIcon from './assets/merge/snapchat.svg'
+import mergeFigmaIcon from './assets/merge/figma.svg'
+import mergeLightroomIcon from './assets/merge/lightroom.png'
+import caseCardArrow from './assets/case-study/card-arrow.svg'
 import closeIcon from './assets/close.svg'
 import introLogo from './assets/man-logo.svg'
 import './App.css'
@@ -29,6 +64,26 @@ const GROUP_COLLECTIONS_META_DETAILS = [
   },
 ]
 
+const MERGE_META_DETAILS = [
+  {
+    label: 'Role',
+    value: 'Product Designer (Solo, End-to-End)',
+    support: 'Product Strategy, UX Design, Information Architecture, Interaction Design',
+  },
+  {
+    label: 'Platform',
+    value: 'Merge (iOS & Android)',
+  },
+  {
+    label: 'Duration',
+    value: '6 Weeks',
+  },
+  {
+    label: 'Project type',
+    value: 'Independent Product (In Development)',
+  },
+]
+
 const GROUP_COLLECTIONS_OPPORTUNITY = {
   label: 'The Opportunity',
   title: 'Networking needed a shared space, not just individual profiles',
@@ -43,12 +98,237 @@ const GROUP_COLLECTIONS_PROBLEM = {
     'The challenge was broader than browse UX. The product needed one end-to-end system for discovery, trust, moderation, and ownership.',
 }
 
+const MERGE_PROBLEM = {
+  label: 'The Problem',
+  title: 'Most creative platforms are built for publishing, not co-creation',
+  description:
+    'Creative work is collaborative, but social platforms treat it like a finished artifact. When creators want to build on someone else’s work, they usually leave the app, download the asset, edit elsewhere, and repost manually. Merge removes that break by making contribution, review, and shared authorship happen inside the product.',
+  visual: {
+    current: {
+      label: 'Current workflow',
+      steps: ['Download asset', 'Edit elsewhere', 'Repost manually'],
+    },
+    merge: {
+      label: 'Merge workflow',
+      steps: ['Contribute in-app', 'Review request', 'Shared authorship'],
+    },
+  },
+}
+
+const MERGE_RESEARCH = {
+  label: 'Research',
+  title: 'Collaboration is possible today but it is slow, fragmented, and hard to control',
+  description: 'Conversations with creatives surfaced friction in both participation and ownership.',
+  imageUrl: mergeResearchCard,
+  imageAlt: 'Research quotes from creatives about manual contribution workflows and ownership control.',
+}
+
+const MERGE_OPPORTUNITY = {
+  label: 'Opportunity',
+  title: 'Creative version control meets social discovery',
+  description: 'The gap was not a missing feature. It was a missing model.',
+  columns: [
+    {
+      title: 'Social platforms',
+      description:
+        'Social apps make discovery frictionless, but collaboration is informal and hard to trace.',
+      icons: [
+        { src: mergeInstagramIcon, alt: 'Instagram' },
+        { src: mergeTiktokIcon, alt: 'TikTok' },
+        { src: mergeSnapchatIcon, alt: 'Snapchat' },
+      ],
+    },
+    {
+      title: 'Creative tooling',
+      description:
+        'Collaboration tools support branching, review, and version history, but they are not designed for creator-friendly participation at social scale.',
+      icons: [
+        { src: mergeFigmaIcon, alt: 'Figma' },
+        { src: mergeLightroomIcon, alt: 'Lightroom' },
+      ],
+    },
+  ],
+}
+
+const MERGE_SOLUTION = {
+  label: 'Merge',
+  title:
+    'Merge sits between those worlds by letting creatives contribute, review, and merge work directly inside the product.',
+  description: 'Collaboration no longer depends on disconnected, off-platform workflows.',
+  videoUrl: mergeSolutionVideo,
+  leftCallout: (
+    <>
+      Start from a live post
+      <br />
+      <span>request to contribute without leaving the feed</span>
+    </>
+  ),
+  rightCallout: (
+    <>
+      Merge with clear authorship
+      <br />
+      <span>review, approve, and credit contributions in one flow</span>
+    </>
+  ),
+}
+
+const MERGE_CORE_EXPERIENCE = {
+  label: 'Core experience',
+  title: 'A piece does not end at publishing, it can evolve',
+  description: 'Merge turns viewers into contributors through one native in-app flow.',
+  items: [
+    {
+      title: 'Sending Merge Request',
+      imageUrl: mergeSendingImage,
+      imageAlt: 'Flow diagram showing how a creator sends a merge request.',
+    },
+    {
+      title: 'Reviewing Merge Request',
+      imageUrl: mergeReviewingImage,
+      imageAlt: 'Flow diagram showing how a creator reviews a merge request.',
+    },
+  ],
+  body:
+    'A creator publishes a piece and chooses whether it is open to outside contribution. If it is, another creative contributes in-app, submits a merge request in context, explains what changed, and defines credit. The original creator reviews and accepts or declines; accepted requests become a new version with visible attribution.',
+}
+
+const MERGE_FINAL_DESIGN = {
+  label: 'Final design',
+  title: 'The interface reveals the process of creation',
+  description: 'Every key screen was designed to make collaboration visible, legible, and easy to join.',
+  videos: [
+    {
+      title: 'Collaborative feed',
+      description: 'The feed shows openness, versioning, and participation at a glance.',
+      videoUrl: mergeHifi1Video,
+    },
+    {
+      title: 'Participation-ready detail',
+      description: 'The detail view combines the work, contributors, status, and next action in one place.',
+      videoUrl: mergeHifi2Video,
+    },
+    {
+      title: 'Visible evolution',
+      description: "Composer, review, and timeline make a piece's evolution easy to follow.",
+      videoUrl: mergeHifi3Video,
+    },
+  ],
+}
+
+const MERGE_DESIGN_DECISIONS = {
+  label: 'Designs decisions',
+  title: 'Make contribution visible, structured, and trustworthy',
+  description: 'The product works because participation is not left to vague social behavior.',
+  visibility: {
+    title: 'Visibility',
+    description: 'Make contribution visible so the final output does not hide the process.',
+    imageUrl: mergeLofi1Image,
+    imageAlt: 'Low-fidelity screen showing visible contribution history.',
+    caption: 'Every creative gets credit with transparency and trust',
+  },
+  permissions: {
+    title: 'Controlled permissions',
+    description: 'Make merge requests the primary interaction, so collaboration is reviewable.',
+    items: [
+      {
+        imageUrl: mergeLofi2Image,
+        imageAlt: 'Low-fidelity screen showing work permission settings.',
+        caption: 'Setting permissions of a work to Open, Request or closed',
+      },
+      {
+        imageUrl: mergeLofi3Image,
+        imageAlt: 'Low-fidelity screen showing merge request review actions.',
+        caption: 'Accepting, decline, or respond to a request',
+      },
+    ],
+  },
+}
+
+const MERGE_TRUST = {
+  label: 'Trust',
+  title: 'The hardest problem was ownership',
+  description: 'Collaboration only works when contribution feels safe.',
+  body:
+    'Users needed clarity on permissions, authorship, conflicts, and rejected contributions. Clear permissions, visible contributors, version history, review states, and explicit credit became core trust-building mechanisms.',
+}
+
+const MERGE_OUTCOME = {
+  label: 'Outcome',
+  title: 'Early signal shows demand for in-app co-creation with ownership controls',
+  description:
+    'Merge is still in development, so impact is tracked through a beta scorecard, not live growth metrics.',
+  items: [
+    {
+      icon: 'instrumented',
+      title: 'End-to-end flow instrumented',
+      description:
+        'Beta metric: merge-request completion from intent to submission, including step-level drop-off.',
+    },
+    {
+      icon: 'feedback',
+      title: 'Feedback confidence measured',
+      description:
+        'Beta metric: contributor confidence after tasks involving permissions, authorship, and credit.',
+    },
+    {
+      icon: 'handoff',
+      title: 'Handoff readiness tracked',
+      description: 'Beta metric: median turnaround from request submission to final decision.',
+    },
+  ],
+}
+
+const MERGE_USABILITY_TESTING = {
+  label: 'Testing',
+  title: 'Usability testing surfaced two capabilities needed for deeper creative work',
+  description:
+    'Testers validated the core merge flow, then asked for recording and cross-device continuity.',
+  items: [
+    {
+      title: 'Native audio capture in merge flow',
+      body: 'Creators wanted to record audio directly in Merge, not rely only on imported samples.',
+      implicationLabel: 'Design implication:',
+      implication:
+        'add in-app recording with take management so audio-first workflows stay native.',
+    },
+    {
+      title: 'Continue on iPad for precision work',
+      body: 'Creators asked for a "Continue on iPad" handoff to move from phone to a larger stylus-friendly canvas.',
+      implicationLabel: 'Design implication:',
+      implication:
+        'add cross-device session continuity with state-preserving handoff across screen sizes.',
+    },
+  ],
+}
+
+const MERGE_REFLECTION = {
+  label: 'Reflection',
+  title: 'Building Merge taught me that collaboration UX is a systems problem',
+  description:
+    'The biggest lesson: participation breaks down when ownership and permissions are unclear.',
+  items: [
+    {
+      title: 'Trust precedes participation',
+      body: 'Creators engage more when permissions, credit, and decision history are explicit.',
+    },
+    {
+      title: 'Collaboration is state-driven',
+      body: 'Clear request, review, and merge states turned a vague social action into a reliable workflow.',
+    },
+    {
+      title: 'Design-dev pairing de-risked the concept',
+      body: 'Designing alongside implementation constraints produced a stronger, ship-ready system.',
+    },
+  ],
+}
+
 const GROUP_COLLECTIONS_DESIGN_INTENT = {
   label: 'Design Intent',
   title: 'Make groups easy to discover and run',
   description:
     'The core goal was dual-sided: members should quickly find credible communities, while admins should manage access and governance without heavy operational overhead.',
-  imageUrl: 'https://www.figma.com/api/mcp/asset/e88b5488-0b12-44aa-92c4-85b10f6043a2',
+  bezelUrl: groupCollectionPhoneBezel,
+  videoUrl: groupCollectionDesignIntentVideo,
 }
 
 const GROUP_COLLECTIONS_SYSTEM_SCOPE = {
@@ -69,16 +349,22 @@ const GROUP_COLLECTIONS_PRINCIPLES = {
       title: 'Progressive discovery',
       description:
         'Start with a small, curated entry point and expand only when users ask for deeper browsing.',
+      align: 'left',
+      videoUrl: groupCollectionCuratedRecGroupsVideo,
     },
     {
       title: 'Workflow moderation',
       description:
         'Centralize join-request handling so moderation feels operational and scalable, not scattered.',
+      align: 'right',
+      videoUrl: groupCollectionCentralizedRequestsVideo,
     },
     {
       title: 'Authority boundaries',
       description:
         'Make Primary vs Second Admin responsibilities explicit in the UI to prevent permission ambiguity.',
+      align: 'left',
+      videoUrl: groupCollectionBoundariesVideo,
     },
   ],
 }
@@ -97,7 +383,9 @@ const GROUP_COLLECTIONS_FINAL_DESIGN = {
       layout: 'wide',
       mediaItems: [
         {
-          imageUrl: 'https://www.figma.com/api/mcp/asset/d3979137-84c7-4712-8b49-338886e635b3',
+          videoUrl: groupCollectionViewGroupVideo,
+          bezelUrl: groupCollectionIpadBezel,
+          device: 'ipad',
           caption: 'Groups Hub + View All Groups',
         },
       ],
@@ -110,11 +398,13 @@ const GROUP_COLLECTIONS_FINAL_DESIGN = {
       layout: 'dual',
       mediaItems: [
         {
-          imageUrl: 'https://www.figma.com/api/mcp/asset/5ef606c9-d742-4a4c-ac6c-8e1a6251fc54',
+          videoUrl: groupCollectionGroupPageVideo,
+          bezelUrl: groupCollectionPhoneBezel,
           caption: 'Group Page',
         },
         {
-          imageUrl: 'https://www.figma.com/api/mcp/asset/5ef606c9-d742-4a4c-ac6c-8e1a6251fc54',
+          videoUrl: groupCollectionJoinRequestVideo,
+          bezelUrl: groupCollectionPhoneBezel,
           caption: 'Join Requests',
         },
       ],
@@ -127,11 +417,13 @@ const GROUP_COLLECTIONS_FINAL_DESIGN = {
       layout: 'dual',
       mediaItems: [
         {
-          imageUrl: 'https://www.figma.com/api/mcp/asset/5ef606c9-d742-4a4c-ac6c-8e1a6251fc54',
+          videoUrl: groupCollectionCreateGroupVideo,
+          bezelUrl: groupCollectionPhoneBezel,
           caption: 'Create Group',
         },
         {
-          imageUrl: 'https://www.figma.com/api/mcp/asset/5ef606c9-d742-4a4c-ac6c-8e1a6251fc54',
+          videoUrl: groupCollectionEditGroupVideo,
+          bezelUrl: groupCollectionPhoneBezel,
           caption: 'Edit Group',
         },
       ],
@@ -200,6 +492,11 @@ const PROJECT_CARDS = [
       </>
     ),
     metaDetails: GROUP_COLLECTIONS_META_DETAILS,
+    previewImageUrl: communityLayerCardImage,
+    previewVideoUrl: homecardVideo,
+    previewArrowUrl: caseCardArrow,
+    mediaVideoUrl: groupCollectionDemoVideo,
+    mediaPosterUrl: groupCollectionDemoPoster,
     opportunity: GROUP_COLLECTIONS_OPPORTUNITY,
     problem: GROUP_COLLECTIONS_PROBLEM,
     designIntent: GROUP_COLLECTIONS_DESIGN_INTENT,
@@ -213,17 +510,32 @@ const PROJECT_CARDS = [
   },
   {
     id: 'case-2',
-    headline: 'Adding a community layer to a video-first professional network',
+    headline: 'Designing a collaboration-first social platform for creatives',
     description: (
       <>
-        Adding a community layer to a
+        Designing a collaboration-first
         <br />
-        video-first professional network
+        social platform for creatives
       </>
     ),
-    metaDetails: null,
+    previewImageUrl: mergeCardPoster,
+    previewVideoUrl: mergeHomecardVideo,
+    previewArrowUrl: caseCardArrow,
+    mediaVideoUrl: mergeHeroVideo,
+    mediaPosterUrl: mergeCardPoster,
+    metaDetails: MERGE_META_DETAILS,
     opportunity: null,
-    problem: null,
+    problem: MERGE_PROBLEM,
+    research: MERGE_RESEARCH,
+    mergeOpportunity: MERGE_OPPORTUNITY,
+    mergeSolution: MERGE_SOLUTION,
+    mergeCoreExperience: MERGE_CORE_EXPERIENCE,
+    mergeFinalDesign: MERGE_FINAL_DESIGN,
+    mergeDesignDecisions: MERGE_DESIGN_DECISIONS,
+    mergeTrust: MERGE_TRUST,
+    mergeOutcome: MERGE_OUTCOME,
+    mergeUsabilityTesting: MERGE_USABILITY_TESTING,
+    mergeReflection: MERGE_REFLECTION,
     designIntent: null,
     systemScope: null,
     principles: null,
@@ -248,16 +560,145 @@ const INTRO_META_FADE_MS = 620
 const INTRO_POST_FADE_HOLD_MS = 620
 const INTRO_LOGO_FADE_MS = 1200
 const INTRO_HERO_TEXT_WINDOW_MS = 3200
+const CURSOR_FOLLOW_LERP = 0.28
+const CURSOR_SNAP_DISTANCE = 0.35
 const CURSOR_INTERACTIVE_SELECTOR =
   'a, button, input, textarea, select, summary, label, [role="button"], [data-cursor-hover]'
 const VIEW_STATE_STORAGE_KEY = 'portfolio1.groupCollectionsViewState'
+const CONTACT_CONTAINER_VIEWPORT_PADDING = 16
 const CONTACT_LINKS = {
   email: 'mailto:hello@example.com',
   phone: 'tel:+10000000000',
   linkedin: 'https://www.linkedin.com/in/your-handle',
 }
-const GROUP_COLLECTIONS_BACK_ARROW_ICON =
-  'https://www.figma.com/api/mcp/asset/8ccade5a-af62-4722-b4de-b1e726594a98'
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function getContactContainerRect(node) {
+  if (!node || typeof window === 'undefined') {
+    return null
+  }
+
+  const rect = node.getBoundingClientRect()
+  const viewportWidth = window.innerWidth
+  const viewportHeight = window.innerHeight
+  const maxWidth = viewportWidth - CONTACT_CONTAINER_VIEWPORT_PADDING * 2
+  const maxHeight = viewportHeight - CONTACT_CONTAINER_VIEWPORT_PADDING * 2
+
+  if (rect.width <= 0 || rect.height <= 0 || maxWidth <= 0 || maxHeight <= 0) {
+    return null
+  }
+
+  const isOffscreenHorizontally =
+    rect.right <= CONTACT_CONTAINER_VIEWPORT_PADDING ||
+    rect.left >= viewportWidth - CONTACT_CONTAINER_VIEWPORT_PADDING
+  const isOffscreenVertically =
+    rect.bottom <= CONTACT_CONTAINER_VIEWPORT_PADDING ||
+    rect.top >= viewportHeight - CONTACT_CONTAINER_VIEWPORT_PADDING
+
+  if (isOffscreenHorizontally || isOffscreenVertically) {
+    return null
+  }
+
+  const width = Math.min(rect.width, maxWidth)
+  const height = Math.min(rect.height, maxHeight)
+
+  return {
+    top: clamp(
+      rect.top,
+      CONTACT_CONTAINER_VIEWPORT_PADDING,
+      viewportHeight - CONTACT_CONTAINER_VIEWPORT_PADDING - height
+    ),
+    left: clamp(
+      rect.left,
+      CONTACT_CONTAINER_VIEWPORT_PADDING,
+      viewportWidth - CONTACT_CONTAINER_VIEWPORT_PADDING - width
+    ),
+    width,
+    height,
+  }
+}
+
+function MergeOutcomeIcon({ kind }) {
+  if (kind === 'instrumented') {
+    return (
+      <svg viewBox="0 0 40 40" className="merge-outcome-icon-svg" aria-hidden="true">
+        <rect x="9" y="8" width="22" height="24" rx="3.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
+        <path
+          d="M14 18L18 22L26 14"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14 27H26"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+        />
+      </svg>
+    )
+  }
+
+  if (kind === 'feedback') {
+    return (
+      <svg viewBox="0 0 40 40" className="merge-outcome-icon-svg" aria-hidden="true">
+        <circle cx="16" cy="14" r="4.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
+        <circle cx="26" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2.2" />
+        <path
+          d="M10.5 28C11.6 23.8 15 21 19 21C23.5 21 27.2 24.3 27.9 28"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M23.5 25.5C24.3 23.5 26 22.2 28.1 22.2C30.5 22.2 32.5 23.9 33 26.2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
+  }
+
+  return (
+    <svg viewBox="0 0 40 40" className="merge-outcome-icon-svg" aria-hidden="true">
+      <path
+        d="M20 30V10"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.5 17.5L20 10L27.5 17.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11 31H29"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 function App() {
   const parseInitialViewState = useCallback(() => {
@@ -331,11 +772,7 @@ function App() {
     }
   }, [])
 
-  const initialViewStateRef = useRef(null)
-  if (initialViewStateRef.current === null) {
-    initialViewStateRef.current = parseInitialViewState()
-  }
-  const initialViewState = initialViewStateRef.current
+  const [initialViewState] = useState(() => parseInitialViewState())
   const [isCaseDescriptionVisible, setCaseDescriptionVisible] = useState(
     !initialViewState.showIntro &&
       initialViewState.openProjectIndex === null &&
@@ -351,8 +788,15 @@ function App() {
   const [isHeroReady, setHeroReady] = useState(!initialViewState.showIntro)
   const [heroAnimationSeed, setHeroAnimationSeed] = useState(0)
   const [openProjectIndex, setOpenProjectIndex] = useState(initialViewState.openProjectIndex)
-  const [projectBackButtonTop, setProjectBackButtonTop] = useState(null)
+  const [outgoingHomePreviewIndex, setOutgoingHomePreviewIndex] = useState(null)
   const activeSectionRef = useRef(initialViewState.sectionIndex)
+  const [caseStripeMode, setCaseStripeMode] = useState(() =>
+    !initialViewState.showIntro &&
+      initialViewState.openProjectIndex === null &&
+      initialViewState.sectionIndex > 0
+      ? 'fixed'
+      : 'hidden'
+  )
   const isTransitioningRef = useRef(false)
   const mainRef = useRef(null)
   const trackRef = useRef(null)
@@ -365,7 +809,6 @@ function App() {
   const touchGestureConsumedRef = useRef(false)
   const lastInputAtRef = useRef(0)
   const caseMediaRefs = useRef([])
-  const projectTitleRefs = useRef([])
   const fixedSkillsOverlayRef = useRef(null)
   const [contactContainerRect, setContactContainerRect] = useState(null)
   const [isCustomCursorEnabled] = useState(true)
@@ -378,6 +821,7 @@ function App() {
   const cursorCurrentPositionRef = useRef({ x: 0, y: 0 })
   const cursorHasPositionRef = useRef(false)
   const isProjectOpen = openProjectIndex !== null
+  const isProjectContentVisible = isProjectOpen
   const hydratedCaseScrollTopRef = useRef(initialViewState.caseScrollTop)
 
   const persistViewState = useCallback(
@@ -418,21 +862,6 @@ function App() {
     window.history.replaceState(null, '', `#${nextHash}`)
   }, [openProjectIndex])
 
-  const syncProjectBackButtonTop = useCallback(() => {
-    if (openProjectIndex === null) {
-      setProjectBackButtonTop(null)
-      return
-    }
-
-    const titleNode = projectTitleRefs.current[openProjectIndex] ?? null
-    if (!titleNode) {
-      return
-    }
-
-    const { top } = titleNode.getBoundingClientRect()
-    setProjectBackButtonTop(Math.round(top))
-  }, [openProjectIndex])
-
   const handleOpenCaseProject = useCallback(
     (index) => {
       if (openProjectIndex !== null) {
@@ -443,11 +872,11 @@ function App() {
         trackTweenRef.current.kill()
         trackTweenRef.current = null
       }
-      if (trackRef.current) {
-        gsap.set(trackRef.current, { yPercent: 0 })
-      }
+
       isTransitioningRef.current = false
       setCaseDescriptionVisible(false)
+      setCaseStripeMode('hidden')
+      setOutgoingHomePreviewIndex(null)
       setOpenProjectIndex(index)
       wheelGestureConsumedRef.current = false
       touchGestureConsumedRef.current = false
@@ -464,6 +893,10 @@ function App() {
         mainRef.current.scrollTop = 0
       }
 
+      if (trackRef.current) {
+        gsap.set(trackRef.current, { yPercent: 0 })
+      }
+
       persistViewState({
         showIntro: false,
         openProjectIndex: index,
@@ -474,108 +907,18 @@ function App() {
     [openProjectIndex, persistViewState]
   )
 
-  const handleCloseCaseProject = useCallback(() => {
-    if (openProjectIndex === null) {
-      return
-    }
-
-    const targetSectionIndex = Math.max(1, Math.min(SECTION_COUNT - 1, openProjectIndex + 1))
-
-    if (trackTweenRef.current) {
-      trackTweenRef.current.kill()
-      trackTweenRef.current = null
-    }
-
-    if (trackRef.current) {
-      gsap.set(trackRef.current, { yPercent: -targetSectionIndex * 100 })
-    }
-
-    activeSectionRef.current = targetSectionIndex
-    isTransitioningRef.current = false
-    setSystemScopeZoomOpen(false)
-    setOpenProjectIndex(null)
-    setCaseDescriptionVisible(true)
-    wheelGestureConsumedRef.current = false
-    touchGestureConsumedRef.current = false
-    accumulatedWheelDeltaRef.current = 0
-
-    if (wheelResetTimeoutRef.current) {
-      window.clearTimeout(wheelResetTimeoutRef.current)
-    }
-    if (wheelGestureIdleTimeoutRef.current) {
-      window.clearTimeout(wheelGestureIdleTimeoutRef.current)
-    }
-
-    if (mainRef.current) {
-      mainRef.current.scrollTop = 0
-    }
-    persistViewState({
-      showIntro: false,
-      openProjectIndex: null,
-      sectionIndex: targetSectionIndex,
-      caseScrollTop: 0,
-    })
-  }, [openProjectIndex, persistViewState])
-
   const measureContactContainerRect = useCallback(() => {
     if (openProjectIndex !== null) {
       const mediaNode = caseMediaRefs.current[openProjectIndex] ?? null
-      if (!mediaNode) {
-        return
-      }
-
-      const rect = mediaNode.getBoundingClientRect()
-      setContactContainerRect({
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height,
-      })
+      setContactContainerRect(getContactContainerRect(mediaNode))
       return
     }
 
     const activeMediaIndex = Math.max(activeSectionRef.current - 1, 0)
     const mediaNode = caseMediaRefs.current[activeMediaIndex] ?? caseMediaRefs.current[0] ?? null
 
-    if (!mediaNode) {
-      return
-    }
-
-    const rect = mediaNode.getBoundingClientRect()
-    setContactContainerRect({
-      top: rect.top,
-      left: rect.left,
-      width: rect.width,
-      height: rect.height,
-    })
+    setContactContainerRect(getContactContainerRect(mediaNode))
   }, [openProjectIndex])
-
-  const enforceMobileSkillsGap = useCallback(() => {
-    const skillsNode = fixedSkillsOverlayRef.current
-    const activeMediaIndex = Math.max(activeSectionRef.current - 1, 0)
-    const mediaNode = caseMediaRefs.current[activeMediaIndex] ?? caseMediaRefs.current[0] ?? null
-
-    if (!skillsNode) {
-      return
-    }
-
-    skillsNode.style.removeProperty('top')
-    skillsNode.style.removeProperty('bottom')
-    skillsNode.style.removeProperty('transform')
-
-    if (!window.matchMedia('(max-width: 900px)').matches || !mediaNode) {
-      return
-    }
-
-    const defaultTop = skillsNode.getBoundingClientRect().top
-    const minTop = mediaNode.getBoundingClientRect().bottom + 16
-
-    if (defaultTop < minTop) {
-      skillsNode.style.top = `${Math.ceil(minTop)}px`
-      skillsNode.style.bottom = 'auto'
-      skillsNode.style.transform = 'none'
-    }
-  }, [])
 
   const goToSection = useCallback(
     (targetIndex) => {
@@ -588,8 +931,18 @@ function App() {
         return
       }
 
+      const previousIndex = activeSectionRef.current
+      const isEnteringCaseCanvas = previousIndex === 0 && clampedIndex > 0
+      const isLeavingCaseCanvas = previousIndex > 0 && clampedIndex === 0
+
       isTransitioningRef.current = true
       activeSectionRef.current = clampedIndex
+      if (isEnteringCaseCanvas || isLeavingCaseCanvas) {
+        setCaseStripeMode('section')
+      } else {
+        setCaseStripeMode(clampedIndex > 0 ? 'fixed' : 'hidden')
+      }
+      setOutgoingHomePreviewIndex(previousIndex > 0 ? previousIndex - 1 : null)
       setCaseDescriptionVisible(false)
       persistViewState({
         showIntro: false,
@@ -615,6 +968,8 @@ function App() {
         force3D: true,
         onComplete: () => {
           isTransitioningRef.current = false
+          setCaseStripeMode(activeSectionRef.current > 0 ? 'fixed' : 'hidden')
+          setOutgoingHomePreviewIndex(null)
           setCaseDescriptionVisible(activeSectionRef.current > 0)
           if (activeSectionRef.current === 0) {
             setHeroAnimationSeed((seed) => seed + 1)
@@ -759,6 +1114,76 @@ function App() {
     setContactModalOpen(false)
   }, [])
 
+  const handleHomeClick = useCallback(() => {
+    closeContactModal()
+    setSystemScopeZoomOpen(false)
+
+    if (trackTweenRef.current) {
+      trackTweenRef.current.kill()
+      trackTweenRef.current = null
+    }
+
+    isTransitioningRef.current = false
+    setOutgoingHomePreviewIndex(null)
+    wheelGestureConsumedRef.current = false
+    touchGestureConsumedRef.current = false
+    accumulatedWheelDeltaRef.current = 0
+
+    if (wheelResetTimeoutRef.current) {
+      window.clearTimeout(wheelResetTimeoutRef.current)
+    }
+    if (wheelGestureIdleTimeoutRef.current) {
+      window.clearTimeout(wheelGestureIdleTimeoutRef.current)
+    }
+
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0
+    }
+
+    if (openProjectIndex !== null) {
+      setOpenProjectIndex(null)
+      setCaseDescriptionVisible(false)
+      setCaseStripeMode('hidden')
+      setHeroAnimationSeed((seed) => seed + 1)
+
+      if (trackRef.current) {
+        gsap.set(trackRef.current, { yPercent: 0 })
+      }
+
+      activeSectionRef.current = 0
+
+      persistViewState({
+        showIntro: false,
+        openProjectIndex: null,
+        sectionIndex: 0,
+        caseScrollTop: 0,
+      })
+
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', '#section-0')
+      }
+
+      return
+    }
+
+    if (activeSectionRef.current === 0) {
+      persistViewState({
+        showIntro: false,
+        openProjectIndex: null,
+        sectionIndex: 0,
+        caseScrollTop: 0,
+      })
+
+      if (typeof window !== 'undefined' && window.location.hash.replace('#', '') !== 'section-0') {
+        window.history.replaceState(null, '', '#section-0')
+      }
+
+      return
+    }
+
+    goToSection(0)
+  }, [closeContactModal, goToSection, openProjectIndex, persistViewState])
+
   useEffect(() => {
     if (!isIntroVisible) {
       return undefined
@@ -796,6 +1221,7 @@ function App() {
       setIntroVisible(false)
       setHeroReady(true)
       activeSectionRef.current = introExitSectionIndex
+      setCaseStripeMode(introExitSectionIndex > 0 ? 'fixed' : 'hidden')
       setCaseDescriptionVisible(introExitSectionIndex > 0)
 
       if (trackTweenRef.current) {
@@ -948,56 +1374,7 @@ function App() {
   }, [isSystemScopeZoomOpen])
 
   useEffect(() => {
-    if (isProjectOpen) {
-      return undefined
-    }
-
-    const updateSkillsGap = () => {
-      window.requestAnimationFrame(() => {
-        enforceMobileSkillsGap()
-      })
-    }
-
-    updateSkillsGap()
-
-    window.addEventListener('resize', updateSkillsGap)
-    window.addEventListener('orientationchange', updateSkillsGap)
-
-    return () => {
-      window.removeEventListener('resize', updateSkillsGap)
-      window.removeEventListener('orientationchange', updateSkillsGap)
-    }
-  }, [enforceMobileSkillsGap, isCaseDescriptionVisible, isIntroVisible, isProjectOpen])
-
-  useEffect(() => {
-    if (!isProjectOpen) {
-      setProjectBackButtonTop(null)
-      return undefined
-    }
-
-    const updateBackButtonTop = () => {
-      window.requestAnimationFrame(() => {
-        syncProjectBackButtonTop()
-      })
-    }
-
-    updateBackButtonTop()
-
-    window.addEventListener('resize', updateBackButtonTop)
-    window.addEventListener('orientationchange', updateBackButtonTop)
-    window.visualViewport?.addEventListener('resize', updateBackButtonTop)
-
-    return () => {
-      window.removeEventListener('resize', updateBackButtonTop)
-      window.removeEventListener('orientationchange', updateBackButtonTop)
-      window.visualViewport?.removeEventListener('resize', updateBackButtonTop)
-    }
-  }, [isProjectOpen, syncProjectBackButtonTop])
-
-  useEffect(() => {
     if (!isCustomCursorEnabled) {
-      setCursorVisible(false)
-      setCursorExpanded(false)
       cursorIsVisibleRef.current = false
       cursorIsExpandedRef.current = false
       cursorHasPositionRef.current = false
@@ -1018,12 +1395,31 @@ function App() {
       const target = cursorTargetPositionRef.current
       const current = cursorCurrentPositionRef.current
 
-      current.x += (target.x - current.x) * 0.12
-      current.y += (target.y - current.y) * 0.12
+      current.x += (target.x - current.x) * CURSOR_FOLLOW_LERP
+      current.y += (target.y - current.y) * CURSOR_FOLLOW_LERP
+
+      if (Math.abs(target.x - current.x) < CURSOR_SNAP_DISTANCE) {
+        current.x = target.x
+      }
+      if (Math.abs(target.y - current.y) < CURSOR_SNAP_DISTANCE) {
+        current.y = target.y
+      }
 
       cursorNode.style.left = `${current.x}px`
       cursorNode.style.top = `${current.y}px`
 
+      if (current.x === target.x && current.y === target.y) {
+        rafId = null
+        return
+      }
+
+      rafId = window.requestAnimationFrame(animateCursor)
+    }
+
+    const ensureCursorAnimation = () => {
+      if (rafId !== null) {
+        return
+      }
       rafId = window.requestAnimationFrame(animateCursor)
     }
 
@@ -1057,6 +1453,7 @@ function App() {
         cursorNode.style.top = `${y}px`
       }
 
+      ensureCursorAnimation()
       updateHoverState(event.target)
     }
 
@@ -1075,10 +1472,9 @@ function App() {
 
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseout', handleWindowMouseOut)
-    rafId = window.requestAnimationFrame(animateCursor)
 
     return () => {
-      if (rafId) {
+      if (rafId !== null) {
         window.cancelAnimationFrame(rafId)
       }
       window.removeEventListener('mousemove', handleMouseMove)
@@ -1089,33 +1485,22 @@ function App() {
 
   return (
     <div className="landing-page">
-      <Navbar isContactModalOpen={isContactModalOpen} onContactClick={handleContactClick} />
+      <Navbar
+        isContactModalOpen={isContactModalOpen}
+        onContactClick={handleContactClick}
+        onHomeClick={handleHomeClick}
+      />
       <main
         ref={mainRef}
-        className={`landing-main case-redesign-main ${isProjectOpen ? 'is-project-open' : ''}`.trim()}
+        className={`landing-main case-redesign-main ${isProjectOpen ? 'is-project-open' : ''} ${
+          caseStripeMode ? `is-case-stripe-${caseStripeMode}` : ''
+        }`.trim()}
         onWheel={handleMainWheel}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         aria-label="Portfolio sections"
       >
-        {isProjectOpen ? (
-          <button
-            type="button"
-            className="case-redesign-back-button"
-            aria-label="Back to home project preview"
-            onClick={handleCloseCaseProject}
-            style={projectBackButtonTop === null ? undefined : { top: `${projectBackButtonTop}px` }}
-          >
-            <img
-              src={GROUP_COLLECTIONS_BACK_ARROW_ICON}
-              alt=""
-              className="case-redesign-back-button-icon"
-              aria-hidden="true"
-            />
-          </button>
-        ) : null}
-
         <div className={`sections-viewport ${isProjectOpen ? 'is-project-open' : ''}`.trim()}>
           <div ref={trackRef} className={`sections-track ${isProjectOpen ? 'is-project-open' : ''}`.trim()}>
             <section
@@ -1127,7 +1512,14 @@ function App() {
 
             {PROJECT_CARDS.map((card, index) => {
               const isOpenProjectPanel = openProjectIndex === index
-              const isPreviewContentVisible = isCaseDescriptionVisible && !isProjectOpen
+              const isPreviewChromeVisible = isCaseDescriptionVisible && !isProjectOpen
+              const isOutgoingHomePreview = outgoingHomePreviewIndex === index
+              const caseMediaStyle = card.mediaPosterUrl
+                ? { '--case-media-poster': `url(${card.mediaPosterUrl})` }
+                : undefined
+              const shouldRenderHomePreview = !isProjectOpen
+              const shouldRenderProjectHero = isOpenProjectPanel
+              const isProjectStageActive = isOpenProjectPanel
 
               return (
                 <section
@@ -1135,95 +1527,126 @@ function App() {
                   className={`section-panel section-panel-case-redesign ${
                     isProjectOpen
                       ? isOpenProjectPanel
-                        ? 'is-open-project-panel'
+                        ? `is-open-project-panel ${isProjectContentVisible ? 'is-project-content-visible' : ''}`
                         : 'is-hidden-project-panel'
                       : ''
                   }`.trim()}
                   aria-label="Case section"
                 >
                   <section
-                    className={`case-redesign-stage ${isOpenProjectPanel ? 'is-project-open' : ''}`.trim()}
+                    className={`case-redesign-stage ${isProjectStageActive ? 'is-project-open' : ''}`.trim()}
                     aria-label="Project section"
                   >
-                    <div
-                      className={`case-redesign-card-container ${isOpenProjectPanel ? 'is-project-open' : ''}`.trim()}
-                    >
-                      <p
-                        className={`case-redesign-description ${isPreviewContentVisible ? 'is-visible' : ''}`.trim()}
+                    {shouldRenderHomePreview ? (
+                      <div
+                        className={`case-home-preview ${isPreviewChromeVisible ? 'is-chrome-visible' : ''} ${
+                          isOutgoingHomePreview ? 'is-outgoing-case' : ''
+                        }`.trim()}
+                        data-node-id="1012:2829"
                       >
-                        {card.description}
-                      </p>
-
-                      <div className="case-redesign-media-shell">
-                        <h1
-                          className={`case-redesign-project-title ${isOpenProjectPanel ? 'is-visible' : ''}`.trim()}
-                          ref={(node) => {
-                            projectTitleRefs.current[index] = node
-                          }}
-                        >
-                          {card.headline}
-                        </h1>
-
-                        <div
-                          className={`case-redesign-media ${isOpenProjectPanel ? 'is-project-open' : ''}`.trim()}
-                          ref={(node) => {
-                            caseMediaRefs.current[index] = node
-                          }}
-                          role="img"
-                          aria-label="Project media cover"
-                        />
-
-                        {card.metaDetails ? (
-                          <div
-                            className={`case-redesign-meta ${isOpenProjectPanel ? 'is-visible' : ''}`.trim()}
-                            aria-label="Project meta details"
-                          >
-                            {card.metaDetails.map((detail) => (
-                              <article key={detail.label} className="case-redesign-meta-item">
-                                <p className="case-redesign-meta-label">{detail.label}</p>
-                                <p className="case-redesign-meta-value">{detail.value}</p>
-                                {detail.support ? (
-                                  <p className="case-redesign-meta-support">{detail.support}</p>
-                                ) : null}
-                              </article>
-                            ))}
+                        <div className="case-home-preview-card-container" data-node-id="1027:1581">
+                          <div className="case-home-preview-inner-card" data-node-id="1012:2839">
+                            <div className="case-home-preview-image-container" data-node-id="1012:2823">
+                              {card.previewVideoUrl ? (
+                                <video
+                                  src={card.previewVideoUrl}
+                                  className="case-home-preview-image"
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  preload="metadata"
+                                  poster={card.previewImageUrl}
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <img
+                                  src={card.previewImageUrl}
+                                  alt=""
+                                  className="case-home-preview-image"
+                                  loading="lazy"
+                                  aria-hidden="true"
+                                />
+                              )}
+                            </div>
                           </div>
-                        ) : null}
-                      </div>
 
-                      {!isProjectOpen ? (
+                          <div className="case-home-preview-description-container" data-node-id="1012:2826">
+                            <p className="case-home-preview-title" data-node-id="1012:2827">
+                              {card.description}
+                            </p>
+                          </div>
+                        </div>
+
                         <button
                           type="button"
-                          className={`case-redesign-arrow-button ${isPreviewContentVisible ? 'is-visible' : ''}`.trim()}
+                          className={`case-home-preview-arrow-button ${
+                            isPreviewChromeVisible ? 'is-chrome-visible' : ''
+                          }`.trim()}
                           aria-label="Open project details"
                           onClick={() => handleOpenCaseProject(index)}
+                          data-node-id="1012:2840"
                         >
-                          <svg
-                            className="case-redesign-arrow-icon"
-                            viewBox="0 0 50 50"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                          >
-                            <circle cx="25" cy="25" r="25" fill="#050409" />
-                            <path
-                              d="M18 25H32M32 25L25 18M32 25L25 32"
-                              stroke="#FDFDFF"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                          <img src={card.previewArrowUrl} alt="" className="case-home-preview-arrow-icon" />
                         </button>
-                      ) : null}
-                    </div>
+                      </div>
+                    ) : null}
 
-                    {!isProjectOpen ? (
-                      <p
-                        className={`case-redesign-pagination ${isPreviewContentVisible ? 'is-visible' : ''}`.trim()}
-                      >
-                        {String(index + 1).padStart(2, '0')} / {String(PROJECT_CARDS.length).padStart(2, '0')}
-                      </p>
+                    {shouldRenderProjectHero ? (
+                      <div className="case-redesign-card-container is-project-open">
+                        <div className="case-redesign-media-shell">
+                          <div
+                            className={`case-redesign-project-header ${
+                              isOpenProjectPanel && isProjectContentVisible ? 'is-visible' : ''
+                            }`.trim()}
+                          >
+                            <h1 className="case-redesign-project-title">{card.headline}</h1>
+                          </div>
+
+                          <div
+                            className="case-redesign-media is-project-open"
+                            style={caseMediaStyle}
+                            ref={(node) => {
+                              caseMediaRefs.current[index] = node
+                            }}
+                            role="img"
+                            aria-label="Project media cover"
+                          >
+                            {card.mediaVideoUrl ? (
+                              <video
+                                src={card.mediaVideoUrl}
+                                className="case-redesign-media-video"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                                poster={card.mediaPosterUrl}
+                                aria-hidden="true"
+                              />
+                            ) : null}
+                          </div>
+
+                          {card.metaDetails ? (
+                            <div
+                              className={`case-redesign-meta ${
+                                isOpenProjectPanel && isProjectContentVisible ? 'is-visible' : ''
+                              }`.trim()}
+                              aria-label="Project meta details"
+                            >
+                              {card.metaDetails.map((detail) => (
+                                <article key={detail.label} className="case-redesign-meta-item">
+                                  <p className="case-redesign-meta-label">{detail.label}</p>
+                                  <p className="case-redesign-meta-value">{detail.value}</p>
+                                  {detail.support ? (
+                                    <p className="case-redesign-meta-support">{detail.support}</p>
+                                  ) : null}
+                                </article>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
                     ) : null}
                   </section>
 
@@ -1257,6 +1680,403 @@ function App() {
                         <p className="case-redesign-problem-label">{card.problem.label}</p>
                         <h2 className="case-redesign-problem-title">{card.problem.title}</h2>
                         <p className="case-redesign-problem-description">{card.problem.description}</p>
+                        {card.problem.visual ? (
+                          <div className="merge-problem-graphic" aria-label="Creative collaboration workflow comparison">
+                            <article className="merge-problem-flow merge-problem-flow-current">
+                              <p className="merge-problem-flow-label">{card.problem.visual.current.label}</p>
+                              <div className="merge-problem-flow-steps">
+                                {card.problem.visual.current.steps.map((step) => (
+                                  <div key={step} className="merge-problem-flow-step">
+                                    <span className="merge-problem-flow-dot" aria-hidden="true" />
+                                    <span>{step}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </article>
+
+                            <div className="merge-problem-graphic-divider" aria-hidden="true">
+                              <span />
+                            </div>
+
+                            <article className="merge-problem-flow merge-problem-flow-merge">
+                              <p className="merge-problem-flow-label">{card.problem.visual.merge.label}</p>
+                              <div className="merge-problem-flow-steps">
+                                {card.problem.visual.merge.steps.map((step) => (
+                                  <div key={step} className="merge-problem-flow-step">
+                                    <span className="merge-problem-flow-dot" aria-hidden="true" />
+                                    <span>{step}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </article>
+                          </div>
+                        ) : null}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.research ? (
+                    <section className="case-redesign-content-section merge-research-section" aria-label="Research section">
+                      <div className="merge-research-inner">
+                        <div className="merge-research-heading">
+                          <p className="merge-research-label">{card.research.label}</p>
+                          <h2 className="merge-research-title">{card.research.title}</h2>
+                          <p className="merge-research-description">{card.research.description}</p>
+                        </div>
+
+                        <div className="merge-research-card-wrap">
+                          <img
+                            src={card.research.imageUrl}
+                            alt={card.research.imageAlt}
+                            className="merge-research-card-image"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeOpportunity ? (
+                    <section
+                      className="case-redesign-content-section merge-opportunity-section"
+                      aria-label="Opportunity section"
+                    >
+                      <div className="merge-opportunity-inner">
+                        <div className="merge-opportunity-heading">
+                          <p className="merge-opportunity-label">{card.mergeOpportunity.label}</p>
+                          <h2 className="merge-opportunity-title">{card.mergeOpportunity.title}</h2>
+                          <p className="merge-opportunity-description">{card.mergeOpportunity.description}</p>
+                        </div>
+
+                        <div className="merge-opportunity-grid">
+                          {card.mergeOpportunity.columns.map((column) => (
+                            <article key={column.title} className="merge-opportunity-card">
+                              <div className="merge-opportunity-card-copy">
+                                <h3 className="merge-opportunity-card-title">{column.title}</h3>
+                                <p className="merge-opportunity-card-description">{column.description}</p>
+                              </div>
+
+                              <div className="merge-opportunity-icons" aria-label={`${column.title} examples`}>
+                                {column.icons.map((icon) => (
+                                  <img
+                                    key={icon.alt}
+                                    src={icon.src}
+                                    alt={icon.alt}
+                                    className="merge-opportunity-icon"
+                                    loading="lazy"
+                                  />
+                                ))}
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeSolution ? (
+                    <section
+                      className="case-redesign-content-section merge-solution-section"
+                      aria-label="Merge solution section"
+                    >
+                      <div className="merge-solution-inner">
+                        <div className="merge-solution-heading">
+                          <p className="merge-solution-label">{card.mergeSolution.label}</p>
+                          <h2 className="merge-solution-title">{card.mergeSolution.title}</h2>
+                          <p className="merge-solution-description">{card.mergeSolution.description}</p>
+                        </div>
+
+                        <div className="merge-solution-media-stage">
+                          <video
+                            src={card.mergeSolution.videoUrl}
+                            className="merge-solution-video"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="metadata"
+                            aria-label="Merge solution prototype preview"
+                          />
+
+                          <div className="merge-solution-footer-texts">
+                            <p className="merge-solution-callout merge-solution-callout-left">
+                              {card.mergeSolution.leftCallout}
+                            </p>
+
+                            <p className="merge-solution-callout merge-solution-callout-right">
+                              {card.mergeSolution.rightCallout}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeCoreExperience ? (
+                    <section
+                      className="case-redesign-content-section merge-core-section"
+                      aria-label="Core experience section"
+                    >
+                      <div className="merge-core-inner">
+                        <div className="merge-core-heading">
+                          <p className="merge-core-label">{card.mergeCoreExperience.label}</p>
+                          <div className="merge-core-heading-copy">
+                            <h2 className="merge-core-title">{card.mergeCoreExperience.title}</h2>
+                            <p className="merge-core-description">{card.mergeCoreExperience.description}</p>
+                          </div>
+                        </div>
+
+                        <div className="merge-core-image-panel">
+                          {card.mergeCoreExperience.items.map((item) => (
+                            <figure key={item.title} className="merge-core-figure">
+                              <img
+                                src={item.imageUrl}
+                                alt={item.imageAlt}
+                                className="merge-core-image"
+                                loading="lazy"
+                              />
+                              <figcaption className="merge-core-caption">{item.title}</figcaption>
+                            </figure>
+                          ))}
+
+                          <p className="merge-core-body">{card.mergeCoreExperience.body}</p>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeFinalDesign ? (
+                    <section
+                      className="case-redesign-content-section merge-final-section"
+                      aria-label="Final design section"
+                    >
+                      <div className="merge-final-inner">
+                        <div className="merge-final-heading">
+                          <p className="merge-final-label">{card.mergeFinalDesign.label}</p>
+                          <div className="merge-final-heading-copy">
+                            <h2 className="merge-final-title">{card.mergeFinalDesign.title}</h2>
+                            <p className="merge-final-description">{card.mergeFinalDesign.description}</p>
+                          </div>
+                        </div>
+
+                        <div className="merge-final-grid">
+                          {card.mergeFinalDesign.videos.slice(0, 2).map((item) => (
+                            <article key={item.title} className="merge-final-item">
+                              <video
+                                src={item.videoUrl}
+                                className="merge-final-video"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
+                                aria-label={item.title}
+                              />
+                              <div className="merge-final-item-copy">
+                                <h3 className="merge-final-item-title">{item.title}</h3>
+                                <p className="merge-final-item-description">{item.description}</p>
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+
+                        {card.mergeFinalDesign.videos[2] ? (
+                          <div className="merge-final-centered-row">
+                            <article className="merge-final-item merge-final-item-centered">
+                              <video
+                                src={card.mergeFinalDesign.videos[2].videoUrl}
+                                className="merge-final-video"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
+                                aria-label={card.mergeFinalDesign.videos[2].title}
+                              />
+                              <div className="merge-final-item-copy">
+                                <h3 className="merge-final-item-title">{card.mergeFinalDesign.videos[2].title}</h3>
+                                <p className="merge-final-item-description">
+                                  {card.mergeFinalDesign.videos[2].description}
+                                </p>
+                              </div>
+                            </article>
+                          </div>
+                        ) : null}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeDesignDecisions ? (
+                    <section
+                      className="case-redesign-content-section merge-decisions-section"
+                      aria-label="Design decisions section"
+                    >
+                      <div className="merge-decisions-inner">
+                        <div className="merge-decisions-heading">
+                          <p className="merge-decisions-label">{card.mergeDesignDecisions.label}</p>
+                          <div className="merge-decisions-heading-copy">
+                            <h2 className="merge-decisions-title">{card.mergeDesignDecisions.title}</h2>
+                            <p className="merge-decisions-description">
+                              {card.mergeDesignDecisions.description}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="merge-decisions-body">
+                          <section className="merge-decisions-visibility" aria-label="Visibility decision">
+                            <div className="merge-decisions-copy-block">
+                              <h3 className="merge-decisions-block-title">
+                                {card.mergeDesignDecisions.visibility.title}
+                              </h3>
+                              <p className="merge-decisions-block-description">
+                                {card.mergeDesignDecisions.visibility.description}
+                              </p>
+                            </div>
+
+                            <figure className="merge-decisions-primary-figure">
+                              <img
+                                src={card.mergeDesignDecisions.visibility.imageUrl}
+                                alt={card.mergeDesignDecisions.visibility.imageAlt}
+                                className="merge-decisions-primary-image"
+                                loading="lazy"
+                              />
+                              <figcaption className="merge-decisions-caption">
+                                {card.mergeDesignDecisions.visibility.caption}
+                              </figcaption>
+                            </figure>
+                          </section>
+
+                          <section className="merge-decisions-permissions" aria-label="Controlled permissions decision">
+                            <div className="merge-decisions-permissions-copy">
+                              <h3 className="merge-decisions-block-title">
+                                {card.mergeDesignDecisions.permissions.title}
+                              </h3>
+                              <p className="merge-decisions-block-description">
+                                {card.mergeDesignDecisions.permissions.description}
+                              </p>
+                            </div>
+
+                            <div className="merge-decisions-comparison">
+                              {card.mergeDesignDecisions.permissions.items.map((item) => (
+                                <figure key={item.caption} className="merge-decisions-comparison-card">
+                                  <img
+                                    src={item.imageUrl}
+                                    alt={item.imageAlt}
+                                    className="merge-decisions-comparison-image"
+                                    loading="lazy"
+                                  />
+                                  <figcaption className="merge-decisions-caption">{item.caption}</figcaption>
+                                </figure>
+                              ))}
+                            </div>
+                          </section>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeTrust ? (
+                    <section
+                      className="case-redesign-content-section merge-trust-section"
+                      aria-label="Trust section"
+                    >
+                      <div className="merge-trust-inner">
+                        <div className="merge-trust-heading">
+                          <p className="merge-trust-label">{card.mergeTrust.label}</p>
+                          <h2 className="merge-trust-title">{card.mergeTrust.title}</h2>
+                          <p className="merge-trust-description">{card.mergeTrust.description}</p>
+                        </div>
+
+                        <div className="merge-trust-body-wrap">
+                          <p className="merge-trust-body">{card.mergeTrust.body}</p>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeOutcome ? (
+                    <section
+                      className="case-redesign-content-section merge-outcome-section"
+                      aria-label="Outcome section"
+                    >
+                      <div className="merge-outcome-inner">
+                        <div className="merge-outcome-heading">
+                          <p className="merge-outcome-label">{card.mergeOutcome.label}</p>
+                          <h2 className="merge-outcome-title">{card.mergeOutcome.title}</h2>
+                          <p className="merge-outcome-description">{card.mergeOutcome.description}</p>
+                        </div>
+
+                        <div className="merge-outcome-panel">
+                          <div className="merge-outcome-grid">
+                            {card.mergeOutcome.items.map((item, index) => (
+                              <article key={`${item.icon}-${index}`} className="merge-outcome-item">
+                                <div className="merge-outcome-icon">
+                                  <MergeOutcomeIcon kind={item.icon} />
+                                </div>
+                                <h3 className="merge-outcome-item-title">{item.title}</h3>
+                                <p className="merge-outcome-item-description">{item.description}</p>
+                              </article>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeUsabilityTesting ? (
+                    <section
+                      className="case-redesign-content-section merge-closing-section"
+                      aria-label="Usability testing section"
+                    >
+                      <div className="merge-closing-inner">
+                        <div className="merge-closing-heading">
+                          <p className="merge-closing-label">{card.mergeUsabilityTesting.label}</p>
+                          <h2 className="merge-closing-title">{card.mergeUsabilityTesting.title}</h2>
+                          <p className="merge-closing-description">{card.mergeUsabilityTesting.description}</p>
+                        </div>
+
+                        <div className="merge-closing-panel merge-testing-panel">
+                          <div className="merge-testing-grid">
+                            {card.mergeUsabilityTesting.items.map((item) => (
+                              <article key={item.title} className="merge-testing-card">
+                                <h3 className="merge-testing-card-title">{item.title}</h3>
+                                <p className="merge-testing-card-body">{item.body}</p>
+                                <p className="merge-testing-card-implication">
+                                  <span className="merge-testing-card-implication-label">
+                                    {item.implicationLabel}{' '}
+                                  </span>
+                                  {item.implication}
+                                </p>
+                              </article>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.mergeReflection ? (
+                    <section
+                      className="case-redesign-content-section merge-closing-section merge-reflection-section"
+                      aria-label="Reflection section"
+                    >
+                      <div className="merge-closing-inner">
+                        <div className="merge-closing-heading">
+                          <p className="merge-closing-label">{card.mergeReflection.label}</p>
+                          <h2 className="merge-closing-title">{card.mergeReflection.title}</h2>
+                          <p className="merge-closing-description">{card.mergeReflection.description}</p>
+                        </div>
+
+                        <div className="merge-closing-panel merge-reflection-panel">
+                          <div className="merge-reflection-grid">
+                            {card.mergeReflection.items.map((item, index) => (
+                              <article key={`${item.title}-${index}`} className="merge-reflection-card">
+                                <h3 className="merge-reflection-card-title">{item.title}</h3>
+                                <p className="merge-reflection-card-body">{item.body}</p>
+                              </article>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </section>
                   ) : null}
@@ -1273,12 +2093,27 @@ function App() {
                         </div>
 
                         <div className="case-redesign-design-intent-media-wrap">
-                          <img
-                            src={card.designIntent.imageUrl}
-                            alt="Design intent phone mockup"
-                            className="case-redesign-design-intent-media"
-                            loading="lazy"
-                          />
+                          <div className="case-redesign-design-intent-phone-frame">
+                            <div className="case-redesign-design-intent-screen-viewport">
+                              <video
+                                src={card.designIntent.videoUrl}
+                                className="case-redesign-design-intent-video"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
+                                aria-label="Design intent prototype preview"
+                              />
+                            </div>
+                            <img
+                              src={card.designIntent.bezelUrl}
+                              alt=""
+                              className="case-redesign-design-intent-bezel"
+                              loading="lazy"
+                              aria-hidden="true"
+                            />
+                          </div>
                         </div>
 
                         <p className="case-redesign-design-intent-description">{card.designIntent.description}</p>
@@ -1331,10 +2166,40 @@ function App() {
                         <div className="case-redesign-principles-cards">
                           {card.principles.cards.map((principle) => (
                             <article key={principle.title} className="case-redesign-principles-card">
-                              <h3 className="case-redesign-principles-card-title">{principle.title}</h3>
-                              <p className="case-redesign-principles-card-description">
-                                {principle.description}
-                              </p>
+                              <div
+                                className={`case-redesign-principles-card-copy ${
+                                  principle.align === 'right' ? 'is-right' : ''
+                                }`.trim()}
+                              >
+                                <h3 className="case-redesign-principles-card-title">{principle.title}</h3>
+                                <p className="case-redesign-principles-card-description">
+                                  {principle.description}
+                                </p>
+                              </div>
+
+                              <div className="case-redesign-principles-card-media-container">
+                                {principle.videoUrl ? (
+                                  <video
+                                    className="case-redesign-principles-card-media"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    preload="metadata"
+                                    aria-hidden="true"
+                                  >
+                                    <source src={principle.videoUrl} type="video/mp4" />
+                                  </video>
+                                ) : (
+                                  <img
+                                    src={principle.imageUrl}
+                                    alt=""
+                                    className="case-redesign-principles-card-media"
+                                    loading="lazy"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </div>
                             </article>
                           ))}
                         </div>
@@ -1378,13 +2243,61 @@ function App() {
                                   key={`${step.title}-${String(mediaIndex + 1)}`}
                                   className="case-redesign-final-design-media-item"
                                 >
-                                  <img
-                                    src={mediaItem.imageUrl}
-                                    alt=""
-                                    className="case-redesign-final-design-image"
-                                    loading="lazy"
-                                    aria-hidden="true"
-                                  />
+                                  {mediaItem.videoUrl ? (
+                                    mediaItem.device === 'ipad' ? (
+                                      <div className="case-redesign-final-design-ipad-frame">
+                                        <div className="case-redesign-final-design-ipad-screen-viewport">
+                                          <video
+                                            src={mediaItem.videoUrl}
+                                            className="case-redesign-final-design-ipad-video"
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            preload="metadata"
+                                            aria-hidden="true"
+                                          />
+                                        </div>
+                                        <img
+                                          src={mediaItem.bezelUrl}
+                                          alt=""
+                                          className="case-redesign-final-design-ipad-bezel"
+                                          loading="lazy"
+                                          aria-hidden="true"
+                                        />
+                                      </div>
+                                    ) : (
+                                      <div className="case-redesign-design-intent-phone-frame case-redesign-final-design-intent-phone-frame">
+                                        <div className="case-redesign-design-intent-screen-viewport">
+                                          <video
+                                            src={mediaItem.videoUrl}
+                                            className="case-redesign-design-intent-video"
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            preload="metadata"
+                                            aria-hidden="true"
+                                          />
+                                        </div>
+                                        <img
+                                          src={mediaItem.bezelUrl}
+                                          alt=""
+                                          className="case-redesign-design-intent-bezel"
+                                          loading="lazy"
+                                          aria-hidden="true"
+                                        />
+                                      </div>
+                                    )
+                                  ) : (
+                                    <img
+                                      src={mediaItem.imageUrl}
+                                      alt=""
+                                      className="case-redesign-final-design-image"
+                                      loading="lazy"
+                                      aria-hidden="true"
+                                    />
+                                  )}
                                   <figcaption className="case-redesign-final-design-media-caption">
                                     {mediaItem.caption}
                                   </figcaption>
@@ -1477,7 +2390,11 @@ function App() {
         </div>
 
         {!isProjectOpen ? (
-          <div ref={fixedSkillsOverlayRef} className="fixed-skills-overlay" aria-hidden="true">
+          <div
+            ref={fixedSkillsOverlayRef}
+            className="fixed-skills-overlay"
+            aria-hidden="true"
+          >
             <div className="fixed-skills-column">
               <div className="case-redesign-skill-group">
                 <p className="case-redesign-skill-item">RESEARCH</p>
@@ -1504,6 +2421,7 @@ function App() {
           </div>
         ) : null}
       </main>
+      <Footer />
       <section
         id="contact-page-modal"
         className={`contact-page-modal ${isContactModalOpen ? 'is-open' : ''}`.trim()}
