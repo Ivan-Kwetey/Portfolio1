@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
 function AnimatedText({
@@ -13,7 +13,7 @@ function AnimatedText({
 }) {
   const rootRef = useRef(null)
   const wordsRef = useRef([])
-  const words = useMemo(() => text.split(' '), [text])
+  const words = text.split(' ')
   useLayoutEffect(() => {
     if (!rootRef.current) {
       return undefined

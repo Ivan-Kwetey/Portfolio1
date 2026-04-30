@@ -1,5 +1,6 @@
 import AnimatedText from './AnimatedText'
 import manLogo from '../assets/man-logo.svg'
+import { HOME_TAGLINE } from '../content/homeText'
 
 function IntroSplash({ isNameFading, isMetaFading, isLogoFading, isHeroTextVisible }) {
   return (
@@ -32,7 +33,7 @@ function IntroSplash({ isNameFading, isMetaFading, isLogoFading, isHeroTextVisib
           <div className="intro-splash-hero-copy">
             <AnimatedText
               className="intro-splash-hero-text"
-              text="I design mobile and web products for social consumer experiences people want to return to"
+              text={HOME_TAGLINE}
               targetColor="#060514"
               baseColor="#b2b2b2"
               letterSpacing={-1}

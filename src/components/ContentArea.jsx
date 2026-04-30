@@ -1,4 +1,5 @@
 import AnimatedText from './AnimatedText'
+import { HOME_TAGLINE } from '../content/homeText'
 
 function ContentArea({ onNext }) {
   return (
@@ -8,7 +9,7 @@ function ContentArea({ onNext }) {
           <div className="card-text">
             <AnimatedText
               className="content-copy"
-              text="I design mobile and web products for social consumer experiences people want to return to"
+              text={HOME_TAGLINE}
               targetColor="#060514"
               baseColor="#b2b2b2"
               letterSpacing={-1}

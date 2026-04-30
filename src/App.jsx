@@ -20,8 +20,45 @@ import groupCollectionDemoVideo from './assets/group-collection/group-demo.mp4'
 import groupCollectionDemoPoster from './assets/group-collection/group-demo-poster.jpg'
 import homecardVideo from './assets/group-collection/homecard.mp4'
 import groupCollectionSystemScopeImage from './assets/group-collection/System scope image.png'
-import communityLayerCardImage from './assets/case-covers/community-layer-card.png'
+import aisledexCardPoster from './assets/case-covers/aisledex cover video homepage.png'
 import mergeCardPoster from './assets/case-covers/merge homepage cover.png'
+import aisledexHomecardVideo from './assets/aisledex/homevideo.mp4'
+import aisledexMetaVideo from './assets/aisledex/meta-video.mp4'
+import aisledexProblemImage from './assets/aisledex/problem.png'
+import aisldexAccessibilityIcon from './assets/aisledex/accessibility.svg'
+import aisldexClearIcon from './assets/aisledex/clear.svg'
+import aisldexAudioIcon from './assets/aisledex/audio.svg'
+import aisldexCartIcon from './assets/aisledex/cart.svg'
+import aisldexClockIcon from './assets/aisledex/clock.svg'
+import aisldexConfirmIcon from './assets/aisledex/confirm.svg'
+import aisldexFinalImage1 from './assets/aisledex/f1.png'
+import aisldexFinalImage2 from './assets/aisledex/f2.png'
+import aisldexLocateIcon from './assets/aisledex/locate.svg'
+import aisldexLofi1 from './assets/aisledex/lofi1.png'
+import aisldexLofi2 from './assets/aisledex/lofi2.png'
+import aisldexLofi3 from './assets/aisledex/lofi3.png'
+import aisldexLofi4 from './assets/aisledex/lofi4.png'
+import aisldexLofi5 from './assets/aisledex/lofi5.png'
+import aisldexLofi6 from './assets/aisledex/lofi6.png'
+import aisldexPathIcon from './assets/aisledex/path.svg'
+import aisldexResearchImage1 from './assets/aisledex/r1.png'
+import aisldexResearchImage2 from './assets/aisledex/r2.png'
+import aisldexResearchImage3 from './assets/aisledex/r3.png'
+import aisldexSolvingVideo from './assets/aisledex/solving.mp4'
+import aisldexAislefinderImage from './assets/aisledex/aislefinder.png'
+import aisldexDetourIcon from './assets/aisledex/detour.svg'
+import aisldexTestingImage1 from './assets/aisledex/t1.png'
+import aisldexTestingImage2 from './assets/aisledex/t2.png'
+import aisldexTestingImage3 from './assets/aisledex/t3.png'
+import aisldexScreenImage1 from './assets/aisledex/s1.png'
+import aisldexScreenImage2 from './assets/aisledex/s2.png'
+import aisldexScreenImage3 from './assets/aisledex/s3.png'
+import aisldexPauseIcon from './assets/aisledex/pause.svg'
+import aisldexUnavailableIcon from './assets/aisledex/unavailable.svg'
+import aisldexUberImage from './assets/aisledex/uber.png'
+import aisldexVisualIcon from './assets/aisledex/visual.svg'
+import aisldexWalkIcon from './assets/aisledex/walk.svg'
+import aisldexWalmartImage from './assets/aisledex/walmart.png'
 import mergeHomecardVideo from './assets/merge/homevideomerge-card.mp4'
 import mergeHeroVideo from './assets/merge/mergehero.mp4'
 import mergeSolutionVideo from './assets/merge/solution.mp4'
@@ -34,6 +71,10 @@ import mergeReviewingImage from './assets/merge/reviewing.png'
 import mergeLofi1Image from './assets/merge/lofi1.png'
 import mergeLofi2Image from './assets/merge/lofi2.png'
 import mergeLofi3Image from './assets/merge/lofi3.png'
+import mergeSlide1Image from './assets/merge/slide1.png'
+import mergeSlide2Image from './assets/merge/slide2.png'
+import mergeSlide3Image from './assets/merge/slide3.png'
+import mergeSlide4Image from './assets/merge/slide4.png'
 import mergeInstagramIcon from './assets/merge/instagram.svg'
 import mergeTiktokIcon from './assets/merge/tiktok.svg'
 import mergeSnapchatIcon from './assets/merge/snapchat.svg'
@@ -84,6 +125,475 @@ const MERGE_META_DETAILS = [
   },
 ]
 
+const AISLDEX_META_DETAILS = [
+  {
+    label: 'Role',
+    value: 'Product Designer (Solo, End-to-End)',
+    support: 'Product Strategy, UX Design, Information Architecture, Interaction Design',
+  },
+  {
+    label: 'Platform',
+    value: 'Superstars (Network Tab)',
+  },
+  {
+    label: 'Duration',
+    value: '8 Weeks',
+  },
+  {
+    label: 'Project type',
+    value: 'Community Layer for Video-First Networking',
+  },
+]
+
+const AISLDEX_OVERVIEW = {
+  label: 'About the project',
+  title: (
+    <>
+      A smarter way
+      <br />
+      to navigate physical retail
+    </>
+  ),
+  paragraphs: [
+    'It was early 2025.',
+    'Grocery trips had become inefficient and stressful crowded aisles, shifting layouts, and shoppers juggling multiple tasks. Existing shopping apps offered lists and deals, but none addressed the core challenge: helping people find products in-store with clarity.',
+    'Through observing shoppers, it became clear this wasn’t a problem of lists or loyalty programs, it was a navigation problem that added cognitive load and wasted time.',
+    'Aisledex was designed to address this: a guided, predictable, human-centered in-store experience that reduces mental effort instead of adding unnecessary screens. The system evolved through research, prototyping, and continuous iteration, always focused on helping shoppers move through stores efficiently and confidently.',
+  ],
+}
+
+const AISLDEX_PROBLEM = {
+  label: 'The Problem',
+  imageUrl: aisledexProblemImage,
+  imageAlt: 'Problem statement about shoppers lacking a reliable way to orient themselves inside grocery stores.',
+}
+
+const AISLDEX_SOLVING = {
+  label: 'Solving the problem',
+  title:
+    'Aisledex provides route-based guidance that helps shoppers move through the store with confidence.',
+  description: 'Aisledex does this in three clear steps.',
+  videoUrl: aisldexSolvingVideo,
+  prototypeUrl:
+    'https://www.figma.com/proto/BQ76NayUdFgYixZk6lVHxp/Aisledex-new?node-id=127-1333&viewport=223%2C-66%2C0.06&t=7KkIuXlF9LsXeQix-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=127%3A1333&show-proto-sidebar=1&page-id=0%3A1',
+  leftCallout: (
+    <>
+      Search Navigate Arrive
+      <br />
+      <span>in one continuous flow</span>
+    </>
+  ),
+  rightCallout: (
+    <>
+      From search to shelf
+      <br />
+      <span>without missing a step</span>
+    </>
+  ),
+  prototypeLabel: 'Try prototype here',
+}
+
+const AISLDEX_COMPETITOR_ANALYSIS = {
+  label: 'How existing solutions handle wayfinding',
+  title: 'Most existing tools stop at item location, leaving shoppers to navigate on their own.',
+  description: 'Knowing where an item is does not mean shoppers can get there confidently.',
+  items: [
+    {
+      title: 'Aislefinder',
+      imageUrl: aisldexAislefinderImage,
+      imageAlt: 'Aislefinder search results showing aisle information without guided routing.',
+      description:
+        'Offers general aisle information, but does not adapt to a specific store or provide turn by turn routing',
+    },
+    {
+      title: 'Uber',
+      imageUrl: aisldexUberImage,
+      imageAlt: 'Uber grocery item search flow without store-specific in-store navigation.',
+      description:
+        'Helps users search for items, but does not provide store specific aisle guidance or route support inside store',
+    },
+    {
+      title: 'Walmart',
+      imageUrl: aisldexWalmartImage,
+      imageAlt: 'Walmart map and aisle labels that stop short of exact shelf guidance.',
+      description:
+        'Provides store specific aisle labels and basic aisle direction but stops short of guiding shoppers directly to the exact shelf',
+    },
+  ],
+}
+
+const AISLDEX_USER_RESEARCH = {
+  label: 'Understanding shopper frustrations',
+  title: 'Early research combined social listening and 26 informal interviews.',
+  description: 'These findings shaped the principles behind Aisledex.',
+  media: [
+    {
+      src: aisldexResearchImage1,
+      alt: 'Social post describing confusion in a store with no arrows or directions.',
+      width: 199.487,
+    },
+    {
+      src: aisldexResearchImage2,
+      alt: 'Social post criticizing a grocery store for failing when shoppers need to ask for help.',
+      width: 260.212,
+    },
+    {
+      src: aisldexResearchImage3,
+      alt: 'Social post about poor local grocery store wayfinding and missing aisle labels.',
+      width: 204.033,
+    },
+  ],
+  leftColumn: [
+    {
+      value: '31',
+      description: 'Shoppers feel lost without clear directional cues at store entry.',
+      tone: 'blue',
+      height: 314.053,
+    },
+    {
+      value: '13',
+      description: 'Say, aisle signage is often mistrusted due to item-label mismatch.',
+      tone: 'neutral',
+      height: 188.268,
+    },
+  ],
+  quoteCard: {
+    text: 'Shoppers weren’t lost because the store was big,',
+    highlight: 'they were frustrated by uncertainty.',
+    width: 277,
+    height: 271,
+  },
+  rightTopStat: {
+    value: '23',
+    description: 'Asking for help is seen as a system failure, not a user issue.',
+    tone: 'cream',
+    height: 270.481,
+  },
+  bottomStats: [
+    {
+      value: '15',
+      description: 'Agree layout changes break learned shortcuts, and slow shopping.',
+      tone: 'peach',
+      height: 231.018,
+    },
+    {
+      value: '18',
+      description: 'Failure to find items quickly leads to abandoned or shortened trips.',
+      tone: 'lavender',
+      height: 231.018,
+    },
+  ],
+}
+
+const AISLDEX_PRINCIPLES = {
+  label: 'Design principles for confident navigation',
+  title: 'Three principles shaped a clearer, more confident navigation flow',
+  description: 'Clarity, confirmation, and micro-guidance shaped every design decision.',
+  layout: 'icon-row',
+  items: [
+    {
+      label: 'Clear orientation',
+      title: 'Keep shoppers on track and confident',
+      iconUrl: aisldexClearIcon,
+      iconAlt: 'Clear orientation icon',
+    },
+    {
+      label: 'Visual confirmation',
+      title: 'Trust what you see',
+      iconUrl: aisldexVisualIcon,
+      iconAlt: 'Visual confirmation icon',
+    },
+    {
+      label: 'Accessible guidance',
+      title: 'Navigation for everyone',
+      iconUrl: aisldexAccessibilityIcon,
+      iconAlt: 'Accessible guidance icon',
+    },
+  ],
+}
+
+const AISLDEX_LOFI = {
+  label: 'Why These Decisions Won',
+  title: 'Three decisions shaped the final navigation flow',
+  description:
+    'Each one shows the alternative explored, why it fell short, and why the final direction worked better.',
+  routeDecision: {
+    title: 'Route shoppers immediately after item selection.',
+    description:
+      'Route-first guidance let shoppers start moving immediately instead of planning the trip themselves.',
+    copyWidth: 292,
+    exploredLabel: 'Explored alternatives',
+    exploredItems: [
+      {
+        title: 'Map-First',
+        imageUrl: aisldexLofi1,
+        imageAlt: 'Map-first Aisldex low-fidelity prototype.',
+      },
+      {
+        title: 'Browse-First',
+        imageUrl: aisldexLofi2,
+        imageAlt: 'Browse-first Aisldex low-fidelity prototype.',
+      },
+    ],
+    exploredCaption:
+      'Map-first and browse-first ideas still asked shoppers to interpret layout and plan their own route.',
+    chosenLabel: 'Chosen solution',
+    chosenItem: {
+      title: 'Route-First Navigation',
+      imageUrl: aisldexLofi3,
+      imageAlt: 'Route-first navigation Aisldex low-fidelity prototype.',
+    },
+    chosenCaption:
+      'Route-first routing removes planning overhead and gets shoppers moving faster.',
+  },
+  progressDecision: {
+    title: 'Keep progress and location feedback continuously visible.',
+    description: 'Persistent progress cues reduced second-guessing in unfamiliar layouts.',
+    copyWidth: 266,
+    items: [
+      {
+        title: 'Without progress bar',
+        imageUrl: aisldexLofi4,
+        imageAlt: 'Low-fidelity navigation screen without progress bar.',
+        tone: 'accent',
+      },
+      {
+        title: 'With progress bar',
+        imageUrl: aisldexLofi5,
+        imageAlt: 'Low-fidelity navigation screen with progress bar.',
+      },
+    ],
+    caption: 'Visible progress helped users stay oriented without stopping to reassess.',
+  },
+  oneHandDecision: {
+    title: 'Design for one-handed use while moving.',
+    description: 'Navigation had to work while walking, carrying items, or pushing a cart.',
+    copyWidth: 310,
+    item: {
+      title: 'No frequent taps',
+      imageUrl: aisldexLofi6,
+      imageAlt: 'Low-fidelity navigation screen designed for fewer taps while moving.',
+    },
+    caption:
+      'Early tests showed users tapped for reassurance too often, slowing movement and breaking focus.',
+  },
+}
+
+const AISLDEX_TESTING = {
+  label: 'Usability Testing & Validation',
+  title: '25+ moderated sessions focused on in-aisle navigation behavior.',
+  description:
+    'I tested an interactive low-fidelity prototype in real-store contexts to evaluate routing, progress clarity, and confidence while users were moving.',
+  images: [
+    {
+      src: aisldexTestingImage1,
+      alt: 'Testing image showing an Aisldex in-store navigation prototype during moderated evaluation.',
+      width: 123,
+    },
+    {
+      src: aisldexTestingImage2,
+      alt: 'Testing image showing a second Aisldex prototype state used during moderated sessions.',
+      width: 123,
+    },
+    {
+      src: aisldexTestingImage3,
+      alt: 'Testing image showing a third Aisldex prototype state observed during validation.',
+      width: 124,
+    },
+  ],
+  observationsLabel: 'Observations',
+  observations:
+    'Users often tapped the screen for reassurance, pulling attention away from the route. The final flow advances automatically and adds optional audio cues to support navigation while in motion.',
+}
+
+const AISLDEX_FINAL_DESIGN = {
+  variant: 'aisldex-hifi',
+  label: 'Final Design',
+  title: 'A focused flow guides shoppers from item selection to the exact shelf',
+  description: 'Designed to reduce time, decisions, and effort while navigating the store.',
+  topRow: {
+    phone: {
+      imageUrl: aisldexFinalImage1,
+      imageAlt: 'Final Aisldex product confirmation and route entry screen.',
+    },
+    features: [
+      {
+        iconUrl: aisldexConfirmIcon,
+        iconAlt: 'Confirm icon',
+        eyebrow: '1. Confirm',
+        title: 'Item confirmation details',
+        body: 'Helps users verify product before navigation.',
+        width: 253,
+        bodyWidth: 253,
+        bodyAlign: 'center',
+        eyebrowSize: 'large',
+      },
+      {
+        iconUrl: aisldexLocateIcon,
+        iconAlt: 'Locate item icon',
+        eyebrow: '2. Locate item',
+        title: 'Just one tap to locate item',
+        body: 'Starts navigation without\nmanual progression.',
+        width: 224,
+        bodyWidth: 182,
+        bodyAlign: 'left',
+        eyebrowSize: 'large',
+      },
+    ],
+  },
+  bottomRow: {
+    features: [
+      {
+        iconUrl: aisldexPathIcon,
+        iconAlt: 'Path finding icon',
+        eyebrow: '3. Path finding',
+        title: 'Instant route visualization',
+        body: 'Shows the shopper’s current position\nand the optimal path to the item.',
+        width: 267,
+        bodyWidth: 267,
+        bodyAlign: 'left',
+      },
+      {
+        iconUrl: aisldexLocateIcon,
+        iconAlt: 'Route progress icon',
+        eyebrow: '4. Route progress',
+        title: 'Total distance update',
+        body: 'Live route indicators with clear progress.',
+        width: 287,
+        bodyWidth: 287,
+        bodyAlign: 'center',
+      },
+      {
+        iconUrl: aisldexAudioIcon,
+        iconAlt: 'Audio cues icon',
+        eyebrow: '5. Audio cues',
+        title: 'Voice assistance on the go',
+        body: 'Provide distance and progress updates when users can’t look at the screen.',
+        width: 339,
+        bodyWidth: 339,
+        bodyAlign: 'left',
+      },
+    ],
+    phone: {
+      imageUrl: aisldexFinalImage2,
+      imageAlt: 'Final Aisldex route guidance screen with progress and audio support.',
+    },
+  },
+}
+
+const AISLDEX_EXTRA_SCREENS = {
+  title: (
+    <>
+      A seamless,
+      <br />
+      in-aisle navigation experience
+      <br />
+      from start to finish
+    </>
+  ),
+  screens: [
+    {
+      imageUrl: aisldexScreenImage1,
+      imageAlt: 'Aisldex deal and locate item screen.',
+    },
+    {
+      imageUrl: aisldexScreenImage2,
+      imageAlt: 'Aisldex browse by category screen.',
+    },
+    {
+      imageUrl: aisldexScreenImage3,
+      imageAlt: 'Aisldex route completion and shelf guidance screen.',
+    },
+  ],
+}
+
+const AISLDEX_OUTCOME = {
+  label: 'What Success Would Look Like',
+  title:
+    'Because Aisledex is still in development, these are the signals that would validate the experience in pilot testing and after launch.',
+  items: [
+    {
+      iconUrl: aisldexClockIcon,
+      iconAlt: 'Clock icon',
+      text: (
+        <>
+          Less time spent searching
+          <br />
+          for items
+        </>
+      ),
+    },
+    {
+      iconUrl: aisldexWalkIcon,
+      iconAlt: 'Walking icon',
+      text: (
+        <>
+          Higher confidence in
+          <br />
+          unfamiliar stores
+        </>
+      ),
+    },
+    {
+      iconUrl: aisldexCartIcon,
+      iconAlt: 'Cart icon',
+      text: (
+        <>
+          Lower cognitive load
+          <br />
+          during shopping
+        </>
+      ),
+    },
+  ],
+}
+
+const AISLDEX_EDGE_CASES = {
+  variant: 'systems',
+  label: 'Edge Cases & System Thinking',
+  title: 'Designed to support real-world shopping beyond the ideal path',
+  description:
+    'Additional scenarios were considered to ensure navigation remained flexible, resilient, and useful during real shopping behavior.',
+  items: [
+    {
+      iconUrl: aisldexPauseIcon,
+      title: 'Pausing or stopping mid-route',
+    },
+    {
+      iconUrl: aisldexDetourIcon,
+      title: 'Deviating from suggested path',
+    },
+    {
+      iconUrl: aisldexUnavailableIcon,
+      title: 'Item unavailable or missed',
+    },
+  ],
+}
+
+const AISLDEX_REFLECTION = {
+  variant: 'next-steps',
+  label: 'Reflection & Next Steps',
+  title: 'Evolving Aisledex through real-world validation and expanded functionality',
+  description: 'Future iterations would focus on the following',
+  items: [
+    {
+      title: 'Expand system flexibility',
+      body:
+        'Support more complex scenarios such as multi-item optimization, substitutions, and real-time store changes',
+    },
+    {
+      title: 'Explore adaptive and personalized routing',
+      body:
+        'Incorporate user behavior, shopping habits, or store familiarity to tailor navigation paths and reduce unnecessary steps.',
+    },
+    {
+      title: 'Validate high-fidelity in real environments',
+      body:
+        'Testing was conducted using a low-fidelity prototype. Future work would involve validating high-fidelity designs in-store to assess visibility, timing, and interaction while in motion.',
+    },
+  ],
+}
+
 const GROUP_COLLECTIONS_OPPORTUNITY = {
   label: 'The Opportunity',
   title: 'Networking needed a shared space, not just individual profiles',
@@ -103,16 +613,6 @@ const MERGE_PROBLEM = {
   title: 'Most creative platforms are built for publishing, not co-creation',
   description:
     'Creative work is collaborative, but social platforms treat it like a finished artifact. When creators want to build on someone else’s work, they usually leave the app, download the asset, edit elsewhere, and repost manually. Merge removes that break by making contribution, review, and shared authorship happen inside the product.',
-  visual: {
-    current: {
-      label: 'Current workflow',
-      steps: ['Download asset', 'Edit elsewhere', 'Repost manually'],
-    },
-    merge: {
-      label: 'Merge workflow',
-      steps: ['Contribute in-app', 'Review request', 'Shared authorship'],
-    },
-  },
 }
 
 const MERGE_RESEARCH = {
@@ -122,6 +622,9 @@ const MERGE_RESEARCH = {
   imageUrl: mergeResearchCard,
   imageAlt: 'Research quotes from creatives about manual contribution workflows and ownership control.',
 }
+
+const MERGE_PROTOTYPE_URL =
+  'https://www.figma.com/proto/IzFeQVLWgthUSvK41Ri77W/Merge?node-id=434-3541&viewport=-1095%2C828%2C0.09&t=NgnAAwm810SQEGXk-9&scaling=scale-down&content-scaling=fixed&starting-point-node-id=434%3A3541&page-id=0%3A1&show-proto-sidebar=1'
 
 const MERGE_OPPORTUNITY = {
   label: 'Opportunity',
@@ -156,18 +659,19 @@ const MERGE_SOLUTION = {
     'Merge sits between those worlds by letting creatives contribute, review, and merge work directly inside the product.',
   description: 'Collaboration no longer depends on disconnected, off-platform workflows.',
   videoUrl: mergeSolutionVideo,
+  prototypeUrl: MERGE_PROTOTYPE_URL,
   leftCallout: (
     <>
-      Start from a live post
+      Request Merge Post
       <br />
-      <span>request to contribute without leaving the feed</span>
+      <span>in a creative social space</span>
     </>
   ),
   rightCallout: (
     <>
-      Merge with clear authorship
+      Ownership Contribution
       <br />
-      <span>review, approve, and credit contributions in one flow</span>
+      <span>system built on trust</span>
     </>
   ),
 }
@@ -213,6 +717,28 @@ const MERGE_FINAL_DESIGN = {
       videoUrl: mergeHifi3Video,
     },
   ],
+  supportingScreens: {
+    eyebrow: 'Beyond the core flow',
+    title: 'Supporting screens keep collaboration cues consistent across the product.',
+    slides: [
+      {
+        imageUrl: mergeSlide1Image,
+        alt: 'Merge supporting screen preview one.',
+      },
+      {
+        imageUrl: mergeSlide2Image,
+        alt: 'Merge supporting screen preview two.',
+      },
+      {
+        imageUrl: mergeSlide3Image,
+        alt: 'Merge supporting screen preview three.',
+      },
+      {
+        imageUrl: mergeSlide4Image,
+        alt: 'Merge supporting screen preview four.',
+      },
+    ],
+  },
 }
 
 const MERGE_DESIGN_DECISIONS = {
@@ -490,7 +1016,6 @@ const PROJECT_CARDS = [
       </>
     ),
     metaDetails: GROUP_COLLECTIONS_META_DETAILS,
-    previewImageUrl: communityLayerCardImage,
     previewVideoUrl: homecardVideo,
     previewArrowUrl: caseCardArrow,
     mediaVideoUrl: groupCollectionDemoVideo,
@@ -502,6 +1027,7 @@ const PROJECT_CARDS = [
     principles: GROUP_COLLECTIONS_PRINCIPLES,
     finalDesign: GROUP_COLLECTIONS_FINAL_DESIGN,
     edgeCases: GROUP_COLLECTIONS_EDGE_CASES,
+    outcome: null,
     expectedImpact: GROUP_COLLECTIONS_EXPECTED_IMPACT,
     reflection: GROUP_COLLECTIONS_REFLECTION,
     thankYou: GROUP_COLLECTIONS_THANK_YOU,
@@ -540,8 +1066,56 @@ const PROJECT_CARDS = [
     principles: null,
     finalDesign: null,
     edgeCases: null,
+    outcome: null,
     expectedImpact: null,
     reflection: null,
+    thankYou: GROUP_COLLECTIONS_THANK_YOU,
+  },
+  {
+    id: 'case-3',
+    slug: 'aisldex',
+    headline: 'Designed to reduce uncertainty while shopping',
+    description: (
+      <>
+        Designed to reduce uncertainty
+        <br />
+        while shopping
+      </>
+    ),
+    previewImageUrl: aisledexCardPoster,
+    previewVideoUrl: aisledexHomecardVideo,
+    previewArrowUrl: caseCardArrow,
+    mediaVideoUrl: aisledexMetaVideo,
+    mediaPosterUrl: null,
+    metaDetails: AISLDEX_META_DETAILS,
+    overview: AISLDEX_OVERVIEW,
+    metaVideoUrl: null,
+    opportunity: null,
+    problem: AISLDEX_PROBLEM,
+    solving: AISLDEX_SOLVING,
+    competitorAnalysis: AISLDEX_COMPETITOR_ANALYSIS,
+    userResearch: AISLDEX_USER_RESEARCH,
+    research: null,
+    mergeOpportunity: null,
+    mergeSolution: null,
+    mergeCoreExperience: null,
+    mergeFinalDesign: null,
+    mergeDesignDecisions: null,
+    mergeTrust: null,
+    mergeOutcome: null,
+    mergeUsabilityTesting: null,
+    mergeReflection: null,
+    designIntent: null,
+    systemScope: null,
+    principles: AISLDEX_PRINCIPLES,
+    lofi: AISLDEX_LOFI,
+    testing: AISLDEX_TESTING,
+    finalDesign: AISLDEX_FINAL_DESIGN,
+    extraScreens: AISLDEX_EXTRA_SCREENS,
+    edgeCases: AISLDEX_EDGE_CASES,
+    outcome: AISLDEX_OUTCOME,
+    expectedImpact: null,
+    reflection: AISLDEX_REFLECTION,
     thankYou: GROUP_COLLECTIONS_THANK_YOU,
   },
 ]
@@ -820,7 +1394,6 @@ function App() {
   const lastInputAtRef = useRef(0)
   const casePreviewVideoRefs = useRef([])
   const caseMediaRefs = useRef([])
-  const fixedSkillsOverlayRef = useRef(null)
   const [contactContainerRect, setContactContainerRect] = useState(null)
   const [isCustomCursorEnabled] = useState(true)
   const [isCursorVisible, setCursorVisible] = useState(false)
@@ -1680,7 +2253,9 @@ function App() {
               const isOpenProjectPanel = openProjectIndex === index
               const isPreviewChromeVisible = isCaseDescriptionVisible && !isProjectOpen
               const isOutgoingHomePreview = outgoingHomePreviewIndex === index
-              const caseMediaStyle = card.mediaPosterUrl
+              const hasProjectMedia = Boolean(card.mediaVideoUrl || card.mediaPosterUrl)
+              const isMetaOnlyProject = !hasProjectMedia && Boolean(card.metaVideoUrl)
+              const caseMediaStyle = hasProjectMedia && card.mediaPosterUrl
                 ? { '--case-media-poster': `url(${card.mediaPosterUrl})` }
                 : undefined
               const shouldRenderHomePreview = !isProjectOpen
@@ -1770,7 +2345,7 @@ function App() {
 
                     {shouldRenderProjectHero ? (
                       <div className="case-redesign-card-container is-project-open">
-                        <div className="case-redesign-media-shell">
+                        <div className={`case-redesign-media-shell ${isMetaOnlyProject ? 'is-meta-only' : ''}`.trim()}>
                           <div
                             className={`case-redesign-project-header ${
                               isOpenProjectPanel && isProjectContentVisible ? 'is-visible' : ''
@@ -1779,52 +2354,100 @@ function App() {
                             <h1 className="case-redesign-project-title">{card.headline}</h1>
                           </div>
 
-                          <div
-                            className="case-redesign-media is-project-open"
-                            style={caseMediaStyle}
-                            ref={(node) => {
-                              caseMediaRefs.current[index] = node
-                            }}
-                            role="img"
-                            aria-label="Project media cover"
-                          >
-                            {card.mediaVideoUrl ? (
-                              <video
-                                src={card.mediaVideoUrl}
-                                className="case-redesign-media-video"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="auto"
-                                poster={card.mediaPosterUrl}
-                                aria-hidden="true"
-                              />
-                            ) : null}
-                          </div>
+                          {hasProjectMedia ? (
+                            <div
+                              className="case-redesign-media is-project-open"
+                              style={caseMediaStyle}
+                              ref={(node) => {
+                                caseMediaRefs.current[index] = node
+                              }}
+                              role="img"
+                              aria-label="Project media cover"
+                            >
+                              {card.mediaVideoUrl ? (
+                                <video
+                                  src={card.mediaVideoUrl}
+                                  className="case-redesign-media-video"
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  preload="auto"
+                                  poster={card.mediaPosterUrl}
+                                  aria-hidden="true"
+                                />
+                              ) : null}
+                            </div>
+                          ) : null}
 
-                          {card.metaDetails ? (
+                          {card.metaDetails || card.metaVideoUrl ? (
                             <div
                               className={`case-redesign-meta ${
+                                card.metaVideoUrl ? 'is-video' : ''
+                              } ${isMetaOnlyProject ? 'is-standalone' : ''} ${
                                 isOpenProjectPanel && isProjectContentVisible ? 'is-visible' : ''
                               }`.trim()}
-                              aria-label="Project meta details"
+                              aria-label={card.metaVideoUrl ? 'Project meta preview' : 'Project meta details'}
                             >
-                              {card.metaDetails.map((detail) => (
-                                <article key={detail.label} className="case-redesign-meta-item">
-                                  <p className="case-redesign-meta-label">{detail.label}</p>
-                                  <p className="case-redesign-meta-value">{detail.value}</p>
-                                  {detail.support ? (
-                                    <p className="case-redesign-meta-support">{detail.support}</p>
-                                  ) : null}
-                                </article>
-                              ))}
+                              {card.metaVideoUrl ? (
+                                <div
+                                  className="case-redesign-meta-video-shell"
+                                  ref={(node) => {
+                                    if (isMetaOnlyProject) {
+                                      caseMediaRefs.current[index] = node
+                                    }
+                                  }}
+                                >
+                                  <video
+                                    src={card.metaVideoUrl}
+                                    className="case-redesign-meta-video"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    preload="metadata"
+                                    aria-label={`${card.headline} meta preview`}
+                                  />
+                                </div>
+                              ) : (
+                                card.metaDetails.map((detail) => (
+                                  <article key={detail.label} className="case-redesign-meta-item">
+                                    <p className="case-redesign-meta-label">{detail.label}</p>
+                                    <p className="case-redesign-meta-value">{detail.value}</p>
+                                    {detail.support ? (
+                                      <p className="case-redesign-meta-support">{detail.support}</p>
+                                    ) : null}
+                                  </article>
+                                ))
+                              )}
                             </div>
                           ) : null}
                         </div>
                       </div>
                     ) : null}
                   </section>
+
+                  {isOpenProjectPanel && card.overview ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-overview"
+                      aria-label="Overview section"
+                    >
+                      <div className="case-redesign-overview-inner">
+                        <div className="case-redesign-overview-heading">
+                          <p className="case-redesign-overview-label">{card.overview.label}</p>
+                          <h2 className="case-redesign-overview-title">{card.overview.title}</h2>
+                        </div>
+
+                        <div className="case-redesign-overview-body">
+                          {card.overview.paragraphs.map((paragraph) => (
+                            <p key={paragraph} className="case-redesign-overview-paragraph">
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
 
                   {isOpenProjectPanel && card.opportunity ? (
                     <section
@@ -1849,44 +2472,229 @@ function App() {
 
                   {isOpenProjectPanel && card.problem ? (
                     <section
-                      className="case-redesign-content-section case-redesign-problem"
+                      className={`case-redesign-content-section case-redesign-problem${
+                        card.slug === 'merge'
+                          ? ' case-redesign-problem-merge'
+                          : card.problem.imageUrl
+                            ? ' case-redesign-problem-image'
+                            : ''
+                      }`}
                       aria-label="Problem section"
                     >
                       <div className="case-redesign-problem-inner">
                         <p className="case-redesign-problem-label">{card.problem.label}</p>
-                        <h2 className="case-redesign-problem-title">{card.problem.title}</h2>
-                        <p className="case-redesign-problem-description">{card.problem.description}</p>
-                        {card.problem.visual ? (
-                          <div className="merge-problem-graphic" aria-label="Creative collaboration workflow comparison">
-                            <article className="merge-problem-flow merge-problem-flow-current">
-                              <p className="merge-problem-flow-label">{card.problem.visual.current.label}</p>
-                              <div className="merge-problem-flow-steps">
-                                {card.problem.visual.current.steps.map((step) => (
-                                  <div key={step} className="merge-problem-flow-step">
-                                    <span className="merge-problem-flow-dot" aria-hidden="true" />
-                                    <span>{step}</span>
-                                  </div>
-                                ))}
+                        {card.problem.imageUrl ? (
+                          <figure className="case-redesign-problem-figure">
+                            <img
+                              src={card.problem.imageUrl}
+                              alt={card.problem.imageAlt}
+                              className="case-redesign-problem-image-asset"
+                              loading="lazy"
+                            />
+                          </figure>
+                        ) : (
+                          <>
+                            <h2 className="case-redesign-problem-title">{card.problem.title}</h2>
+                            <p className="case-redesign-problem-description">{card.problem.description}</p>
+                          </>
+                        )}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.solving ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-solving"
+                      aria-label="Solving section"
+                    >
+                      <div className="case-redesign-solving-inner">
+                        <div className="case-redesign-solving-heading">
+                          <p className="case-redesign-solving-label">{card.solving.label}</p>
+                          <h2 className="case-redesign-solving-title">{card.solving.title}</h2>
+                          <p className="case-redesign-solving-description">{card.solving.description}</p>
+                        </div>
+
+                        <div className="case-redesign-solving-stage">
+                          <p className="case-redesign-solving-callout case-redesign-solving-callout-left">
+                            {card.solving.leftCallout}
+                          </p>
+
+                          <div className="case-redesign-solving-video-wrap">
+                            <video
+                              src={card.solving.videoUrl}
+                              className="case-redesign-solving-video"
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              preload="metadata"
+                              aria-label="Aisledex route guidance prototype preview"
+                            />
+                          </div>
+
+                          <p className="case-redesign-solving-callout case-redesign-solving-callout-right">
+                            {card.solving.rightCallout}
+                          </p>
+                        </div>
+
+                        <a
+                          className="case-redesign-solving-button"
+                          href={card.solving.prototypeUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {card.solving.prototypeLabel}
+                        </a>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.competitorAnalysis ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-competitor-analysis"
+                      aria-label="Competitor analysis section"
+                    >
+                      <div className="case-redesign-competitor-analysis-inner">
+                        <div className="case-redesign-competitor-analysis-heading">
+                          <p className="case-redesign-competitor-analysis-label">
+                            {card.competitorAnalysis.label}
+                          </p>
+                          <h2 className="case-redesign-competitor-analysis-title">
+                            {card.competitorAnalysis.title}
+                          </h2>
+                          <p className="case-redesign-competitor-analysis-description">
+                            {card.competitorAnalysis.description}
+                          </p>
+                        </div>
+
+                        <div className="case-redesign-competitor-analysis-stage">
+                          {card.competitorAnalysis.items.map((item) => (
+                            <article
+                              key={item.title}
+                              className="case-redesign-competitor-analysis-item"
+                            >
+                              <img
+                                src={item.imageUrl}
+                                alt={item.imageAlt}
+                                className="case-redesign-competitor-analysis-image"
+                                loading="lazy"
+                              />
+
+                              <div className="case-redesign-competitor-analysis-copy">
+                                <h3 className="case-redesign-competitor-analysis-item-title">
+                                  {item.title}
+                                </h3>
+                                <p className="case-redesign-competitor-analysis-item-description">
+                                  {item.description}
+                                </p>
                               </div>
                             </article>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
 
-                            <div className="merge-problem-graphic-divider" aria-hidden="true">
-                              <span />
+                  {isOpenProjectPanel && card.userResearch ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-user-research"
+                      aria-label="User research section"
+                    >
+                      <div className="case-redesign-user-research-inner">
+                        <div className="case-redesign-user-research-heading">
+                          <p className="case-redesign-user-research-label">{card.userResearch.label}</p>
+                          <h2 className="case-redesign-user-research-title">{card.userResearch.title}</h2>
+                          <p className="case-redesign-user-research-description">
+                            {card.userResearch.description}
+                          </p>
+                        </div>
+
+                        <div className="case-redesign-user-research-media-stage">
+                          <div className="case-redesign-user-research-media-row">
+                            {card.userResearch.media.map((item) => (
+                              <figure
+                                key={item.alt}
+                                className="case-redesign-user-research-media-card"
+                                style={{ '--user-research-media-width': `${item.width}px` }}
+                              >
+                                <img
+                                  src={item.src}
+                                  alt={item.alt}
+                                  className="case-redesign-user-research-media-image"
+                                  loading="lazy"
+                                />
+                              </figure>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="case-redesign-user-research-stats">
+                          <div className="case-redesign-user-research-stats-left">
+                            {card.userResearch.leftColumn.map((item) => (
+                              <article
+                                key={item.value}
+                                className={`case-redesign-user-research-stat-card is-${item.tone}`}
+                                style={{ '--user-research-card-height': `${item.height}px` }}
+                              >
+                                <p className="case-redesign-user-research-stat-value">
+                                  <span className="case-redesign-user-research-stat-number">{item.value}</span>
+                                  <span className="case-redesign-user-research-stat-percent">%</span>
+                                </p>
+                                <p className="case-redesign-user-research-stat-copy">{item.description}</p>
+                              </article>
+                            ))}
+                          </div>
+
+                          <div className="case-redesign-user-research-stats-right">
+                            <div className="case-redesign-user-research-stats-top-row">
+                              <article
+                                className="case-redesign-user-research-quote-card"
+                                style={{
+                                  '--user-research-card-height': `${card.userResearch.quoteCard.height}px`,
+                                  '--user-research-quote-width': `${card.userResearch.quoteCard.width}px`,
+                                }}
+                              >
+                                <p className="case-redesign-user-research-quote-copy">
+                                  {card.userResearch.quoteCard.text}{' '}
+                                  <span>{card.userResearch.quoteCard.highlight}</span>
+                                </p>
+                              </article>
+
+                              <article
+                                className={`case-redesign-user-research-stat-card is-${card.userResearch.rightTopStat.tone}`}
+                                style={{
+                                  '--user-research-card-height': `${card.userResearch.rightTopStat.height}px`,
+                                }}
+                              >
+                                <p className="case-redesign-user-research-stat-value">
+                                  <span className="case-redesign-user-research-stat-number">
+                                    {card.userResearch.rightTopStat.value}
+                                  </span>
+                                  <span className="case-redesign-user-research-stat-percent">%</span>
+                                </p>
+                                <p className="case-redesign-user-research-stat-copy">
+                                  {card.userResearch.rightTopStat.description}
+                                </p>
+                              </article>
                             </div>
 
-                            <article className="merge-problem-flow merge-problem-flow-merge">
-                              <p className="merge-problem-flow-label">{card.problem.visual.merge.label}</p>
-                              <div className="merge-problem-flow-steps">
-                                {card.problem.visual.merge.steps.map((step) => (
-                                  <div key={step} className="merge-problem-flow-step">
-                                    <span className="merge-problem-flow-dot" aria-hidden="true" />
-                                    <span>{step}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </article>
+                            <div className="case-redesign-user-research-stats-bottom-row">
+                              {card.userResearch.bottomStats.map((item) => (
+                                <article
+                                  key={item.value}
+                                  className={`case-redesign-user-research-stat-card is-${item.tone}`}
+                                  style={{ '--user-research-card-height': `${item.height}px` }}
+                                >
+                                  <p className="case-redesign-user-research-stat-value">
+                                    <span className="case-redesign-user-research-stat-number">{item.value}</span>
+                                    <span className="case-redesign-user-research-stat-percent">%</span>
+                                  </p>
+                                  <p className="case-redesign-user-research-stat-copy">{item.description}</p>
+                                </article>
+                              ))}
+                            </div>
                           </div>
-                        ) : null}
+                        </div>
                       </div>
                     </section>
                   ) : null}
@@ -1985,6 +2793,15 @@ function App() {
                           </div>
                         </div>
                       </div>
+
+                      <a
+                        className="merge-solution-prototype-button"
+                        href={card.mergeSolution.prototypeUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Try prototype here
+                      </a>
                     </section>
                   ) : null}
 
@@ -2077,6 +2894,42 @@ function App() {
                               </div>
                             </article>
                           </div>
+                        ) : null}
+
+                        {card.mergeFinalDesign.supportingScreens ? (
+                          <section className="merge-final-slides-section" aria-label="Supporting screens">
+                            <div className="merge-final-slides-copy">
+                              <p className="merge-final-slides-eyebrow">
+                                {card.mergeFinalDesign.supportingScreens.eyebrow}
+                              </p>
+                              <h3 className="merge-final-slides-title">
+                                {card.mergeFinalDesign.supportingScreens.title}
+                              </h3>
+                            </div>
+
+                            <div className="merge-final-slides-marquee">
+                              <div className="merge-final-slides-rail">
+                                {[0, 1].map((groupIndex) => (
+                                  <div
+                                    key={groupIndex}
+                                    className="merge-final-slides-track"
+                                    aria-hidden={groupIndex === 1 ? 'true' : undefined}
+                                  >
+                                    {card.mergeFinalDesign.supportingScreens.slides.map((slide, slideIndex) => (
+                                      <figure key={`${groupIndex}-${slideIndex}`} className="merge-final-slide-item">
+                                        <img
+                                          src={slide.imageUrl}
+                                          alt={groupIndex === 0 ? slide.alt : ''}
+                                          className="merge-final-slide-image"
+                                          loading="lazy"
+                                        />
+                                      </figure>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </section>
                         ) : null}
                       </div>
                     </section>
@@ -2328,59 +3181,355 @@ function App() {
 
                   {isOpenProjectPanel && card.principles ? (
                     <section
-                      className="case-redesign-content-section case-redesign-principles"
+                      className={`case-redesign-content-section case-redesign-principles${
+                        card.principles.layout === 'icon-row' ? ' is-icon-row' : ''
+                      }`}
                       aria-label="Design principles section"
                     >
                       <div className="case-redesign-principles-inner">
-                        <p className="case-redesign-principles-label">{card.principles.label}</p>
-                        <h2 className="case-redesign-principles-title">{card.principles.title}</h2>
-                        <p className="case-redesign-principles-description">{card.principles.description}</p>
+                        <div className="case-redesign-principles-heading">
+                          <p className="case-redesign-principles-label">{card.principles.label}</p>
+                          <h2 className="case-redesign-principles-title">{card.principles.title}</h2>
+                          <p className="case-redesign-principles-description">{card.principles.description}</p>
+                        </div>
 
-                        <div className="case-redesign-principles-cards">
-                          {card.principles.cards.map((principle) => (
-                            <article key={principle.title} className="case-redesign-principles-card">
+                        {card.principles.layout === 'icon-row' ? (
+                          <div className="case-redesign-principles-icon-grid">
+                            {card.principles.items.map((principle) => (
+                              <article key={principle.label} className="case-redesign-principles-icon-item">
+                                <img
+                                  src={principle.iconUrl}
+                                  alt={principle.iconAlt}
+                                  className="case-redesign-principles-icon"
+                                  loading="lazy"
+                                />
+
+                                <div className="case-redesign-principles-icon-copy">
+                                  <p className="case-redesign-principles-icon-label">{principle.label}</p>
+                                  <h3 className="case-redesign-principles-icon-title">{principle.title}</h3>
+                                </div>
+                              </article>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="case-redesign-principles-cards">
+                            {card.principles.cards.map((principle) => (
+                              <article key={principle.title} className="case-redesign-principles-card">
+                                <div
+                                  className={`case-redesign-principles-card-copy ${
+                                    principle.align === 'right' ? 'is-right' : ''
+                                  }`.trim()}
+                                >
+                                  <h3 className="case-redesign-principles-card-title">{principle.title}</h3>
+                                  <p className="case-redesign-principles-card-description">
+                                    {principle.description}
+                                  </p>
+                                </div>
+
+                                <div className="case-redesign-principles-card-media-container">
+                                  {principle.videoUrl ? (
+                                    <video
+                                      className="case-redesign-principles-card-media"
+                                      autoPlay
+                                      loop
+                                      muted
+                                      playsInline
+                                      preload="metadata"
+                                      aria-hidden="true"
+                                    >
+                                      <source src={principle.videoUrl} type="video/mp4" />
+                                    </video>
+                                  ) : (
+                                    <img
+                                      src={principle.imageUrl}
+                                      alt=""
+                                      className="case-redesign-principles-card-media"
+                                      loading="lazy"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                </div>
+                              </article>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.lofi ? (
+                    <section className="case-redesign-content-section case-redesign-lofi" aria-label="Low fidelity section">
+                      <div className="case-redesign-lofi-inner">
+                        <div className="case-redesign-lofi-heading">
+                          <p className="case-redesign-lofi-label">{card.lofi.label}</p>
+                          <h2 className="case-redesign-lofi-title">{card.lofi.title}</h2>
+                          <p className="case-redesign-lofi-description">{card.lofi.description}</p>
+                        </div>
+
+                        <div className="case-redesign-lofi-steps">
+                          <section className="case-redesign-lofi-step case-redesign-lofi-step-route">
+                            <div className="case-redesign-lofi-step-heading">
                               <div
-                                className={`case-redesign-principles-card-copy ${
-                                  principle.align === 'right' ? 'is-right' : ''
-                                }`.trim()}
+                                className="case-redesign-lofi-step-copy"
+                                style={{ '--aisldex-lofi-copy-width': `${card.lofi.routeDecision.copyWidth}px` }}
                               >
-                                <h3 className="case-redesign-principles-card-title">{principle.title}</h3>
-                                <p className="case-redesign-principles-card-description">
-                                  {principle.description}
+                                <h3 className="case-redesign-lofi-step-title">{card.lofi.routeDecision.title}</h3>
+                                <p className="case-redesign-lofi-step-description">{card.lofi.routeDecision.description}</p>
+                              </div>
+                            </div>
+
+                            <div className="case-redesign-lofi-route-content">
+                              <div className="case-redesign-lofi-block case-redesign-lofi-block-explored">
+                                <p className="case-redesign-lofi-block-label">{card.lofi.routeDecision.exploredLabel}</p>
+
+                                <div className="case-redesign-lofi-media-row">
+                                  {card.lofi.routeDecision.exploredItems.map((item) => (
+                                    <figure key={item.title} className="case-redesign-lofi-media-card">
+                                      <img
+                                        src={item.imageUrl}
+                                        alt={item.imageAlt}
+                                        className="case-redesign-lofi-media-image"
+                                        loading="lazy"
+                                      />
+                                      <figcaption className="case-redesign-lofi-media-title">{item.title}</figcaption>
+                                    </figure>
+                                  ))}
+                                </div>
+
+                                <p className="case-redesign-lofi-group-caption is-accent">
+                                  {card.lofi.routeDecision.exploredCaption}
                                 </p>
                               </div>
 
-                              <div className="case-redesign-principles-card-media-container">
-                                {principle.videoUrl ? (
-                                  <video
-                                    className="case-redesign-principles-card-media"
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
-                                    preload="metadata"
-                                    aria-hidden="true"
-                                  >
-                                    <source src={principle.videoUrl} type="video/mp4" />
-                                  </video>
-                                ) : (
+                              <div className="case-redesign-lofi-block case-redesign-lofi-block-chosen">
+                                <p className="case-redesign-lofi-block-label">{card.lofi.routeDecision.chosenLabel}</p>
+
+                                <figure className="case-redesign-lofi-media-card case-redesign-lofi-media-card-single">
                                   <img
-                                    src={principle.imageUrl}
-                                    alt=""
-                                    className="case-redesign-principles-card-media"
+                                    src={card.lofi.routeDecision.chosenItem.imageUrl}
+                                    alt={card.lofi.routeDecision.chosenItem.imageAlt}
+                                    className="case-redesign-lofi-media-image"
                                     loading="lazy"
-                                    aria-hidden="true"
                                   />
-                                )}
+                                  <figcaption className="case-redesign-lofi-media-title">
+                                    {card.lofi.routeDecision.chosenItem.title}
+                                  </figcaption>
+                                </figure>
+
+                                <p className="case-redesign-lofi-group-caption">
+                                  {card.lofi.routeDecision.chosenCaption}
+                                </p>
                               </div>
-                            </article>
-                          ))}
+                            </div>
+                          </section>
+
+                          <section className="case-redesign-lofi-step case-redesign-lofi-step-progress">
+                            <div className="case-redesign-lofi-step-heading is-right">
+                              <div
+                                className="case-redesign-lofi-step-copy"
+                                style={{ '--aisldex-lofi-copy-width': `${card.lofi.progressDecision.copyWidth}px` }}
+                              >
+                                <h3 className="case-redesign-lofi-step-title">{card.lofi.progressDecision.title}</h3>
+                                <p className="case-redesign-lofi-step-description">{card.lofi.progressDecision.description}</p>
+                              </div>
+                            </div>
+
+                            <div className="case-redesign-lofi-block case-redesign-lofi-block-progress">
+                              <div className="case-redesign-lofi-media-row">
+                                {card.lofi.progressDecision.items.map((item) => (
+                                  <figure key={item.title} className="case-redesign-lofi-media-card">
+                                    <img
+                                      src={item.imageUrl}
+                                      alt={item.imageAlt}
+                                      className="case-redesign-lofi-media-image"
+                                      loading="lazy"
+                                    />
+                                    <figcaption
+                                      className={`case-redesign-lofi-media-title is-progress${
+                                        item.tone === 'accent' ? ' is-accent' : ''
+                                      }`.trim()}
+                                    >
+                                      {item.title}
+                                    </figcaption>
+                                  </figure>
+                                ))}
+                              </div>
+
+                              <p className="case-redesign-lofi-group-caption">{card.lofi.progressDecision.caption}</p>
+                            </div>
+                          </section>
+
+                          <section className="case-redesign-lofi-step case-redesign-lofi-step-one-hand">
+                            <div className="case-redesign-lofi-step-heading">
+                              <div
+                                className="case-redesign-lofi-step-copy"
+                                style={{ '--aisldex-lofi-copy-width': `${card.lofi.oneHandDecision.copyWidth}px` }}
+                              >
+                                <h3 className="case-redesign-lofi-step-title">{card.lofi.oneHandDecision.title}</h3>
+                                <p className="case-redesign-lofi-step-description">{card.lofi.oneHandDecision.description}</p>
+                              </div>
+                            </div>
+
+                            <div className="case-redesign-lofi-block case-redesign-lofi-block-one-hand">
+                              <figure className="case-redesign-lofi-media-card case-redesign-lofi-media-card-single">
+                                <img
+                                  src={card.lofi.oneHandDecision.item.imageUrl}
+                                  alt={card.lofi.oneHandDecision.item.imageAlt}
+                                  className="case-redesign-lofi-media-image"
+                                  loading="lazy"
+                                />
+                                <figcaption className="case-redesign-lofi-media-title">
+                                  {card.lofi.oneHandDecision.item.title}
+                                </figcaption>
+                              </figure>
+
+                              <p className="case-redesign-lofi-group-caption">{card.lofi.oneHandDecision.caption}</p>
+                            </div>
+                          </section>
                         </div>
                       </div>
                     </section>
                   ) : null}
 
-                  {isOpenProjectPanel && card.finalDesign ? (
+                  {isOpenProjectPanel && card.testing ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-testing"
+                      aria-label="Usability testing section"
+                    >
+                      <div className="case-redesign-testing-inner">
+                        <div className="case-redesign-testing-heading">
+                          <p className="case-redesign-testing-label">{card.testing.label}</p>
+                          <h2 className="case-redesign-testing-title">{card.testing.title}</h2>
+                          <p className="case-redesign-testing-description">{card.testing.description}</p>
+                        </div>
+
+                        <div className="case-redesign-testing-image-row">
+                          {card.testing.images.map((image, index) => (
+                            <figure
+                              key={`${image.alt}-${String(index + 1)}`}
+                              className="case-redesign-testing-image-card"
+                              style={{ '--aisldex-testing-width': `${image.width}px` }}
+                            >
+                              <img
+                                src={image.src}
+                                alt={image.alt}
+                                className="case-redesign-testing-image"
+                                loading="lazy"
+                              />
+                            </figure>
+                          ))}
+                        </div>
+
+                        <div className="case-redesign-testing-footer">
+                          <p className="case-redesign-testing-footer-label">{card.testing.observationsLabel}</p>
+                          <p className="case-redesign-testing-footer-text">{card.testing.observations}</p>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.finalDesign?.variant === 'aisldex-hifi' ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-aisldex-final-design"
+                      aria-label="Final design section"
+                    >
+                      <div className="case-redesign-aisldex-final-design-inner">
+                        <div className="case-redesign-aisldex-final-design-heading">
+                          <p className="case-redesign-aisldex-final-design-label">{card.finalDesign.label}</p>
+                          <h2 className="case-redesign-aisldex-final-design-title">{card.finalDesign.title}</h2>
+                          <p className="case-redesign-aisldex-final-design-description">{card.finalDesign.description}</p>
+                        </div>
+
+                        <div className="case-redesign-aisldex-final-design-row case-redesign-aisldex-final-design-row-top">
+                          <figure className="case-redesign-aisldex-final-design-phone">
+                            <img
+                              src={card.finalDesign.topRow.phone.imageUrl}
+                              alt={card.finalDesign.topRow.phone.imageAlt}
+                              className="case-redesign-aisldex-final-design-phone-image"
+                              loading="lazy"
+                            />
+                          </figure>
+
+                          <div className="case-redesign-aisldex-final-design-feature-column is-top">
+                            {card.finalDesign.topRow.features.map((feature) => (
+                              <article
+                                key={feature.eyebrow}
+                                className="case-redesign-aisldex-final-design-feature"
+                                style={{
+                                  '--aisldex-hifi-feature-width': `${feature.width}px`,
+                                  '--aisldex-hifi-feature-body-width': `${feature.bodyWidth}px`,
+                                }}
+                              >
+                                <img
+                                  src={feature.iconUrl}
+                                  alt={feature.iconAlt}
+                                  className="case-redesign-aisldex-final-design-feature-icon"
+                                  loading="lazy"
+                                />
+                                <div className="case-redesign-aisldex-final-design-feature-copy">
+                                  <p
+                                    className={`case-redesign-aisldex-final-design-feature-eyebrow${
+                                      feature.eyebrowSize === 'large' ? ' is-large' : ''
+                                    }`.trim()}
+                                  >
+                                    {feature.eyebrow}
+                                  </p>
+                                  <h3 className="case-redesign-aisldex-final-design-feature-title">{feature.title}</h3>
+                                  <p
+                                    className={`case-redesign-aisldex-final-design-feature-body is-${feature.bodyAlign}`.trim()}
+                                  >
+                                    {feature.body}
+                                  </p>
+                                </div>
+                              </article>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="case-redesign-aisldex-final-design-row case-redesign-aisldex-final-design-row-bottom">
+                          <div className="case-redesign-aisldex-final-design-feature-column is-bottom">
+                            {card.finalDesign.bottomRow.features.map((feature) => (
+                              <article
+                                key={feature.eyebrow}
+                                className="case-redesign-aisldex-final-design-feature"
+                                style={{
+                                  '--aisldex-hifi-feature-width': `${feature.width}px`,
+                                  '--aisldex-hifi-feature-body-width': `${feature.bodyWidth}px`,
+                                }}
+                              >
+                                <img
+                                  src={feature.iconUrl}
+                                  alt={feature.iconAlt}
+                                  className="case-redesign-aisldex-final-design-feature-icon"
+                                  loading="lazy"
+                                />
+                                <div className="case-redesign-aisldex-final-design-feature-copy">
+                                  <p className="case-redesign-aisldex-final-design-feature-eyebrow">{feature.eyebrow}</p>
+                                  <h3 className="case-redesign-aisldex-final-design-feature-title">{feature.title}</h3>
+                                  <p
+                                    className={`case-redesign-aisldex-final-design-feature-body is-${feature.bodyAlign}`.trim()}
+                                  >
+                                    {feature.body}
+                                  </p>
+                                </div>
+                              </article>
+                            ))}
+                          </div>
+
+                          <figure className="case-redesign-aisldex-final-design-phone">
+                            <img
+                              src={card.finalDesign.bottomRow.phone.imageUrl}
+                              alt={card.finalDesign.bottomRow.phone.imageAlt}
+                              className="case-redesign-aisldex-final-design-phone-image"
+                              loading="lazy"
+                            />
+                          </figure>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.finalDesign && card.finalDesign.variant !== 'aisldex-hifi' ? (
                     <section
                       className="case-redesign-content-section case-redesign-final-design"
                       aria-label="Final design section"
@@ -2483,32 +3632,115 @@ function App() {
                     </section>
                   ) : null}
 
-                  {isOpenProjectPanel && card.edgeCases ? (
+                  {isOpenProjectPanel && card.extraScreens ? (
                     <section
-                      className="case-redesign-content-section case-redesign-edge-cases"
-                      aria-label="Edge cases and system thinking section"
+                      className="case-redesign-content-section case-redesign-extra-screens"
+                      aria-label="Additional product screens section"
                     >
-                      <div className="case-redesign-edge-cases-inner">
-                        <div className="case-redesign-edge-cases-header">
-                          <p className="case-redesign-edge-cases-label">{card.edgeCases.label}</p>
-                          <h2 className="case-redesign-edge-cases-title">{card.edgeCases.title}</h2>
-                          <p className="case-redesign-edge-cases-description">{card.edgeCases.description}</p>
-                        </div>
+                      <div className="case-redesign-extra-screens-inner">
+                        <h2 className="case-redesign-extra-screens-title">{card.extraScreens.title}</h2>
 
-                        <div className="case-redesign-edge-cases-grid">
-                          {card.edgeCases.cards.slice(0, 4).map((item) => (
-                            <article key={item.index} className="case-redesign-edge-cases-card">
-                              <span className="case-redesign-edge-cases-number">{item.index}</span>
-                              <p className="case-redesign-edge-cases-card-text">{item.text}</p>
-                            </article>
+                        <div className="case-redesign-extra-screens-row">
+                          {card.extraScreens.screens.map((screen, index) => (
+                            <figure key={`${screen.imageAlt}-${String(index + 1)}`} className="case-redesign-extra-screens-card">
+                              <img
+                                src={screen.imageUrl}
+                                alt={screen.imageAlt}
+                                className="case-redesign-extra-screens-image"
+                                loading="lazy"
+                              />
+                            </figure>
                           ))}
                         </div>
-
-                        <article className="case-redesign-edge-cases-card case-redesign-edge-cases-card-centered">
-                          <span className="case-redesign-edge-cases-number">{card.edgeCases.cards[4].index}</span>
-                          <p className="case-redesign-edge-cases-card-text">{card.edgeCases.cards[4].text}</p>
-                        </article>
                       </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.outcome ? (
+                    <section
+                      className="case-redesign-content-section case-redesign-outcome"
+                      aria-label="Outcome section"
+                    >
+                      <div className="case-redesign-outcome-inner">
+                        <div className="case-redesign-outcome-header">
+                          <p className="case-redesign-outcome-label">{card.outcome.label}</p>
+                          <h2 className="case-redesign-outcome-title">{card.outcome.title}</h2>
+                        </div>
+
+                        <div className="case-redesign-outcome-panel">
+                          <div className="case-redesign-outcome-grid">
+                            {card.outcome.items.map((item, index) => (
+                              <article key={`${item.iconAlt}-${String(index + 1)}`} className="case-redesign-outcome-item">
+                                <img
+                                  src={item.iconUrl}
+                                  alt={item.iconAlt}
+                                  className="case-redesign-outcome-icon"
+                                  loading="lazy"
+                                />
+                                <p className="case-redesign-outcome-item-text">{item.text}</p>
+                              </article>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {isOpenProjectPanel && card.edgeCases ? (
+                    <section
+                      className={`case-redesign-content-section case-redesign-edge-cases${
+                        card.edgeCases.variant === 'systems' ? ' is-systems' : ''
+                      }`}
+                      aria-label="Edge cases and system thinking section"
+                    >
+                      {card.edgeCases.variant === 'systems' ? (
+                        <div className="case-redesign-edge-cases-systems-inner">
+                          <div className="case-redesign-edge-cases-header case-redesign-edge-cases-systems-header">
+                            <p className="case-redesign-edge-cases-label">{card.edgeCases.label}</p>
+                            <h2 className="case-redesign-edge-cases-title">{card.edgeCases.title}</h2>
+                            <p className="case-redesign-edge-cases-description">{card.edgeCases.description}</p>
+                          </div>
+
+                          <div className="case-redesign-edge-cases-systems-panel">
+                            <div className="case-redesign-edge-cases-systems-grid">
+                              {card.edgeCases.items.map((item) => (
+                                <article key={item.title} className="case-redesign-edge-cases-system-item">
+                                  <img
+                                    src={item.iconUrl}
+                                    alt=""
+                                    className="case-redesign-edge-cases-system-icon"
+                                    loading="lazy"
+                                    aria-hidden="true"
+                                  />
+                                  <h3 className="case-redesign-edge-cases-system-title">{item.title}</h3>
+                                </article>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="case-redesign-edge-cases-inner">
+                          <div className="case-redesign-edge-cases-header">
+                            <p className="case-redesign-edge-cases-label">{card.edgeCases.label}</p>
+                            <h2 className="case-redesign-edge-cases-title">{card.edgeCases.title}</h2>
+                            <p className="case-redesign-edge-cases-description">{card.edgeCases.description}</p>
+                          </div>
+
+                          <div className="case-redesign-edge-cases-grid">
+                            {card.edgeCases.cards.slice(0, 4).map((item) => (
+                              <article key={item.index} className="case-redesign-edge-cases-card">
+                                <span className="case-redesign-edge-cases-number">{item.index}</span>
+                                <p className="case-redesign-edge-cases-card-text">{item.text}</p>
+                              </article>
+                            ))}
+                          </div>
+
+                          <article className="case-redesign-edge-cases-card case-redesign-edge-cases-card-centered">
+                            <span className="case-redesign-edge-cases-number">{card.edgeCases.cards[4].index}</span>
+                            <p className="case-redesign-edge-cases-card-text">{card.edgeCases.cards[4].text}</p>
+                          </article>
+                        </div>
+                      )}
                     </section>
                   ) : null}
 
@@ -2531,17 +3763,38 @@ function App() {
 
                   {isOpenProjectPanel && card.reflection ? (
                     <section
-                      className="case-redesign-content-section case-redesign-reflection"
+                      className={`case-redesign-content-section case-redesign-reflection${
+                        card.reflection.variant === 'next-steps' ? ' is-next-steps' : ''
+                      }`}
                       aria-label="Reflection section"
                     >
-                      <div className="case-redesign-reflection-inner">
-                        <div className="case-redesign-reflection-header">
-                          <p className="case-redesign-reflection-label">{card.reflection.label}</p>
-                          <h2 className="case-redesign-reflection-title">{card.reflection.title}</h2>
-                          <p className="case-redesign-reflection-description">{card.reflection.description}</p>
+                      {card.reflection.variant === 'next-steps' ? (
+                        <div className="case-redesign-reflection-next-steps-inner">
+                          <div className="case-redesign-reflection-header">
+                            <p className="case-redesign-reflection-label">{card.reflection.label}</p>
+                            <h2 className="case-redesign-reflection-title">{card.reflection.title}</h2>
+                            <p className="case-redesign-reflection-description">{card.reflection.description}</p>
+                          </div>
+
+                          <div className="case-redesign-reflection-next-steps-grid">
+                            {card.reflection.items.map((item) => (
+                              <article key={item.title} className="case-redesign-reflection-next-steps-item">
+                                <h3 className="case-redesign-reflection-next-steps-title">{item.title}</h3>
+                                <p className="case-redesign-reflection-next-steps-body">{item.body}</p>
+                              </article>
+                            ))}
+                          </div>
                         </div>
-                        <p className="case-redesign-reflection-support">{card.reflection.support}</p>
-                      </div>
+                      ) : (
+                        <div className="case-redesign-reflection-inner">
+                          <div className="case-redesign-reflection-header">
+                            <p className="case-redesign-reflection-label">{card.reflection.label}</p>
+                            <h2 className="case-redesign-reflection-title">{card.reflection.title}</h2>
+                            <p className="case-redesign-reflection-description">{card.reflection.description}</p>
+                          </div>
+                          <p className="case-redesign-reflection-support">{card.reflection.support}</p>
+                        </div>
+                      )}
                     </section>
                   ) : null}
 
@@ -2566,7 +3819,6 @@ function App() {
 
         {!isProjectOpen ? (
           <div
-            ref={fixedSkillsOverlayRef}
             className="fixed-skills-overlay"
             aria-hidden="true"
           >
