@@ -17,10 +17,8 @@ import groupCollectionCreateGroupVideo from './assets/group-collection/create-gr
 import groupCollectionEditGroupVideo from './assets/group-collection/edit-group.mp4'
 import groupCollectionViewGroupVideo from './assets/group-collection/viewgroup.mp4'
 import groupCollectionDemoVideo from './assets/group-collection/group-demo.mp4'
-import groupCollectionDemoPoster from './assets/group-collection/group-demo-poster.jpg'
 import homecardVideo from './assets/group-collection/homecard.mp4'
 import groupCollectionSystemScopeImage from './assets/group-collection/System scope image.png'
-import aisledexCardPoster from './assets/case-covers/aisledex cover video homepage.png'
 import mergeCardPoster from './assets/case-covers/merge homepage cover.png'
 import aisledexHomecardVideo from './assets/aisledex/homevideo.mp4'
 import aisledexMetaVideo from './assets/aisledex/meta-video.mp4'
@@ -1019,7 +1017,7 @@ const PROJECT_CARDS = [
     previewVideoUrl: homecardVideo,
     previewArrowUrl: caseCardArrow,
     mediaVideoUrl: groupCollectionDemoVideo,
-    mediaPosterUrl: groupCollectionDemoPoster,
+    mediaPosterUrl: null,
     opportunity: GROUP_COLLECTIONS_OPPORTUNITY,
     problem: GROUP_COLLECTIONS_PROBLEM,
     designIntent: GROUP_COLLECTIONS_DESIGN_INTENT,
@@ -1043,7 +1041,6 @@ const PROJECT_CARDS = [
         social platform for creatives
       </>
     ),
-    previewImageUrl: mergeCardPoster,
     previewVideoUrl: mergeHomecardVideo,
     previewArrowUrl: caseCardArrow,
     mediaVideoUrl: mergeHeroVideo,
@@ -1082,7 +1079,6 @@ const PROJECT_CARDS = [
         while shopping
       </>
     ),
-    previewImageUrl: aisledexCardPoster,
     previewVideoUrl: aisledexHomecardVideo,
     previewArrowUrl: caseCardArrow,
     mediaVideoUrl: aisledexMetaVideo,
@@ -1374,6 +1370,7 @@ function App() {
   const [openProjectIndex, setOpenProjectIndex] = useState(initialViewState.openProjectIndex)
   const [outgoingHomePreviewIndex, setOutgoingHomePreviewIndex] = useState(null)
   const activeSectionRef = useRef(initialViewState.sectionIndex)
+  const [visibleSectionIndex, setVisibleSectionIndex] = useState(initialViewState.sectionIndex)
   const [caseStripeMode, setCaseStripeMode] = useState(() =>
     !initialViewState.showIntro &&
       initialViewState.openProjectIndex === null &&
@@ -1544,6 +1541,7 @@ function App() {
       syncLocationRoute(null, clampedIndex, 'push')
 
       if (!trackRef.current) {
+        setVisibleSectionIndex(clampedIndex)
         return
       }
 
@@ -1565,6 +1563,7 @@ function App() {
           if (activeSectionRef.current === 0) {
             setHeroAnimationSeed((seed) => seed + 1)
           }
+          setVisibleSectionIndex(activeSectionRef.current)
           trackTweenRef.current = null
         },
       })
@@ -1742,6 +1741,7 @@ function App() {
       }
 
       activeSectionRef.current = 0
+      setVisibleSectionIndex(0)
 
       persistViewState({
         showIntro: false,
@@ -1820,6 +1820,8 @@ function App() {
         gsap.set(trackRef.current, { yPercent: -introExitSectionIndex * 100 })
       }
 
+      setVisibleSectionIndex(introExitSectionIndex)
+
       persistViewState({
         showIntro: false,
         openProjectIndex: null,
@@ -1869,58 +1871,74 @@ function App() {
       return undefined
     }
 
-    const previewVideos = casePreviewVideoRefs.current.filter(Boolean)
-    if (previewVideos.length === 0) {
-      return undefined
-    }
+    const activePreviewIndex =
+      !isIntroVisible && !isProjectOpen && visibleSectionIndex > 0 ? visibleSectionIndex - 1 : null
+    const animationFrameIds = []
+    const cleanupCallbacks = []
 
-    const pauseVideo = (videoNode) => {
-      videoNode.pause()
+    const prepareVideo = (videoNode) => {
+      if (!videoNode) {
+        return
+      }
+
+      videoNode.controls = false
+      videoNode.defaultMuted = true
+      videoNode.muted = true
+      videoNode.autoplay = true
+      videoNode.playsInline = true
+      videoNode.setAttribute('autoplay', '')
+      videoNode.setAttribute('muted', '')
+      videoNode.setAttribute('playsinline', '')
+      videoNode.setAttribute('webkit-playsinline', '')
     }
 
     const playVideo = (videoNode) => {
+      if (!videoNode) {
+        return
+      }
+
+      prepareVideo(videoNode)
       const playPromise = videoNode.play()
       if (typeof playPromise?.catch === 'function') {
         playPromise.catch(() => {})
       }
     }
 
-    if (isProjectOpen) {
-      previewVideos.forEach(pauseVideo)
-      return undefined
-    }
+    casePreviewVideoRefs.current.forEach((videoNode, index) => {
+      prepareVideo(videoNode)
 
-    const observer = new window.IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const videoNode = entry.target
-          if (!(videoNode instanceof HTMLVideoElement)) {
-            return
-          }
-
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
-            playVideo(videoNode)
-            return
-          }
-
-          pauseVideo(videoNode)
-        })
-      },
-      {
-        threshold: [0, 0.6, 1],
+      if (index !== activePreviewIndex) {
+        videoNode?.pause()
+        return
       }
-    )
 
-    previewVideos.forEach((videoNode) => {
-      pauseVideo(videoNode)
-      observer.observe(videoNode)
+      const playActiveVideo = () => {
+        playVideo(videoNode)
+      }
+
+      const firstFrameId = window.requestAnimationFrame(() => {
+        const secondFrameId = window.requestAnimationFrame(playActiveVideo)
+        animationFrameIds.push(secondFrameId)
+      })
+      animationFrameIds.push(firstFrameId)
+
+      videoNode.addEventListener('loadeddata', playActiveVideo)
+      videoNode.addEventListener('canplay', playActiveVideo)
+      cleanupCallbacks.push(() => {
+        videoNode.removeEventListener('loadeddata', playActiveVideo)
+        videoNode.removeEventListener('canplay', playActiveVideo)
+      })
     })
 
     return () => {
-      observer.disconnect()
-      previewVideos.forEach(pauseVideo)
+      animationFrameIds.forEach((frameId) => {
+        window.cancelAnimationFrame(frameId)
+      })
+      cleanupCallbacks.forEach((cleanup) => {
+        cleanup()
+      })
     }
-  }, [isProjectOpen])
+  }, [isIntroVisible, isProjectOpen, visibleSectionIndex])
 
   useEffect(() => {
     syncLocationRoute(initialViewState.openProjectIndex, initialViewState.sectionIndex, 'replace')
@@ -1968,6 +1986,7 @@ function App() {
       setHeroReady(true)
 
       activeSectionRef.current = nextRoute.sectionIndex
+      setVisibleSectionIndex(nextRoute.openProjectIndex === null ? nextRoute.sectionIndex : 0)
 
       if (mainRef.current) {
         mainRef.current.scrollTop = 0
@@ -1999,6 +2018,8 @@ function App() {
       if (trackRef.current) {
         gsap.set(trackRef.current, { yPercent: -nextRoute.sectionIndex * 100 })
       }
+
+      setVisibleSectionIndex(nextRoute.sectionIndex)
 
       if (nextRoute.sectionIndex === 0) {
         setHeroAnimationSeed((seed) => seed + 1)
@@ -2294,23 +2315,40 @@ function App() {
                                     src={card.previewVideoUrl}
                                     ref={(node) => {
                                       casePreviewVideoRefs.current[index] = node
+
+                                      if (!node) {
+                                        return
+                                      }
+
+                                      node.defaultMuted = true
+                                      node.muted = true
+                                      node.autoplay = true
+                                      node.playsInline = true
                                     }}
-                                    className="case-home-preview-image"
+                                    className="case-home-preview-image case-home-preview-video"
+                                    autoPlay
+                                    defaultMuted
                                     loop
                                     muted
                                     playsInline
-                                    preload="metadata"
-                                    poster={card.previewImageUrl}
+                                    webkit-playsinline="true"
+                                    preload="auto"
+                                    controls={false}
+                                    disablePictureInPicture
+                                    disableRemotePlayback
                                     aria-hidden="true"
+                                    onPointerDown={(event) => {
+                                      const videoNode = event.currentTarget
+                                      videoNode.defaultMuted = true
+                                      videoNode.muted = true
+                                      const playPromise = videoNode.play()
+                                      if (typeof playPromise?.catch === 'function') {
+                                        playPromise.catch(() => {})
+                                      }
+                                    }}
                                   />
                                 ) : (
-                                  <img
-                                    src={card.previewImageUrl}
-                                    alt=""
-                                    className="case-home-preview-image"
-                                    loading="lazy"
-                                    aria-hidden="true"
-                                  />
+                                  <div className="case-home-preview-image" aria-hidden="true" />
                                 )}
                               </div>
                             </div>
@@ -2373,7 +2411,7 @@ function App() {
                                   muted
                                   playsInline
                                   preload="auto"
-                                  poster={card.mediaPosterUrl}
+                                  poster={card.mediaPosterUrl ?? undefined}
                                   aria-hidden="true"
                                 />
                               ) : null}

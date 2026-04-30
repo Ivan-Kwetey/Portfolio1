@@ -744,6 +744,10 @@ body {
   pointer-events: none;
 }
 
+.case-home-preview-video {
+  pointer-events: auto;
+}
+
 .case-home-preview-description-container {
   display: flex;
   align-items: center;
