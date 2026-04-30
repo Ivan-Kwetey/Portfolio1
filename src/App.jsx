@@ -83,6 +83,134 @@ import closeIcon from './assets/close.svg'
 import introLogo from './assets/man-logo.svg'
 import './App.css'
 
+function AutoplayVideo({
+  src,
+  children,
+  className,
+  shouldPlay = true,
+  preload = 'auto',
+  loop = true,
+  muted = true,
+  playsInline = true,
+  autoPlay = true,
+  controls = false,
+  onPointerDown,
+  ...videoProps
+}) {
+  const videoRef = useRef(null)
+
+  const prepareVideo = useCallback(() => {
+    const videoNode = videoRef.current
+    if (!videoNode) {
+      return null
+    }
+
+    videoNode.controls = controls
+    videoNode.defaultMuted = muted
+    videoNode.muted = muted
+    videoNode.autoplay = autoPlay
+    videoNode.playsInline = playsInline
+    videoNode.disableRemotePlayback = true
+    videoNode.setAttribute('autoplay', '')
+    videoNode.setAttribute('muted', '')
+    videoNode.setAttribute('playsinline', '')
+    videoNode.setAttribute('webkit-playsinline', '')
+
+    return videoNode
+  }, [autoPlay, controls, muted, playsInline])
+
+  const playVideo = useCallback(() => {
+    const videoNode = prepareVideo()
+    if (!videoNode || !shouldPlay) {
+      return
+    }
+
+    const playPromise = videoNode.play()
+    if (typeof playPromise?.catch === 'function') {
+      playPromise.catch(() => {})
+    }
+  }, [prepareVideo, shouldPlay])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
+    const videoNode = prepareVideo()
+    if (!videoNode) {
+      return undefined
+    }
+
+    if (!shouldPlay) {
+      videoNode.pause()
+      return undefined
+    }
+
+    const frameIds = []
+    const playWhenReady = () => {
+      playVideo()
+    }
+    const playWhenVisible = () => {
+      if (document.visibilityState === 'visible') {
+        playVideo()
+      }
+    }
+
+    const firstFrameId = window.requestAnimationFrame(() => {
+      const secondFrameId = window.requestAnimationFrame(playVideo)
+      frameIds.push(secondFrameId)
+    })
+    frameIds.push(firstFrameId)
+
+    videoNode.addEventListener('loadedmetadata', playWhenReady)
+    videoNode.addEventListener('loadeddata', playWhenReady)
+    videoNode.addEventListener('canplay', playWhenReady)
+    window.addEventListener('pageshow', playWhenReady)
+    window.addEventListener('focus', playWhenReady)
+    document.addEventListener('visibilitychange', playWhenVisible)
+    window.addEventListener('pointerdown', playWhenReady, { passive: true })
+    window.addEventListener('touchstart', playWhenReady, { passive: true })
+
+    return () => {
+      frameIds.forEach((frameId) => {
+        window.cancelAnimationFrame(frameId)
+      })
+      videoNode.removeEventListener('loadedmetadata', playWhenReady)
+      videoNode.removeEventListener('loadeddata', playWhenReady)
+      videoNode.removeEventListener('canplay', playWhenReady)
+      window.removeEventListener('pageshow', playWhenReady)
+      window.removeEventListener('focus', playWhenReady)
+      document.removeEventListener('visibilitychange', playWhenVisible)
+      window.removeEventListener('pointerdown', playWhenReady)
+      window.removeEventListener('touchstart', playWhenReady)
+    }
+  }, [playVideo, prepareVideo, shouldPlay])
+
+  return (
+    <video
+      src={src}
+      ref={videoRef}
+      className={className}
+      autoPlay={autoPlay}
+      defaultMuted={muted}
+      loop={loop}
+      muted={muted}
+      playsInline={playsInline}
+      preload={preload}
+      controls={controls}
+      disablePictureInPicture
+      disableRemotePlayback
+      onPointerDown={(event) => {
+        playVideo()
+        onPointerDown?.(event)
+      }}
+      {...videoProps}
+    >
+      {children}
+    </video>
+  )
+}
+
 const GROUP_COLLECTIONS_META_DETAILS = [
   {
     label: 'Role',
@@ -1389,7 +1517,6 @@ function App() {
   const touchStartYRef = useRef(null)
   const touchGestureConsumedRef = useRef(false)
   const lastInputAtRef = useRef(0)
-  const casePreviewVideoRefs = useRef([])
   const caseMediaRefs = useRef([])
   const [contactContainerRect, setContactContainerRect] = useState(null)
   const [isCustomCursorEnabled] = useState(true)
@@ -1867,80 +1994,6 @@ function App() {
   }, [initialViewState.openProjectIndex, initialViewState.sectionIndex, initialViewState.showIntro])
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined
-    }
-
-    const activePreviewIndex =
-      !isIntroVisible && !isProjectOpen && visibleSectionIndex > 0 ? visibleSectionIndex - 1 : null
-    const animationFrameIds = []
-    const cleanupCallbacks = []
-
-    const prepareVideo = (videoNode) => {
-      if (!videoNode) {
-        return
-      }
-
-      videoNode.controls = false
-      videoNode.defaultMuted = true
-      videoNode.muted = true
-      videoNode.autoplay = true
-      videoNode.playsInline = true
-      videoNode.setAttribute('autoplay', '')
-      videoNode.setAttribute('muted', '')
-      videoNode.setAttribute('playsinline', '')
-      videoNode.setAttribute('webkit-playsinline', '')
-    }
-
-    const playVideo = (videoNode) => {
-      if (!videoNode) {
-        return
-      }
-
-      prepareVideo(videoNode)
-      const playPromise = videoNode.play()
-      if (typeof playPromise?.catch === 'function') {
-        playPromise.catch(() => {})
-      }
-    }
-
-    casePreviewVideoRefs.current.forEach((videoNode, index) => {
-      prepareVideo(videoNode)
-
-      if (index !== activePreviewIndex) {
-        videoNode?.pause()
-        return
-      }
-
-      const playActiveVideo = () => {
-        playVideo(videoNode)
-      }
-
-      const firstFrameId = window.requestAnimationFrame(() => {
-        const secondFrameId = window.requestAnimationFrame(playActiveVideo)
-        animationFrameIds.push(secondFrameId)
-      })
-      animationFrameIds.push(firstFrameId)
-
-      videoNode.addEventListener('loadeddata', playActiveVideo)
-      videoNode.addEventListener('canplay', playActiveVideo)
-      cleanupCallbacks.push(() => {
-        videoNode.removeEventListener('loadeddata', playActiveVideo)
-        videoNode.removeEventListener('canplay', playActiveVideo)
-      })
-    })
-
-    return () => {
-      animationFrameIds.forEach((frameId) => {
-        window.cancelAnimationFrame(frameId)
-      })
-      cleanupCallbacks.forEach((cleanup) => {
-        cleanup()
-      })
-    }
-  }, [isIntroVisible, isProjectOpen, visibleSectionIndex])
-
-  useEffect(() => {
     syncLocationRoute(initialViewState.openProjectIndex, initialViewState.sectionIndex, 'replace')
   }, [initialViewState.openProjectIndex, initialViewState.sectionIndex, syncLocationRoute])
 
@@ -2311,41 +2364,12 @@ function App() {
                             <div className="case-home-preview-inner-card" data-node-id="1012:2839">
                               <div className="case-home-preview-image-container" data-node-id="1012:2823">
                                 {card.previewVideoUrl ? (
-                                  <video
+                                  <AutoplayVideo
                                     src={card.previewVideoUrl}
-                                    ref={(node) => {
-                                      casePreviewVideoRefs.current[index] = node
-
-                                      if (!node) {
-                                        return
-                                      }
-
-                                      node.defaultMuted = true
-                                      node.muted = true
-                                      node.autoplay = true
-                                      node.playsInline = true
-                                    }}
                                     className="case-home-preview-image case-home-preview-video"
-                                    autoPlay
-                                    defaultMuted
-                                    loop
-                                    muted
-                                    playsInline
-                                    webkit-playsinline="true"
+                                    shouldPlay={!isIntroVisible && !isProjectOpen && visibleSectionIndex === index + 1}
                                     preload="auto"
-                                    controls={false}
-                                    disablePictureInPicture
-                                    disableRemotePlayback
                                     aria-hidden="true"
-                                    onPointerDown={(event) => {
-                                      const videoNode = event.currentTarget
-                                      videoNode.defaultMuted = true
-                                      videoNode.muted = true
-                                      const playPromise = videoNode.play()
-                                      if (typeof playPromise?.catch === 'function') {
-                                        playPromise.catch(() => {})
-                                      }
-                                    }}
                                   />
                                 ) : (
                                   <div className="case-home-preview-image" aria-hidden="true" />
@@ -2403,13 +2427,9 @@ function App() {
                               aria-label="Project media cover"
                             >
                               {card.mediaVideoUrl ? (
-                                <video
+                                <AutoplayVideo
                                   src={card.mediaVideoUrl}
                                   className="case-redesign-media-video"
-                                  autoPlay
-                                  loop
-                                  muted
-                                  playsInline
                                   preload="auto"
                                   poster={card.mediaPosterUrl ?? undefined}
                                   aria-hidden="true"
@@ -2436,14 +2456,10 @@ function App() {
                                     }
                                   }}
                                 >
-                                  <video
+                                  <AutoplayVideo
                                     src={card.metaVideoUrl}
                                     className="case-redesign-meta-video"
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
-                                    preload="metadata"
+                                    preload="auto"
                                     aria-label={`${card.headline} meta preview`}
                                   />
                                 </div>
@@ -2558,14 +2574,10 @@ function App() {
                           </p>
 
                           <div className="case-redesign-solving-video-wrap">
-                            <video
+                            <AutoplayVideo
                               src={card.solving.videoUrl}
                               className="case-redesign-solving-video"
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              preload="metadata"
+                              preload="auto"
                               aria-label="Aisledex route guidance prototype preview"
                             />
                           </div>
@@ -2809,14 +2821,10 @@ function App() {
                         </div>
 
                         <div className="merge-solution-media-stage">
-                          <video
+                          <AutoplayVideo
                             src={card.mergeSolution.videoUrl}
                             className="merge-solution-video"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="metadata"
+                            preload="auto"
                             aria-label="Merge solution prototype preview"
                           />
 
@@ -2893,14 +2901,10 @@ function App() {
                         <div className="merge-final-grid">
                           {card.mergeFinalDesign.videos.slice(0, 2).map((item) => (
                             <article key={item.title} className="merge-final-item">
-                              <video
+                              <AutoplayVideo
                                 src={item.videoUrl}
                                 className="merge-final-video"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="metadata"
+                                preload="auto"
                                 aria-label={item.title}
                               />
                               <div className="merge-final-item-copy">
@@ -2914,14 +2918,10 @@ function App() {
                         {card.mergeFinalDesign.videos[2] ? (
                           <div className="merge-final-centered-row">
                             <article className="merge-final-item merge-final-item-centered">
-                              <video
+                              <AutoplayVideo
                                 src={card.mergeFinalDesign.videos[2].videoUrl}
                                 className="merge-final-video"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="metadata"
+                                preload="auto"
                                 aria-label={card.mergeFinalDesign.videos[2].title}
                               />
                               <div className="merge-final-item-copy">
@@ -3159,14 +3159,10 @@ function App() {
                         <div className="case-redesign-design-intent-media-wrap">
                           <div className="case-redesign-design-intent-phone-frame">
                             <div className="case-redesign-design-intent-screen-viewport">
-                              <video
+                              <AutoplayVideo
                                 src={card.designIntent.videoUrl}
                                 className="case-redesign-design-intent-video"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="metadata"
+                                preload="auto"
                                 aria-label="Design intent prototype preview"
                               />
                             </div>
@@ -3266,17 +3262,13 @@ function App() {
 
                                 <div className="case-redesign-principles-card-media-container">
                                   {principle.videoUrl ? (
-                                    <video
+                                    <AutoplayVideo
                                       className="case-redesign-principles-card-media"
-                                      autoPlay
-                                      loop
-                                      muted
-                                      playsInline
-                                      preload="metadata"
+                                      preload="auto"
                                       aria-hidden="true"
                                     >
                                       <source src={principle.videoUrl} type="video/mp4" />
-                                    </video>
+                                    </AutoplayVideo>
                                   ) : (
                                     <img
                                       src={principle.imageUrl}
@@ -3607,14 +3599,10 @@ function App() {
                                     mediaItem.device === 'ipad' ? (
                                       <div className="case-redesign-final-design-ipad-frame">
                                         <div className="case-redesign-final-design-ipad-screen-viewport">
-                                          <video
+                                          <AutoplayVideo
                                             src={mediaItem.videoUrl}
                                             className="case-redesign-final-design-ipad-video"
-                                            autoPlay
-                                            loop
-                                            muted
-                                            playsInline
-                                            preload="metadata"
+                                            preload="auto"
                                             aria-hidden="true"
                                           />
                                         </div>
@@ -3629,14 +3617,10 @@ function App() {
                                     ) : (
                                       <div className="case-redesign-design-intent-phone-frame case-redesign-final-design-intent-phone-frame">
                                         <div className="case-redesign-design-intent-screen-viewport">
-                                          <video
+                                          <AutoplayVideo
                                             src={mediaItem.videoUrl}
                                             className="case-redesign-design-intent-video"
-                                            autoPlay
-                                            loop
-                                            muted
-                                            playsInline
-                                            preload="metadata"
+                                            preload="auto"
                                             aria-hidden="true"
                                           />
                                         </div>
