@@ -1406,6 +1406,14 @@ function getContactContainerRect(node) {
   }
 }
 
+function getCanUseCustomCursor() {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false
+  }
+
+  return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+}
+
 function App() {
   const parseInitialViewState = useCallback(() => {
     const fallbackState = {
@@ -1519,7 +1527,7 @@ function App() {
   const lastInputAtRef = useRef(0)
   const caseMediaRefs = useRef([])
   const [contactContainerRect, setContactContainerRect] = useState(null)
-  const [isCustomCursorEnabled] = useState(true)
+  const [isCustomCursorEnabled, setCustomCursorEnabled] = useState(() => getCanUseCustomCursor())
   const [isCursorVisible, setCursorVisible] = useState(false)
   const [isCursorExpanded, setCursorExpanded] = useState(false)
   const cursorRef = useRef(null)
@@ -2187,10 +2195,32 @@ function App() {
   }, [isSystemScopeZoomOpen])
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      setCustomCursorEnabled(false)
+      return undefined
+    }
+
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const updateCustomCursorAvailability = () => {
+      setCustomCursorEnabled(mediaQuery.matches)
+    }
+
+    updateCustomCursorAvailability()
+    mediaQuery.addEventListener('change', updateCustomCursorAvailability)
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateCustomCursorAvailability)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!isCustomCursorEnabled) {
       cursorIsVisibleRef.current = false
       cursorIsExpandedRef.current = false
       cursorHasPositionRef.current = false
+      setCursorVisible(false)
+      setCursorExpanded(false)
+      document.documentElement.classList.remove('has-custom-cursor')
       return undefined
     }
 
