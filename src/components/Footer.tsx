@@ -1,4 +1,6 @@
 function Footer() {
+  const currentYear = new Date().getFullYear()
+
   return (
     <footer className="global-footer" aria-label="Global footer">
       <div className="footer-segment" />
@@ -6,7 +8,7 @@ function Footer() {
         <img src="/logo.svg" alt="Logo" className="footer-logo" />
       </div>
       <div className="footer-segment footer-segment-end">
-        <span className="footer-year">2026</span>
+        <span className="footer-year">{currentYear}</span>
       </div>
     </footer>
   )

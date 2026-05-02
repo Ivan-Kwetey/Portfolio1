@@ -1,7 +1,11 @@
 import AnimatedText from './AnimatedText'
 import { HOME_TAGLINE } from '../content/homeText'
 
-function ContentArea({ onNext }) {
+interface ContentAreaProps {
+  onNext: () => void
+}
+
+function ContentArea({ onNext }: ContentAreaProps) {
   return (
     <div className="content-area" aria-label="Content area">
       <div className="card-container">

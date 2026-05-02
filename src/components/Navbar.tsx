@@ -1,4 +1,10 @@
-function Navbar({ isContactModalOpen = false, onContactClick, onHomeClick }) {
+interface NavbarProps {
+  isContactModalOpen?: boolean
+  onContactClick: () => void
+  onHomeClick: () => void
+}
+
+function Navbar({ isContactModalOpen = false, onContactClick, onHomeClick }: NavbarProps) {
   return (
     <header className="global-navbar-wrapper" aria-label="Global navigation">
       <nav className="global-navbar">

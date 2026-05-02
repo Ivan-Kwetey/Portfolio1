@@ -2,7 +2,19 @@ import AnimatedText from './AnimatedText'
 import manLogo from '../assets/man-logo.svg'
 import { HOME_TAGLINE } from '../content/homeText'
 
-function IntroSplash({ isNameFading, isMetaFading, isLogoFading, isHeroTextVisible }) {
+interface IntroSplashProps {
+  isHeroTextVisible: boolean
+  isLogoFading: boolean
+  isMetaFading: boolean
+  isNameFading: boolean
+}
+
+function IntroSplash({
+  isNameFading,
+  isMetaFading,
+  isLogoFading,
+  isHeroTextVisible,
+}: IntroSplashProps) {
   return (
     <div className="intro-splash" aria-hidden="true">
       <div className="intro-splash-content" data-node-id="816:7540">

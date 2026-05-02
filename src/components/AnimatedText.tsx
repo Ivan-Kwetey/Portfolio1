@@ -1,6 +1,17 @@
 import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
+interface AnimatedTextProps {
+  baseColor: string
+  className?: string
+  delayStep?: number
+  letterSpacing?: number
+  revealDuration?: number
+  startDelay?: number
+  targetColor: string
+  text: string
+}
+
 function AnimatedText({
   text,
   className = '',
@@ -10,10 +21,11 @@ function AnimatedText({
   revealDuration = 0.6,
   delayStep = 0.06,
   startDelay = 0,
-}) {
-  const rootRef = useRef(null)
-  const wordsRef = useRef([])
+}: AnimatedTextProps) {
+  const rootRef = useRef<HTMLSpanElement | null>(null)
+  const wordsRef = useRef<Array<HTMLSpanElement | null>>([])
   const words = text.split(' ')
+
   useLayoutEffect(() => {
     if (!rootRef.current) {
       return undefined
@@ -56,7 +68,7 @@ function AnimatedText({
       style={{ letterSpacing: `${letterSpacing}px` }}
     >
       {words.map((word, index) => (
-        <span key={`${word}-${index}`} aria-hidden="true">
+        <span key={`${word}-${String(index)}`} aria-hidden="true">
           <span
             ref={(node) => {
               wordsRef.current[index] = node
