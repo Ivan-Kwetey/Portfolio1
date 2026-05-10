@@ -1,6 +1,6 @@
 import caseCardArrow from '../assets/case-study/card-arrow.svg'
 import mergeCardPoster from '../assets/case-covers/merge homepage cover.png'
-import aisledexHomecardVideo from '../assets/aisledex/homevideo.mp4'
+import aisledexHomecardVideo from '../assets/aisledex/aisledexhome.mp4'
 import aisledexMetaVideo from '../assets/aisledex/meta-video.mp4'
 import homecardVideo from '../assets/group-collection/homecard.mp4'
 import groupCollectionDemoVideo from '../assets/group-collection/group-demo.mp4'
@@ -20,11 +20,11 @@ const GROUP_COLLECTIONS_META_DETAILS = [
   },
   {
     label: 'Duration',
-    value: '8-12 Weeks',
+    value: '8 Weeks',
   },
   {
     label: 'Project type',
-    value: 'Community Layer for Video-First Networking',
+    value: 'Community Discovery & Governance System',
   },
 ] as const
 
@@ -56,15 +56,15 @@ const AISLDEX_META_DETAILS = [
   },
   {
     label: 'Platform',
-    value: 'Superstars (Network Tab)',
+    value: 'Mobile, iOS, Android',
   },
   {
     label: 'Duration',
-    value: '8 Weeks',
+    value: '6 Weeks',
   },
   {
     label: 'Project type',
-    value: 'Community Layer for Video-First Networking',
+    value: 'In Development (E-Commerce)',
   },
 ] as const
 

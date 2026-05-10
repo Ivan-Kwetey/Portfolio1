@@ -8,9 +8,11 @@ const CURSOR_INTERACTIVE_SELECTOR =
 function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [label, setLabel] = useState('')
   const cursorRef = useRef<HTMLDivElement | null>(null)
   const cursorIsVisibleRef = useRef(false)
   const cursorIsExpandedRef = useRef(false)
+  const cursorLabelRef = useRef('')
   const cursorTargetPositionRef = useRef({ x: 0, y: 0 })
   const cursorCurrentPositionRef = useRef({ x: 0, y: 0 })
   const cursorHasPositionRef = useRef(false)
@@ -60,15 +62,22 @@ function CustomCursor() {
     }
 
     const updateHoverState = (target: EventTarget | null) => {
-      const isInteractive =
-        target instanceof Element && Boolean(target.closest(CURSOR_INTERACTIVE_SELECTOR))
+      const targetElement = target instanceof Element ? target : null
+      const isInteractive = Boolean(targetElement?.closest(CURSOR_INTERACTIVE_SELECTOR))
+      const nextLabel = targetElement?.closest<HTMLElement>('[data-cursor-label]')?.dataset.cursorLabel ?? ''
+      const hasLabel = nextLabel.length > 0
 
-      if (cursorIsExpandedRef.current !== isInteractive) {
-        cursorIsExpandedRef.current = isInteractive
-        setIsExpanded(isInteractive)
+      if (cursorIsExpandedRef.current !== (hasLabel || isInteractive)) {
+        cursorIsExpandedRef.current = hasLabel || isInteractive
+        setIsExpanded(hasLabel || isInteractive)
       }
 
-      const shouldCursorBeVisible = !isInteractive
+      if (cursorLabelRef.current !== nextLabel) {
+        cursorLabelRef.current = nextLabel
+        setLabel(nextLabel)
+      }
+
+      const shouldCursorBeVisible = hasLabel || !isInteractive
       if (cursorIsVisibleRef.current !== shouldCursorBeVisible) {
         cursorIsVisibleRef.current = shouldCursorBeVisible
         setIsVisible(shouldCursorBeVisible)
@@ -104,6 +113,10 @@ function CustomCursor() {
         cursorIsExpandedRef.current = false
         setIsExpanded(false)
       }
+      if (cursorLabelRef.current) {
+        cursorLabelRef.current = ''
+        setLabel('')
+      }
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -122,9 +135,11 @@ function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className={`custom-cursor ${isVisible ? 'is-visible' : ''} ${isExpanded ? 'is-expanded' : ''}`.trim()}
+      className={`custom-cursor ${isVisible ? 'is-visible' : ''} ${isExpanded ? 'is-expanded' : ''} ${label ? 'has-label' : ''}`.trim()}
       aria-hidden="true"
-    />
+    >
+      <span className="custom-cursor-text">{label}</span>
+    </div>
   )
 }
 

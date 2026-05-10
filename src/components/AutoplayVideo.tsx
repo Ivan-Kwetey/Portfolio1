@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, type VideoHTMLAttributes } from 'react'
 
 interface AutoplayVideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
+  restartOnPlay?: boolean
   shouldPlay?: boolean
 }
 
@@ -30,11 +31,13 @@ function AutoplayVideo({
   autoPlay = true,
   loop = true,
   preload = 'auto',
+  restartOnPlay = false,
   shouldPlay = true,
   onPointerDown,
   ...videoProps
 }: AutoplayVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const previousShouldPlayRef = useRef(shouldPlay)
 
   const prepareVideo = useCallback(() => {
     const videoNode = videoRef.current
@@ -45,10 +48,10 @@ function AutoplayVideo({
     videoNode.controls = controls
     videoNode.defaultMuted = muted
     videoNode.muted = muted
-    videoNode.autoplay = autoPlay
+    videoNode.autoplay = autoPlay && shouldPlay
     videoNode.playsInline = playsInline
     videoNode.disableRemotePlayback = true
-    if (autoPlay) {
+    if (autoPlay && shouldPlay) {
       videoNode.setAttribute('autoplay', '')
     } else {
       videoNode.removeAttribute('autoplay')
@@ -58,7 +61,7 @@ function AutoplayVideo({
     videoNode.setAttribute('webkit-playsinline', '')
 
     return videoNode
-  }, [autoPlay, controls, muted, playsInline])
+  }, [autoPlay, controls, muted, playsInline, shouldPlay])
 
   const playVideo = useCallback(() => {
     if (!shouldPlay) {
@@ -85,16 +88,33 @@ function AutoplayVideo({
   }, [prepareVideo, shouldPlay])
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !shouldPlay) {
+    if (typeof window === 'undefined') {
       return undefined
     }
 
-    if (!prepareVideo()) {
+    const preparedVideo = prepareVideo()
+    if (!preparedVideo) {
       return undefined
+    }
+
+    const wasPlaying = previousShouldPlayRef.current
+    previousShouldPlayRef.current = shouldPlay
+
+    if (!shouldPlay) {
+      preparedVideo.pause()
+      return undefined
+    }
+
+    if (restartOnPlay && !wasPlaying) {
+      try {
+        preparedVideo.currentTime = 0
+      } catch {
+        // Some browsers can briefly reject seeking before metadata is ready.
+      }
     }
 
     const strictSafari = isStrictWebKitSafari()
-    const videoNode = videoRef.current
+    const videoNode = preparedVideo
 
     const playWhenReady = () => {
       playVideo()
@@ -178,11 +198,10 @@ function AutoplayVideo({
         window.cancelAnimationFrame(wheelRaf)
       }
     }
-  }, [playVideo, prepareVideo, shouldPlay])
+  }, [playVideo, prepareVideo, restartOnPlay, shouldPlay])
 
   return (
     <video
-      key={shouldPlay ? 'play' : 'hold'}
       ref={videoRef}
       {...videoProps}
       className={className}
@@ -190,7 +209,7 @@ function AutoplayVideo({
       loop={loop}
       muted={muted}
       playsInline={playsInline}
-      preload={shouldPlay ? preload : 'none'}
+      preload={preload}
       controls={controls}
       disablePictureInPicture
       disableRemotePlayback
