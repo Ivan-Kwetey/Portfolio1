@@ -278,6 +278,7 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
         <div ref={trackRef} className="homepage-hero-scroll-track">
           {cards.map((card, index) => {
             const isActiveCard = index === activeCardIndex
+            const isPlaybackCard = index === displayedCardIndex
 
             return (
               <div
@@ -294,7 +295,7 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
                   onClick={() => onOpenProject(card.projectIndex)}
                 >
                   <PhoneMediaStage
-                    isActive={isActive && isActiveCard}
+                    isActive={isActive && isPlaybackCard}
                     isHoverEnabled={isActiveCard}
                     videoUrl={card.videoUrl}
                   />

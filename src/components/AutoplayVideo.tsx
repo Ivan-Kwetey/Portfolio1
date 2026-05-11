@@ -5,23 +5,6 @@ interface AutoplayVideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   shouldPlay?: boolean
 }
 
-/**
- * True for desktop/iOS Safari. WebKit blocks programmatic `play()` without user
- * activation; Chrome (incl. CriOS, Electron) and other engines are excluded.
- */
-function isStrictWebKitSafari(): boolean {
-  if (typeof navigator === 'undefined') {
-    return false
-  }
-
-  const ua = navigator.userAgent
-  if (/Chrome|Chromium|Edg|OPR|CriOS|EdgiOS|FxiOS/i.test(ua)) {
-    return false
-  }
-
-  return /Safari/i.test(ua) && /AppleWebKit/i.test(ua)
-}
-
 function AutoplayVideo({
   children,
   className,
@@ -73,17 +56,6 @@ function AutoplayVideo({
       return
     }
 
-    const strictSafari = isStrictWebKitSafari()
-    const activation =
-      typeof navigator !== 'undefined' && 'userActivation' in navigator
-        ? (navigator as Navigator & { userActivation?: { hasBeenActive?: boolean } })
-            .userActivation
-        : undefined
-
-    if (strictSafari && !activation?.hasBeenActive) {
-      return
-    }
-
     void videoNode.play().catch(() => {})
   }, [prepareVideo, shouldPlay])
 
@@ -113,7 +85,6 @@ function AutoplayVideo({
       }
     }
 
-    const strictSafari = isStrictWebKitSafari()
     const videoNode = preparedVideo
 
     const playWhenReady = () => {
@@ -125,7 +96,7 @@ function AutoplayVideo({
 
     let wheelRaf = 0
     const onWheel = () => {
-      if (wheelRaf !== 0 || strictSafari) {
+      if (wheelRaf !== 0) {
         return
       }
       wheelRaf = window.requestAnimationFrame(() => {
@@ -133,35 +104,29 @@ function AutoplayVideo({
         playVideo()
       })
     }
-    if (!strictSafari) {
-      window.addEventListener('wheel', onWheel, { passive: true })
-    }
+    window.addEventListener('wheel', onWheel, { passive: true })
 
     const onVisibility = () => {
       if (document.visibilityState === 'visible') {
         playVideo()
       }
     }
-    if (!strictSafari) {
-      document.addEventListener('visibilitychange', onVisibility)
-    }
+    document.addEventListener('visibilitychange', onVisibility)
 
     const onPageShow = () => {
       playVideo()
     }
-    if (!strictSafari) {
-      window.addEventListener('pageshow', onPageShow)
-    }
+    window.addEventListener('pageshow', onPageShow)
 
     const onCanPlay = () => {
       playVideo()
     }
-    if (!strictSafari && videoNode) {
+    if (videoNode) {
       videoNode.addEventListener('canplay', onCanPlay)
     }
 
     let observer: IntersectionObserver | null = null
-    if (!strictSafari && videoNode && typeof IntersectionObserver !== 'undefined') {
+    if (videoNode && typeof IntersectionObserver !== 'undefined') {
       observer = new IntersectionObserver(
         (entries) => {
           const entry = entries[0]
@@ -177,11 +142,9 @@ function AutoplayVideo({
     }
 
     let rafId = 0
-    if (!strictSafari) {
-      rafId = window.requestAnimationFrame(() => {
-        playVideo()
-      })
-    }
+    rafId = window.requestAnimationFrame(() => {
+      playVideo()
+    })
 
     return () => {
       if (rafId !== 0) {
