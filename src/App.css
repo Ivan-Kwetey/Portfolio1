@@ -79,6 +79,14 @@ body {
   will-change: left, top, width, height, opacity;
 }
 
+.custom-cursor.is-safari {
+  background: rgba(6, 5, 20, 0.92);
+  mix-blend-mode: normal;
+  box-shadow:
+    0 0 0 1px rgba(253, 253, 255, 0.18),
+    0 12px 28px rgba(6, 5, 20, 0.18);
+}
+
 @supports not (mix-blend-mode: difference) {
   .custom-cursor {
     background: #000;
@@ -99,6 +107,13 @@ body {
   height: 72px;
   background: rgba(6, 5, 20, 0.92);
   mix-blend-mode: normal;
+}
+
+.custom-cursor.is-safari.has-label {
+  background: rgba(6, 5, 20, 0.96);
+  box-shadow:
+    0 0 0 1px rgba(253, 253, 255, 0.22),
+    0 18px 36px rgba(6, 5, 20, 0.24);
 }
 
 .custom-cursor-text {

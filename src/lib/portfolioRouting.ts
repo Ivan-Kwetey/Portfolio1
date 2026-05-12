@@ -1,10 +1,10 @@
-import type { ContactContainerRect, ViewState } from '../types/portfolio'
+import type { ContactContainerRect } from '../types/portfolio'
 
 const CONTACT_CONTAINER_VIEWPORT_PADDING = 16
-export const VIEW_STATE_STORAGE_KEY = 'portfolio1.groupCollectionsViewState'
 export const PROJECT_ROUTE_PREFIX = '/projects'
 
 interface RouteProjectCard {
+  routeAliases?: string[]
   slug: string
 }
 
@@ -71,7 +71,10 @@ export function parsePathRoute(
   }
 
   const slug = decodeURIComponent(slugMatch[1])
-  const projectIndex = projectCards.findIndex((card) => card.slug === slug)
+  const projectIndex = projectCards.findIndex((card) => {
+    const supportedSlugs = [card.slug, ...(card.routeAliases ?? [])]
+    return supportedSlugs.includes(slug)
+  })
 
   if (projectIndex === -1) {
     return null
@@ -167,88 +170,4 @@ export function getContactContainerRect(node: Element | null) {
   }
 
   return contactRect
-}
-
-export function getInitialViewState(projectCards: RouteProjectCard[], sectionCount: number): ViewState {
-  const fallbackState: ViewState = {
-    showIntro: true,
-    sectionIndex: 0,
-    openProjectIndex: null,
-    caseScrollTop: 0,
-  }
-
-  if (typeof window === 'undefined') {
-    return fallbackState
-  }
-
-  let parsedState: Partial<ViewState> | null = null
-
-  try {
-      const rawStoredState = window.sessionStorage.getItem(VIEW_STATE_STORAGE_KEY)
-      if (rawStoredState) {
-        const maybeState = JSON.parse(rawStoredState) as unknown
-        if (maybeState && typeof maybeState === 'object') {
-          parsedState = maybeState
-        }
-      }
-  } catch {
-    parsedState = null
-  }
-
-  const parsedSectionIndex = parsedState?.sectionIndex
-  let sectionIndex = typeof parsedSectionIndex === 'number' && Number.isInteger(parsedSectionIndex)
-    ? parsedSectionIndex
-    : fallbackState.sectionIndex
-  sectionIndex = Math.max(0, Math.min(sectionCount - 1, sectionIndex))
-
-  const parsedOpenProjectIndex = parsedState?.openProjectIndex
-  let openProjectIndex: number | null = typeof parsedOpenProjectIndex === 'number' && Number.isInteger(parsedOpenProjectIndex)
-    ? parsedOpenProjectIndex
-    : fallbackState.openProjectIndex
-  if (openProjectIndex === null || openProjectIndex < 0 || openProjectIndex >= projectCards.length) {
-    openProjectIndex = null
-  }
-
-  const parsedCaseScrollTop = parsedState?.caseScrollTop
-  let caseScrollTop = typeof parsedCaseScrollTop === 'number' && Number.isFinite(parsedCaseScrollTop)
-    ? parsedCaseScrollTop
-    : 0
-  if (caseScrollTop < 0) {
-    caseScrollTop = 0
-  }
-
-  const pathRoute = parsePathRoute(window.location.pathname, projectCards, sectionCount)
-  const locationRoute = parseLocationRoute(
-    window.location.pathname,
-    window.location.hash,
-    window.location.protocol,
-    projectCards,
-    sectionCount
-  )
-  const hasUnknownPathRoute =
-    getLocationRouteMode(window.location.protocol) === 'path' &&
-    normalizePathname(window.location.pathname) !== '/' &&
-    pathRoute === null
-
-  if (locationRoute?.openProjectIndex !== null && locationRoute?.openProjectIndex !== undefined) {
-    openProjectIndex = locationRoute.openProjectIndex
-    sectionIndex = locationRoute.sectionIndex
-  } else if (locationRoute) {
-    sectionIndex = locationRoute.sectionIndex
-    openProjectIndex = null
-    caseScrollTop = 0
-  } else if (hasUnknownPathRoute) {
-    sectionIndex = fallbackState.sectionIndex
-    openProjectIndex = null
-    caseScrollTop = 0
-  }
-
-  const shouldSkipIntro = Boolean(parsedState?.showIntro === false || openProjectIndex !== null || sectionIndex > 0)
-
-  return {
-    showIntro: !shouldSkipIntro,
-    sectionIndex,
-    openProjectIndex,
-    caseScrollTop,
-  }
 }

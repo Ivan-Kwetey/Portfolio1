@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react'
+
 import type { ProjectSlug } from '../../types/projectCard'
 import AisledexProjectDetails from './AisledexProjectDetails'
 import GroupCollectionsProjectDetails from './GroupCollectionsProjectDetails'
@@ -9,22 +11,23 @@ interface ProjectDetailsProps {
   slug: ProjectSlug
 }
 
+const PROJECT_DETAIL_RENDERERS: Record<ProjectSlug, (props: ProjectDetailsProps) => ReactElement> = {
+  'aisledex': ({ onOpenNextCase }) => <AisledexProjectDetails onOpenNextCase={onOpenNextCase} />,
+  'group-collection': ({ onOpenNextCase, onOpenSystemScopeZoom }) => (
+    <GroupCollectionsProjectDetails
+      onOpenNextCase={onOpenNextCase}
+      onOpenSystemScopeZoom={onOpenSystemScopeZoom}
+    />
+  ),
+  merge: ({ onOpenNextCase }) => <MergeProjectDetails onOpenNextCase={onOpenNextCase} />,
+}
+
 function ProjectDetails({ onOpenNextCase, onOpenSystemScopeZoom, slug }: ProjectDetailsProps) {
-  switch (slug) {
-    case 'aisldex':
-      return <AisledexProjectDetails onOpenNextCase={onOpenNextCase} />
-    case 'group-collection':
-      return (
-        <GroupCollectionsProjectDetails
-          onOpenNextCase={onOpenNextCase}
-          onOpenSystemScopeZoom={onOpenSystemScopeZoom}
-        />
-      )
-    case 'merge':
-      return <MergeProjectDetails onOpenNextCase={onOpenNextCase} />
-    default:
-      return null
-  }
+  return PROJECT_DETAIL_RENDERERS[slug]({
+    onOpenNextCase,
+    onOpenSystemScopeZoom,
+    slug,
+  })
 }
 
 export default ProjectDetails

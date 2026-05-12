@@ -1,16 +1,37 @@
-# React + Vite
+# Ivan Kwetey Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio site for Ivan Kwetey, built as a case-study-driven product design showcase in React + Vite.
 
-Currently, two official plugins are available:
+## Product Direction
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repo is structured around a clear portfolio thesis:
 
-## React Compiler
+- Home should feel curated, editorial, and motion-led.
+- Each case study should be addressable by URL and able to stand on its own.
+- Content updates should live in a small number of source-of-truth files instead of being scattered through UI components.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Architecture
 
-## Expanding the ESLint configuration
+- `src/content/siteConfig.ts`
+  Portfolio-wide identity and product metadata such as name, role, contact links, default SEO copy, and home-page case ordering.
+- `src/data/projectCards.ts`
+  Canonical project summary data for cards, routing slugs, home hero media, and case-study metadata.
+- `src/components/projects/*`
+  Case-study rendering. `ProjectDetails.tsx` dispatches to the correct project experience.
+- `src/lib/portfolioRouting.ts`
+  Lightweight route parsing and URL generation for home and project deep links.
+- `src/components/AutoplayVideo.tsx`
+  Shared media primitive used across hero surfaces and case-study storytelling.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Working With Content
+
+- Update portfolio identity, SEO defaults, and contact links in `src/content/siteConfig.ts`.
+- Update case-card copy, titles, canonical slugs, and home hero ordering in `src/data/projectCards.ts`.
+- Update long-form case-study layouts in the relevant file under `src/components/projects/`.
+
+## Scripts
+
+- `npm run dev`
+- `npm run build`
+- `npm run lint`
+- `npm run typecheck`

@@ -7,11 +7,11 @@ import Navbar from './components/Navbar'
 import SystemScopeZoom from './components/SystemScopeZoom'
 import ProjectDetails from './components/projects/ProjectDetails'
 import ProjectSection from './components/projects/ProjectSection'
-import groupCollectionHomeVideo from './assets/group-collection/grouphomevideo.mp4'
-import mergeHomeVideo from './assets/merge/newmergehome.mp4'
 import closeIcon from './assets/close.svg'
 import groupCollectionSystemScopeImage from './assets/group-collection/System scope image.png'
-import { PROJECT_CARDS, SECTION_COUNT } from './data/projectCards'
+import { SITE_CONFIG } from './content/siteConfig'
+import { buildHomeHeroCards, PROJECT_CARDS, SECTION_COUNT } from './data/projectCards'
+import { useDocumentMetadata } from './hooks/useDocumentMetadata'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import {
   buildLocationUrl,
@@ -21,47 +21,9 @@ import {
   parseLocationRoute,
 } from './lib/portfolioRouting'
 import type { ContactContainerRect } from './types/portfolio'
-import type { ProjectSlug } from './types/projectCard'
 import './App.css'
 
-const CONTACT_LINKS = {
-  email: 'mailto:hello@example.com',
-  phone: 'tel:+10000000000',
-  linkedin: 'https://www.linkedin.com/in/your-handle',
-} as const
-
-const HOME_HERO_PHONE_VIDEO = mergeHomeVideo
-const HOME_HERO_GROUP_COLLECTION_VIDEO = groupCollectionHomeVideo
-const HOME_HERO_PROJECT_TITLES: Record<ProjectSlug, string> = {
-  'group-collection': 'Group Collections',
-  aisldex: 'Aisledex',
-  merge: 'Merge',
-}
-
-const HOME_HERO_CARD_ORDER: ProjectSlug[] = ['merge', 'group-collection', 'aisldex']
-
-const HOME_HERO_CARDS = HOME_HERO_CARD_ORDER.flatMap((slug) => {
-  const projectIndex = PROJECT_CARDS.findIndex((projectCard) => projectCard.slug === slug)
-  const card = projectIndex >= 0 ? PROJECT_CARDS[projectIndex] : null
-  if (!card) {
-    return []
-  }
-
-  return [
-    {
-      description: card.description,
-      id: card.id,
-      projectIndex,
-      title: HOME_HERO_PROJECT_TITLES[card.slug],
-      videoUrl:
-        card.slug === 'merge'
-          ? HOME_HERO_PHONE_VIDEO
-          : card.slug === 'group-collection'
-            ? HOME_HERO_GROUP_COLLECTION_VIDEO
-            : card.previewVideoUrl,
-    },
-  ]
-})
+const HOME_HERO_CARDS = buildHomeHeroCards(SITE_CONFIG.homeHeroProjectOrder)
 
 function getInitialOpenProjectIndex() {
   if (typeof window === 'undefined') {
@@ -91,6 +53,15 @@ function App() {
   const isProjectOpen = openProjectIndex !== null
   const activeProjectIndex = openProjectIndex ?? -1
   const activeProjectCard = openProjectIndex !== null ? PROJECT_CARDS[openProjectIndex] ?? null : null
+  const documentTitle = activeProjectCard
+    ? `${activeProjectCard.title} | ${SITE_CONFIG.name}`
+    : SITE_CONFIG.defaultTitle
+  const documentDescription = activeProjectCard?.metaDescription ?? SITE_CONFIG.defaultDescription
+
+  useDocumentMetadata({
+    description: documentDescription,
+    title: documentTitle,
+  })
 
   const closeContactModal = useCallback(() => {
     setContactModalOpen(false)
@@ -196,9 +167,7 @@ function App() {
   }, [closeContactModal, closeSystemScopeZoom, openProjectIndex, syncLocationRoute])
 
   useEffect(() => {
-    if (openProjectIndex === null) {
-      syncLocationRoute(null, 'replace')
-    }
+    syncLocationRoute(openProjectIndex, 'replace')
   }, [openProjectIndex, syncLocationRoute])
 
   useEffect(() => {
@@ -275,8 +244,11 @@ function App() {
     <div className="landing-page">
       <Navbar
         isContactModalOpen={isContactModalOpen}
+        locationLabel={SITE_CONFIG.locationLabel}
+        name={SITE_CONFIG.navName}
         onContactClick={handleContactClick}
         onHomeClick={handleHomeClick}
+        roleLabel={SITE_CONFIG.roleLabel}
       />
 
       <main
@@ -310,6 +282,7 @@ function App() {
             <HomepageHero
               cards={HOME_HERO_CARDS}
               isActive
+              isInteractionLocked={isContactModalOpen}
               onOpenProject={handleOpenCaseProject}
               onSetMediaRef={handleSetHomeMediaRef}
             />
@@ -318,7 +291,7 @@ function App() {
       </main>
 
       <ContactModal
-        contactLinks={CONTACT_LINKS}
+        contactLinks={SITE_CONFIG.contactLinks}
         containerRect={contactContainerRect}
         isOpen={isContactModalOpen}
         onClose={closeContactModal}

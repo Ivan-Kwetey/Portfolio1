@@ -1,22 +1,24 @@
-import type { ReactNode } from 'react'
-
-export type ProjectSlug = 'group-collection' | 'merge' | 'aisldex'
+export type ProjectSlug = 'group-collection' | 'merge' | 'aisledex'
 
 export interface MetaDetail {
   label: string
-  support?: ReactNode
-  value: ReactNode
+  support?: string
+  value: string
 }
 
 export interface ProjectCard {
-  description: ReactNode
   headline: string
+  heroVideoUrl?: string | null
   id: string
+  metaDescription?: string
+  descriptionLines: string[]
   mediaPosterUrl: string | null
   mediaVideoUrl: string | null
   metaDetails: MetaDetail[] | null
   metaVideoUrl: string | null
   previewArrowUrl: string
   previewVideoUrl: string
+  routeAliases?: string[]
   slug: ProjectSlug
+  title: string
 }

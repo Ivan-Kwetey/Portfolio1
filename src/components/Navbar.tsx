@@ -1,10 +1,20 @@
 interface NavbarProps {
   isContactModalOpen?: boolean
+  locationLabel: string
+  name: string
   onContactClick: () => void
   onHomeClick: () => void
+  roleLabel: string
 }
 
-function Navbar({ isContactModalOpen = false, onContactClick, onHomeClick }: NavbarProps) {
+function Navbar({
+  isContactModalOpen = false,
+  locationLabel,
+  name,
+  onContactClick,
+  onHomeClick,
+  roleLabel,
+}: NavbarProps) {
   return (
     <header className="global-navbar-wrapper" aria-label="Global navigation">
       <nav className="global-navbar">
@@ -13,12 +23,10 @@ function Navbar({ isContactModalOpen = false, onContactClick, onHomeClick }: Nav
           className="nav-item nav-item-primary nav-home-trigger"
           onClick={onHomeClick}
         >
-          IVAN K
+          {name}
         </button>
-        <span className="nav-item nav-item-secondary nav-item-product">PRODUCT DESIGNER</span>
-        <span className="nav-item nav-item-secondary nav-item-relocate">
-          WILLING TO RELOCATE
-        </span>
+        <span className="nav-item nav-item-secondary nav-item-product">{roleLabel.toUpperCase()}</span>
+        <span className="nav-item nav-item-secondary nav-item-relocate">{locationLabel.toUpperCase()}</span>
         <button
           type="button"
           className="nav-item nav-item-secondary nav-item-contact nav-contact-trigger"

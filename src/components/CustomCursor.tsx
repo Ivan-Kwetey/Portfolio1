@@ -5,7 +5,17 @@ const CURSOR_SNAP_DISTANCE = 0.35
 const CURSOR_INTERACTIVE_SELECTOR =
   'a, button, input, textarea, select, summary, label, [role="button"], [data-cursor-hover]'
 
+function isSafariBrowser() {
+  if (typeof navigator === 'undefined') {
+    return false
+  }
+
+  const userAgent = navigator.userAgent
+  return /Safari/i.test(userAgent) && !/(Chrome|CriOS|Chromium|Edg|OPR|Firefox|FxiOS)/i.test(userAgent)
+}
+
 function CustomCursor() {
+  const isSafari = isSafariBrowser()
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const [label, setLabel] = useState('')
@@ -135,7 +145,7 @@ function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className={`custom-cursor ${isVisible ? 'is-visible' : ''} ${isExpanded ? 'is-expanded' : ''} ${label ? 'has-label' : ''}`.trim()}
+      className={`custom-cursor ${isSafari ? 'is-safari' : ''} ${isVisible ? 'is-visible' : ''} ${isExpanded ? 'is-expanded' : ''} ${label ? 'has-label' : ''}`.trim()}
       aria-hidden="true"
     >
       <span className="custom-cursor-text">{label}</span>

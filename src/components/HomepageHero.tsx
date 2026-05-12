@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
 import Footer from './Footer'
@@ -36,7 +36,7 @@ const HOME_CARD_SKILL_CLUSTERS = [
 ] as const
 
 interface HomepageHeroCard {
-  description: ReactNode
+  descriptionLines: string[]
   id: string
   projectIndex: number
   title: string
@@ -46,11 +46,18 @@ interface HomepageHeroCard {
 interface HomepageHeroProps {
   cards: HomepageHeroCard[]
   isActive: boolean
+  isInteractionLocked?: boolean
   onOpenProject: (index: number) => void
   onSetMediaRef: (node: HTMLDivElement | null) => void
 }
 
-function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: HomepageHeroProps) {
+function HomepageHero({
+  cards,
+  isActive,
+  isInteractionLocked = false,
+  onOpenProject,
+  onSetMediaRef,
+}: HomepageHeroProps) {
   const [activeCardIndex, setActiveCardIndex] = useState(0)
   const [displayedCardIndex, setDisplayedCardIndex] = useState(0)
   const [isCardTransitioning, setIsCardTransitioning] = useState(false)
@@ -94,10 +101,7 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
     }
 
     const handleWheel = (event: WheelEvent) => {
-      const wheelTarget = event.target instanceof Element ? event.target : null
-      const isContactModalOpen = document.getElementById('contact-page-modal') !== null
-
-      if (isContactModalOpen || wheelTarget?.closest('#contact-page-modal')) {
+      if (isInteractionLocked) {
         return
       }
 
@@ -141,10 +145,7 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
     }
 
     const handleTouchMove = (event: TouchEvent) => {
-      const touchTarget = event.target instanceof Element ? event.target : null
-      const isContactModalOpen = document.getElementById('contact-page-modal') !== null
-
-      if (isContactModalOpen || touchTarget?.closest('#contact-page-modal')) {
+      if (isInteractionLocked) {
         return
       }
 
@@ -221,7 +222,7 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
       window.removeEventListener('touchcancel', resetTouchGesture)
       window.removeEventListener('resize', handleResize)
     }
-  }, [cards.length])
+  }, [cards.length, isInteractionLocked])
 
   useEffect(() => {
     const scrollShellNode = scrollShellRef.current
@@ -392,7 +393,14 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
       <div className={`homepage-hero-description-zone ${isDescriptionVisible ? 'is-visible' : 'is-hidden'}`.trim()}>
         <div className="homepage-hero-description-wrap">
           <p className="homepage-hero-card-title">{displayedCard.title}</p>
-          <p className="homepage-hero-card-description">{displayedCard.description}</p>
+          <p className="homepage-hero-card-description">
+            {displayedCard.descriptionLines.map((line, index) => (
+              <Fragment key={`${displayedCard.id}-${line}`}>
+                {line}
+                {index < displayedCard.descriptionLines.length - 1 ? <br /> : null}
+              </Fragment>
+            ))}
+          </p>
         </div>
       </div>
 

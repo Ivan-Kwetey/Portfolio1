@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { Fragment, type CSSProperties, type ReactNode } from 'react'
 
 import AutoplayVideo from '../AutoplayVideo'
 import Footer from '../Footer'
@@ -85,7 +85,12 @@ function ProjectSection({
 
                 <div className="case-home-preview-description-container" data-node-id="1012:2826">
                   <p className="case-home-preview-title" data-node-id="1012:2827">
-                    {card.description}
+                    {card.descriptionLines.map((line, lineIndex) => (
+                      <Fragment key={`${card.id}-${line}`}>
+                        {line}
+                        {lineIndex < card.descriptionLines.length - 1 ? <br /> : null}
+                      </Fragment>
+                    ))}
                   </p>
                 </div>
               </div>
@@ -95,7 +100,7 @@ function ProjectSection({
                 className={`case-home-preview-arrow-button ${
                   isPreviewChromeVisible ? 'is-chrome-visible' : ''
                 }`.trim()}
-                aria-label="Open project details"
+                aria-label={`Open ${card.title} project details`}
                 onClick={() => onOpenProject(index)}
                 data-node-id="1012:2840"
               >
@@ -130,7 +135,7 @@ function ProjectSection({
                     onSetMediaRef(index, node)
                   }}
                   role="img"
-                  aria-label="Project media cover"
+                  aria-label={`${card.title} project media cover`}
                 >
                   {card.mediaVideoUrl ? (
                     <AutoplayVideo
