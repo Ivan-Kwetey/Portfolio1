@@ -5,78 +5,6 @@ interface AutoplayVideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   shouldPlay?: boolean
 }
 
-type PlaybackSignalListener = () => void
-
-const playbackSignalListeners = new Set<PlaybackSignalListener>()
-let playbackSignalCleanup: (() => void) | null = null
-
-function emitPlaybackSignal() {
-  playbackSignalListeners.forEach((listener) => {
-    listener()
-  })
-}
-
-function subscribeToPlaybackSignals(listener: PlaybackSignalListener) {
-  if (typeof window === 'undefined') {
-    return () => undefined
-  }
-
-  playbackSignalListeners.add(listener)
-
-  if (!playbackSignalCleanup) {
-    let wheelRaf = 0
-
-    const onPlaybackSignal = () => {
-      emitPlaybackSignal()
-    }
-
-    const onWheel = () => {
-      if (wheelRaf !== 0) {
-        return
-      }
-
-      wheelRaf = window.requestAnimationFrame(() => {
-        wheelRaf = 0
-        emitPlaybackSignal()
-      })
-    }
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        emitPlaybackSignal()
-      }
-    }
-
-    window.addEventListener('pointerdown', onPlaybackSignal, { passive: true })
-    window.addEventListener('touchstart', onPlaybackSignal, { passive: true })
-    window.addEventListener('pageshow', onPlaybackSignal)
-    window.addEventListener('wheel', onWheel, { passive: true })
-    document.addEventListener('visibilitychange', onVisibilityChange)
-
-    playbackSignalCleanup = () => {
-      window.removeEventListener('pointerdown', onPlaybackSignal)
-      window.removeEventListener('touchstart', onPlaybackSignal)
-      window.removeEventListener('pageshow', onPlaybackSignal)
-      window.removeEventListener('wheel', onWheel)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-
-      if (wheelRaf !== 0) {
-        window.cancelAnimationFrame(wheelRaf)
-      }
-
-      playbackSignalCleanup = null
-    }
-  }
-
-  return () => {
-    playbackSignalListeners.delete(listener)
-
-    if (playbackSignalListeners.size === 0) {
-      playbackSignalCleanup?.()
-    }
-  }
-}
-
 function AutoplayVideo({
   children,
   className,
@@ -163,7 +91,32 @@ function AutoplayVideo({
       playVideo()
     }
 
-    const unsubscribePlaybackSignals = subscribeToPlaybackSignals(playWhenReady)
+    window.addEventListener('pointerdown', playWhenReady, { passive: true })
+    window.addEventListener('touchstart', playWhenReady, { passive: true })
+
+    let wheelRaf = 0
+    const onWheel = () => {
+      if (wheelRaf !== 0) {
+        return
+      }
+      wheelRaf = window.requestAnimationFrame(() => {
+        wheelRaf = 0
+        playVideo()
+      })
+    }
+    window.addEventListener('wheel', onWheel, { passive: true })
+
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        playVideo()
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+
+    const onPageShow = () => {
+      playVideo()
+    }
+    window.addEventListener('pageshow', onPageShow)
 
     const onCanPlay = () => {
       playVideo()
@@ -197,9 +150,16 @@ function AutoplayVideo({
       if (rafId !== 0) {
         window.cancelAnimationFrame(rafId)
       }
-      unsubscribePlaybackSignals()
+      window.removeEventListener('pointerdown', playWhenReady)
+      window.removeEventListener('touchstart', playWhenReady)
+      window.removeEventListener('wheel', onWheel)
+      document.removeEventListener('visibilitychange', onVisibility)
+      window.removeEventListener('pageshow', onPageShow)
       videoNode?.removeEventListener('canplay', onCanPlay)
       observer?.disconnect()
+      if (wheelRaf !== 0) {
+        window.cancelAnimationFrame(wheelRaf)
+      }
     }
   }, [playVideo, prepareVideo, restartOnPlay, shouldPlay])
 

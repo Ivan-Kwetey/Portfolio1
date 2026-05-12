@@ -73,6 +73,7 @@ function HomepageHero({
   const touchStartYRef = useRef<number | null>(null)
   const touchGestureConsumedRef = useRef(false)
   const wheelLockRef = useRef(false)
+  const hasPrimedCardVideosRef = useRef(false)
   const displayedCard = cards[displayedCardIndex] ?? cards[0]
   const progressRatio = cards.length <= 1 ? 1 : (activeCardIndex + 1) / cards.length
 
@@ -98,6 +99,45 @@ function HomepageHero({
 
     const setTrackToActiveCard = (index: number) => {
       gsap.set(trackNode, { x: getTargetX(index) })
+    }
+
+    const primeCardVideos = () => {
+      if (hasPrimedCardVideosRef.current) {
+        return
+      }
+
+      hasPrimedCardVideosRef.current = true
+
+      cardRefs.current.forEach((cardNode, index) => {
+        const videoNode = cardNode?.querySelector<HTMLVideoElement>('video')
+        if (!videoNode) {
+          return
+        }
+
+        videoNode.defaultMuted = true
+        videoNode.muted = true
+        videoNode.playsInline = true
+        videoNode.setAttribute('muted', '')
+        videoNode.setAttribute('playsinline', '')
+        videoNode.setAttribute('webkit-playsinline', '')
+
+        const playAttempt = videoNode.play()
+        if (index === activeCardIndexRef.current) {
+          void playAttempt?.catch(() => {})
+          return
+        }
+
+        void playAttempt
+          ?.then(() => {
+            videoNode.pause()
+            try {
+              videoNode.currentTime = 0
+            } catch {
+              // Some browsers reject immediate seeks while metadata is still settling.
+            }
+          })
+          .catch(() => {})
+      })
     }
 
     const handleWheel = (event: WheelEvent) => {
@@ -134,6 +174,8 @@ function HomepageHero({
     }
 
     const handleTouchStart = (event: TouchEvent) => {
+      primeCardVideos()
+
       const touch = event.touches[0]
       if (!touch) {
         return
