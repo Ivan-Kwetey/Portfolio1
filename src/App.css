@@ -2257,13 +2257,15 @@ body {
   text-align: center;
 }
 
-.merge-solution-prototype-button {
+.merge-solution-prototype-button,
+.case-redesign-next-case-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
   border-radius: 50px;
   background: #060514;
+  border: 0;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
   color: #ffffff;
   font-size: 12px;
@@ -2273,17 +2275,21 @@ body {
   letter-spacing: 0.1px;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
+  font-family: inherit;
   transition:
     transform 160ms ease,
     opacity 160ms ease;
 }
 
-.merge-solution-prototype-button:hover {
+.merge-solution-prototype-button:hover,
+.case-redesign-next-case-button:hover {
   opacity: 0.94;
   transform: translateY(-1px);
 }
 
-.merge-solution-prototype-button:focus-visible {
+.merge-solution-prototype-button:focus-visible,
+.case-redesign-next-case-button:focus-visible {
   outline: 2px solid #060514;
   outline-offset: 3px;
 }
@@ -4928,6 +4934,15 @@ body {
   width: 86px;
   height: 42px;
   object-fit: contain;
+}
+
+.case-redesign-thank-you-stack {
+  width: min(446px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
 }
 
 .fixed-skills-overlay {

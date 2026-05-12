@@ -4,18 +4,24 @@ import GroupCollectionsProjectDetails from './GroupCollectionsProjectDetails'
 import MergeProjectDetails from './MergeProjectDetails'
 
 interface ProjectDetailsProps {
+  onOpenNextCase: () => void
   onOpenSystemScopeZoom: () => void
   slug: ProjectSlug
 }
 
-function ProjectDetails({ onOpenSystemScopeZoom, slug }: ProjectDetailsProps) {
+function ProjectDetails({ onOpenNextCase, onOpenSystemScopeZoom, slug }: ProjectDetailsProps) {
   switch (slug) {
     case 'aisldex':
-      return <AisledexProjectDetails />
+      return <AisledexProjectDetails onOpenNextCase={onOpenNextCase} />
     case 'group-collection':
-      return <GroupCollectionsProjectDetails onOpenSystemScopeZoom={onOpenSystemScopeZoom} />
+      return (
+        <GroupCollectionsProjectDetails
+          onOpenNextCase={onOpenNextCase}
+          onOpenSystemScopeZoom={onOpenSystemScopeZoom}
+        />
+      )
     case 'merge':
-      return <MergeProjectDetails />
+      return <MergeProjectDetails onOpenNextCase={onOpenNextCase} />
     default:
       return null
   }

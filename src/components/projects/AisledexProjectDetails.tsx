@@ -484,7 +484,11 @@ const REFLECTION = {
   ],
 } as const
 
-function AisledexProjectDetails() {
+interface AisledexProjectDetailsProps {
+  onOpenNextCase: () => void
+}
+
+function AisledexProjectDetails({ onOpenNextCase }: AisledexProjectDetailsProps) {
   return (
     <>
       <section className="case-redesign-content-section case-redesign-overview" aria-label="Overview section">
@@ -1070,9 +1074,14 @@ function AisledexProjectDetails() {
       </section>
 
       <section className="case-redesign-content-section case-redesign-thank-you" aria-label="Thank you section">
-        <div className="case-redesign-thank-you-inner">
-          <p className="case-redesign-thank-you-title">Thank you!</p>
-          <img src={introLogo} alt="" className="case-redesign-thank-you-logo" aria-hidden="true" />
+        <div className="case-redesign-thank-you-stack">
+          <div className="case-redesign-thank-you-inner">
+            <p className="case-redesign-thank-you-title">Thank you!</p>
+            <img src={introLogo} alt="" className="case-redesign-thank-you-logo" aria-hidden="true" />
+          </div>
+          <button type="button" className="case-redesign-next-case-button" onClick={onOpenNextCase}>
+            View next case
+          </button>
         </div>
       </section>
 

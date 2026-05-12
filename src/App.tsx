@@ -165,6 +165,14 @@ function App() {
     [closeContactModal, closeSystemScopeZoom, syncLocationRoute]
   )
 
+  const handleOpenNextCaseProject = useCallback(() => {
+    if (activeProjectIndex < 0) {
+      return
+    }
+
+    handleOpenCaseProject((activeProjectIndex + 1) % PROJECT_CARDS.length)
+  }, [activeProjectIndex, handleOpenCaseProject])
+
   const handleContactClick = useCallback(() => {
     setContactModalOpen((isOpen) => {
       if (!isOpen) {
@@ -291,7 +299,11 @@ function App() {
             onSetMediaRef={handleSetMediaRef}
             visibleSectionIndex={0}
           >
-            <ProjectDetails slug={activeProjectCard.slug} onOpenSystemScopeZoom={openSystemScopeZoom} />
+            <ProjectDetails
+              slug={activeProjectCard.slug}
+              onOpenNextCase={handleOpenNextCaseProject}
+              onOpenSystemScopeZoom={openSystemScopeZoom}
+            />
           </ProjectSection>
         ) : (
           <section className="section-panel section-panel-hero section-panel-homepage-single" aria-label="Homepage">

@@ -246,7 +246,11 @@ const REFLECTION = {
   ],
 } as const
 
-function MergeProjectDetails() {
+interface MergeProjectDetailsProps {
+  onOpenNextCase: () => void
+}
+
+function MergeProjectDetails({ onOpenNextCase }: MergeProjectDetailsProps) {
   return (
     <>
       <section className="case-redesign-content-section case-redesign-problem case-redesign-problem-merge" aria-label="Problem section">
@@ -576,9 +580,14 @@ function MergeProjectDetails() {
       </section>
 
       <section className="case-redesign-content-section case-redesign-thank-you" aria-label="Thank you section">
-        <div className="case-redesign-thank-you-inner">
-          <p className="case-redesign-thank-you-title">Thank you!</p>
-          <img src={introLogo} alt="" className="case-redesign-thank-you-logo" aria-hidden="true" />
+        <div className="case-redesign-thank-you-stack">
+          <div className="case-redesign-thank-you-inner">
+            <p className="case-redesign-thank-you-title">Thank you!</p>
+            <img src={introLogo} alt="" className="case-redesign-thank-you-logo" aria-hidden="true" />
+          </div>
+          <button type="button" className="case-redesign-next-case-button" onClick={onOpenNextCase}>
+            View next case
+          </button>
         </div>
       </section>
 
