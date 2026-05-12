@@ -6,6 +6,7 @@ import PhoneMediaStage from './PhoneMediaStage'
 
 const HOME_CARD_SLIDE_DURATION = 1.65
 const HOME_CARD_SLIDE_EASE = 'sine.inOut'
+const HOME_CARD_TOUCH_TRIGGER_THRESHOLD = 36
 type HomeCardSkillAnchors = {
   product: number
   relocate: number
@@ -61,6 +62,9 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
   const cardRefs = useRef<Array<HTMLDivElement | null>>([])
   const slideTweenRef = useRef<gsap.core.Tween | null>(null)
   const activeCardIndexRef = useRef(0)
+  const touchStartXRef = useRef<number | null>(null)
+  const touchStartYRef = useRef<number | null>(null)
+  const touchGestureConsumedRef = useRef(false)
   const wheelLockRef = useRef(false)
   const displayedCard = cards[displayedCardIndex] ?? cards[0]
   const progressRatio = cards.length <= 1 ? 1 : (activeCardIndex + 1) / cards.length
@@ -125,9 +129,84 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
       setActiveCardIndex(nextIndex)
     }
 
+    const handleTouchStart = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      if (!touch) {
+        return
+      }
+
+      touchStartXRef.current = touch.clientX
+      touchStartYRef.current = touch.clientY
+      touchGestureConsumedRef.current = false
+    }
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const touchTarget = event.target instanceof Element ? event.target : null
+      const isContactModalOpen = document.getElementById('contact-page-modal') !== null
+
+      if (isContactModalOpen || touchTarget?.closest('#contact-page-modal')) {
+        return
+      }
+
+      if (touchGestureConsumedRef.current || wheelLockRef.current) {
+        event.preventDefault()
+        return
+      }
+
+      const touch = event.touches[0]
+      const startX = touchStartXRef.current
+      const startY = touchStartYRef.current
+      if (!touch || startX === null || startY === null) {
+        return
+      }
+
+      const deltaX = touch.clientX - startX
+      const deltaY = startY - touch.clientY
+
+      if (Math.abs(deltaY) <= Math.abs(deltaX)) {
+        return
+      }
+
+      if (Math.abs(deltaY) < HOME_CARD_TOUCH_TRIGGER_THRESHOLD) {
+        return
+      }
+
+      event.preventDefault()
+      touchGestureConsumedRef.current = true
+
+      if (wheelLockRef.current) {
+        return
+      }
+
+      const direction = deltaY > 0 ? 1 : -1
+      const nextIndex = Math.max(
+        0,
+        Math.min(cards.length - 1, activeCardIndexRef.current + direction)
+      )
+
+      if (nextIndex === activeCardIndexRef.current) {
+        return
+      }
+
+      wheelLockRef.current = true
+      setIsCardTransitioning(true)
+      setIsDescriptionVisible(false)
+      setActiveCardIndex(nextIndex)
+    }
+
+    const resetTouchGesture = () => {
+      touchStartXRef.current = null
+      touchStartYRef.current = null
+      touchGestureConsumedRef.current = false
+    }
+
     setTrackToActiveCard(activeCardIndexRef.current)
 
     window.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: false })
+    window.addEventListener('touchend', resetTouchGesture)
+    window.addEventListener('touchcancel', resetTouchGesture)
     const handleResize = () => {
       setTrackToActiveCard(activeCardIndexRef.current)
     }
@@ -136,6 +215,10 @@ function HomepageHero({ cards, isActive, onOpenProject, onSetMediaRef }: Homepag
     return () => {
       slideTweenRef.current?.kill()
       window.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', resetTouchGesture)
+      window.removeEventListener('touchcancel', resetTouchGesture)
       window.removeEventListener('resize', handleResize)
     }
   }, [cards.length])
